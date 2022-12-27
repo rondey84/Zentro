@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "488549098926",
+    "project_id": "zentro-f581f",
+    "storage_bucket": "zentro-f581f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:488549098926:android:021b304c10497c053a543f",
+        "android_client_info": {
+          "package_name": "com.nexus.org.zentro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "488549098926-q64fef6j15t9isblu29s7vlsoungvhpn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ihTd65DLEwka3mjEgsiip0m_JreMLxA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "488549098926-q64fef6j15t9isblu29s7vlsoungvhpn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
