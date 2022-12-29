@@ -13,7 +13,7 @@ class LoginRegisterController extends GetxController {
 
   Future<void> signInWithEmailAndPassword() async {
     try {
-      await firebaseService.signInWithEmailAndPassword(
+      await firebaseService.firebaseAuthHelper.signInWithEmailAndPassword(
         email: controllerEmail.text,
         password: controllerPassword.text,
       );
@@ -24,7 +24,7 @@ class LoginRegisterController extends GetxController {
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await firebaseService.createUserWithEmailAndPassword(
+      await firebaseService.firebaseAuthHelper.createUserWithEmailAndPassword(
         email: controllerEmail.text,
         password: controllerPassword.text,
       );

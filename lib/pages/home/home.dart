@@ -10,13 +10,17 @@ class HomeScreen extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('HOME')),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Get.find<FirebaseService>().signOut();
-          },
-          child: const Text('Sign Out'),
-        ),
+      body: Column(
+        children: [
+          Center(
+            child: ElevatedButton(
+              onPressed: () {
+                Get.find<FirebaseService>().firebaseAuthHelper.signOut();
+              },
+              child: const Text('Sign Out'),
+            ),
+          ),
+        ],
       ),
     );
   }

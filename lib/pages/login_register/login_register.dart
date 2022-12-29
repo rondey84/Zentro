@@ -8,27 +8,31 @@ class LoginScreen extends GetView<LoginRegisterController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Firebase Auth')),
-      body: Container(
-        height: 1.sh,
-        width: 1.sw,
-        padding: const EdgeInsets.all(16),
-        child: Obx(() {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Spacer(),
-              _entryField('Email', controller.controllerEmail),
-              _entryField('Password', controller.controllerPassword),
-              _errorMessage(),
-              _submitButton(),
-              const Spacer(),
-              _loginOrRegisterButton(),
-            ],
-          );
-        }),
+    return SafeArea(
+      bottom: true,
+      top: false,
+      child: Scaffold(
+        appBar: AppBar(title: const Text('Firebase Auth')),
+        body: Container(
+          height: 1.sh,
+          width: 1.sw,
+          padding: const EdgeInsets.all(16),
+          child: Obx(() {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Spacer(),
+                _entryField('Email', controller.controllerEmail),
+                _entryField('Password', controller.controllerPassword),
+                _errorMessage(),
+                _submitButton(),
+                const Spacer(),
+                _loginOrRegisterButton(),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
@@ -39,6 +43,7 @@ class LoginScreen extends GetView<LoginRegisterController> {
       decoration: InputDecoration(
         labelText: title,
       ),
+      obscureText: title == 'Password',
     );
   }
 

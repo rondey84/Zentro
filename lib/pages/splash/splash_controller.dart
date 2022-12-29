@@ -26,13 +26,11 @@ class SplashController extends GetxController {
 
   @override
   void onReady() {
-    print('Ready');
     super.onReady();
 
     if (firebaseService.initialized) {
-      print('Firebase Service Initialized');
-      firebaseUser = firebaseService.currentUser;
-      firebaseUser.bindStream(firebaseService.userChanges);
+      firebaseUser = firebaseService.firebaseAuthHelper.currentUser;
+      firebaseUser.bindStream(firebaseService.firebaseAuthHelper.userChanges);
       ever(firebaseUser, _initialScreen);
     }
   }
@@ -54,7 +52,7 @@ class SplashController extends GetxController {
     print('USER: $user');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (user == null) {
-        Get.offAllNamed(AppRoutes.LOGIN_REGISTER);
+        Get.offAllNamed(AppRoutes.ONBOARDING);
       } else {
         Get.offAllNamed(AppRoutes.HOME);
       }
