@@ -3,6 +3,8 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  objectbox_flutter_libs
+  smart_auth
 )
 
 list(APPEND FLUTTER_FFI_PLUGIN_LIST

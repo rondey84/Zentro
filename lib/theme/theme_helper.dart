@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ThemeHelper {
   static AppBarTheme appBarTheme({
@@ -6,6 +7,7 @@ class ThemeHelper {
     required Color iconColor,
     required Color titleColor,
     Color? actionIconColor,
+    required Brightness brightness,
   }) {
     return AppBarTheme(
       backgroundColor: bgColor,
@@ -17,6 +19,11 @@ class ThemeHelper {
         color: titleColor,
       ),
       scrolledUnderElevation: 0,
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarBrightness: brightness,
+        statusBarIconBrightness:
+            brightness == Brightness.light ? Brightness.dark : Brightness.light,
+      ),
     );
   }
 }

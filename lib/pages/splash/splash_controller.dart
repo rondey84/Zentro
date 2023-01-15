@@ -4,12 +4,15 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
+import 'package:zentro/services/local_storage_service.dart';
 
 class SplashController extends GetxController {
   final String pageName = 'Splash Screen';
   late final FirebaseService firebaseService;
+  late final LocalStorageService localStorageService;
 
   late Rx<User?> firebaseUser;
+  late Worker worker;
 
   @override
   void onInit() async {
@@ -20,6 +23,8 @@ class SplashController extends GetxController {
     ]);
 
     firebaseService = await Get.putAsync(() => FirebaseService().init());
+    localStorageService =
+        await Get.putAsync(() => LocalStorageService().init());
 
     super.onInit();
   }
@@ -28,10 +33,10 @@ class SplashController extends GetxController {
   void onReady() {
     super.onReady();
 
-    if (firebaseService.initialized) {
+    if (firebaseService.initialized && localStorageService.initialized) {
       firebaseUser = firebaseService.firebaseAuthHelper.currentUser;
       firebaseUser.bindStream(firebaseService.firebaseAuthHelper.userChanges);
-      ever(firebaseUser, _initialScreen);
+      worker = ever(firebaseUser, _initialScreen);
     }
   }
 
@@ -45,6 +50,8 @@ class SplashController extends GetxController {
       DeviceOrientation.portraitDown,
     ]);
 
+    worker.dispose();
+
     super.onClose();
   }
 
@@ -52,7 +59,9 @@ class SplashController extends GetxController {
     print('USER: $user');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (user == null) {
-        Get.offAllNamed(AppRoutes.ONBOARDING);
+        Get.offAllNamed(localStorageService.appData.onBoardComplete
+            ? AppRoutes.LOGIN_REGISTER
+            : AppRoutes.ONBOARDING);
       } else {
         Get.offAllNamed(AppRoutes.HOME);
       }

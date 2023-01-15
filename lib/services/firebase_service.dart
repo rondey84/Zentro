@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:zentro/generated/firebase_options.dart';
+import 'package:zentro/routes/app_pages.dart';
 
 part './firebase_helpers/firebase_auth.dart';
 part './firebase_helpers/firebase_firestore.dart';
