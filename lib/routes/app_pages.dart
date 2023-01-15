@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:zentro/pages/home/home.dart';
 import 'package:zentro/pages/home/home_bindings.dart';
-import 'package:zentro/pages/login_register/login_register.dart';
-import 'package:zentro/pages/login_register/login_register_bindings.dart';
+import 'package:zentro/pages/login/login.dart';
+import 'package:zentro/pages/login/login_bindings.dart';
+import 'package:zentro/pages/new_user/new_user.dart';
+import 'package:zentro/pages/new_user/new_user_bindings.dart';
 import 'package:zentro/pages/onboarding/onboarding.dart';
 import 'package:zentro/pages/onboarding/onboarding_bindings.dart';
 import 'package:zentro/pages/splash/splash.dart';
@@ -27,7 +29,13 @@ class AppPages {
     GetPage(
       name: AppRoutes.LOGIN_REGISTER,
       page: () => const LoginScreen(),
-      binding: LoginRegisterBindings(),
+      binding: LoginBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.NEW_USER_REGISTER,
+      page: () => const NewUserScreen(),
+      binding: NewUserBindings(),
       preventDuplicates: true,
     ),
     GetPage(

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zentro/pages/onboarding/onboarding_controller.dart';
 import 'package:zentro/pages/onboarding/widgets/onboard_content.dart';
-import 'package:zentro/pages/onboarding/widgets/onboard_dots.dart';
-import 'package:zentro/routes/app_pages.dart';
+import 'package:zentro/pages/onboarding/widgets/onboard_next_button.dart';
 
 class OnBoardingScreen extends GetView<OnBoardingController> {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -26,20 +25,8 @@ class OnBoardingScreen extends GetView<OnBoardingController> {
                   },
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Get.offAllNamed(AppRoutes.LOGIN_REGISTER);
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: const StadiumBorder(),
-                  backgroundColor: Colors.amber.shade600,
-                  foregroundColor: Colors.black87,
-                ),
-                child: const Text('Get Started'),
-              ),
-              const SizedBox(height: 24),
-              const OnBoardDots(),
-              const SizedBox(height: 20),
+              const OnBoardingNextButton(),
+              const SizedBox(height: 60),
             ],
           ),
         ),

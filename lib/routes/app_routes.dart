@@ -7,4 +7,5 @@ abstract class AppRoutes {
   static const ONBOARDING = '/on-boarding-screen';
   static const LOGIN_REGISTER = '/login-register-screen';
   static const HOME = '/home-screen';
+  static const NEW_USER_REGISTER = '/new-user-registration';
 }

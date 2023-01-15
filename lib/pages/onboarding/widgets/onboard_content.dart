@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:zentro/data/model/onboard.dart';
+import 'package:zentro/pages/onboarding/onboarding_controller.dart';
 
-class OnBoardContent extends StatelessWidget {
+class OnBoardContent extends GetView<OnBoardingController> {
   final Onboard content;
 
   const OnBoardContent(this.content, {super.key});
@@ -11,16 +12,32 @@ class OnBoardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Spacer(),
-        SvgPicture.asset(
-          content.image,
-          height: 0.3.sh,
+        SizedBox(height: 30.r),
+        Container(
+          width: 1.sw,
+          height: 0.75.sw,
+          alignment: Alignment.center,
+          child: Image.asset(content.image),
         ),
-        const Spacer(),
-        Text(content.title),
-        const SizedBox(height: 16),
-        Text(content.description),
+        SizedBox(height: 30.r),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            content.title,
+            style: controller.style!.titleStyle,
+          ),
+        ),
+        SizedBox(height: 14.r),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 22.0),
+          child: Text(
+            content.description,
+            style: controller.style!.descriptionStyle,
+            textAlign: TextAlign.justify,
+          ),
+        ),
         const Spacer(),
       ],
     );

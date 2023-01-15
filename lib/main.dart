@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/theme/themes.dart';
+import 'package:country_picker/country_picker.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,9 @@ class BasePage extends StatelessWidget {
       getPages: AppPages.pages,
       initialRoute: AppRoutes.SPLASH,
       theme: ZentroTheme.lightTheme,
-      themeMode: ThemeMode.light,
+      localizationsDelegates: const [
+        CountryLocalizations.delegate,
+      ],
     );
   }
 }

@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:zentro/theme/extensions/login_style.dart';
+import 'package:zentro/theme/extensions/onboarding_style.dart';
+import 'package:zentro/theme/theme_helper.dart';
 
 class ZentroTheme {
   static const String darkId = 'ztr_dark';
@@ -38,6 +42,71 @@ class ZentroTheme {
     splashColor: Colors.transparent,
     splashFactory: InkSplash.splashFactory,
     scaffoldBackgroundColor: const Color(0xFFF4F5F9),
-    textTheme: Typography.englishLike2021,
+    appBarTheme: ThemeHelper.appBarTheme(
+      bgColor: Colors.transparent,
+      iconColor: const Color(0xFF58251E),
+      titleColor: const Color(0xFF58251E),
+      brightness: Brightness.light,
+    ),
+    extensions: <ThemeExtension<dynamic>>[
+      OnboardingStyle(
+        buttonColor: const Color(0xFF8B6762),
+        buttonBGColor: Colors.white,
+        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
+        titleStyle: TextStyle(
+          color: const Color(0xFF58251E),
+          fontWeight: FontWeight.bold,
+          fontSize: 34.r,
+        ),
+        descriptionStyle: TextStyle(
+          color: const Color(0xFFAC8F8A),
+          fontWeight: FontWeight.normal,
+          fontSize: 12.r,
+        ),
+      ),
+      LoginStyle(
+        inputBoxColor: Colors.white,
+        underLineColor: const Color(0xFF8B6762),
+        inputBoxShadowColor: const Color(0xFF8B6762).withOpacity(0.12),
+        inputBoxTextColor: const Color(0xFFAC8F8A),
+        inputBoxHintColor: const Color(0xFFAC8F8A).withOpacity(0.60),
+        buttonLineColor: const Color(0xFFFAE8B6),
+        buttonTextColor: const Color(0xFFF4F5F9),
+        buttonGradient: const LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
+            colors: [
+              Color(0xFF603F31),
+              Color(0xFF8F6052),
+              Color(0xFFA66D4B),
+            ],
+            stops: [
+              0.0,
+              0.4,
+              1.0
+            ]),
+        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
+        titleStyle: TextStyle(
+          color: const Color(0xFF58251E),
+          fontWeight: FontWeight.bold,
+          fontSize: 34.r,
+        ),
+        captionTextStyle: TextStyle(
+          color: const Color(0xFFAC8F8A),
+          fontWeight: FontWeight.normal,
+          fontSize: 12.r,
+        ),
+        modalBgColor: const Color(0xFFF4F5F9),
+        modalTextStyle: TextStyle(
+          color: const Color(0xFF58251E),
+          fontSize: 16.r,
+        ),
+        modalSearchTextStyle: TextStyle(
+          color: const Color(0xFF58251E),
+          fontWeight: FontWeight.bold,
+          fontSize: 16.r,
+        ),
+      )
+    ],
   );
 }
