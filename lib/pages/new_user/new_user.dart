@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zentro/pages/new_user/widgets/new_user_dots.dart';
+import 'widgets/new_user_dots.dart';
+import 'widgets/resend_email_button.dart';
 import './new_user_controller.dart';
 import 'widgets/new_user_next_button.dart';
 
@@ -22,8 +23,7 @@ class NewUserScreen extends GetView<NewUserController> {
               Center(
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 270),
-                  margin: const EdgeInsets.only(top: 16),
-                  height: controller.style!.titleStyle.fontSize! * 3,
+                  height: controller.style!.titleStyle.fontSize! * 2.8,
                   alignment: Alignment.topCenter,
                   child: Obx(() => Text(
                         controller.header,
@@ -32,14 +32,15 @@ class NewUserScreen extends GetView<NewUserController> {
                       )),
                 ),
               ),
-              const SizedBox(height: 20),
-              Obx(() => SizedBox(
-                    height: 240,
-                    width: 240,
-                    child: controller.svgImage,
-                  )),
+              Obx(() {
+                return SizedBox(
+                  height: 220,
+                  width: 220,
+                  child: controller.svgImage,
+                );
+              }),
               inputBox(),
-              const SizedBox(height: 30),
+              const SizedBox(height: 16),
               Container(
                 constraints: const BoxConstraints(maxWidth: 350),
                 margin: const EdgeInsets.symmetric(horizontal: 24),
@@ -53,6 +54,15 @@ class NewUserScreen extends GetView<NewUserController> {
                   ],
                 ),
               ),
+              const SizedBox(height: 14),
+              Obx(() {
+                if (!controller.isEmailVerified.value &&
+                    controller.currentPage.value == 2) {
+                  return const ResendEmail();
+                }
+                return const SizedBox.shrink();
+              }),
+              SizedBox(height: Get.mediaQuery.viewInsets.bottom),
             ],
           ),
         ),

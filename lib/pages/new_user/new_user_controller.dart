@@ -18,6 +18,8 @@ class NewUserController extends GetxController {
 
   RxBool isEmailVerified = false.obs;
 
+  RxBool canResendEmail = false.obs;
+
   List<Map<String, dynamic>> content = [
     {
       'header': "What is your name?",
@@ -36,6 +38,7 @@ class NewUserController extends GetxController {
     {
       'header': "Verify Email",
       'image': SvgHelper.newUserEmail(primaryColor: const Color(0xFFA36B4C)),
+      'controller': TextEditingController(),
       'hintText': 'A verification email has been sent to your email',
     },
   ];
@@ -49,7 +52,7 @@ class NewUserController extends GetxController {
   String get hintText => content[currentPage.value]['hintText'];
   TextInputType? get textInputType =>
       content[currentPage.value]['keyboardType'];
-  bool get readOnly => content[currentPage.value]['header'] == 'Verify Email';
+  bool get readOnly => currentPage.value == 2;
 
   void onTapHandler() {
     switch (currentPage.value) {
@@ -62,6 +65,8 @@ class NewUserController extends GetxController {
       case 2:
         _handleContinue();
         break;
+      default:
+        return;
     }
   }
 
@@ -128,6 +133,10 @@ class NewUserController extends GetxController {
     try {
       await firebaseService.firebaseAuthHelper.currentUser.value
           ?.sendEmailVerification();
+
+      canResendEmail.value = false;
+      await Future.delayed(const Duration(seconds: 5));
+      canResendEmail.value = true;
     } catch (e) {
       Get.snackbar('Error', "$e");
     }
