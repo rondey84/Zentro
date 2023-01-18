@@ -1,3 +1,20 @@
 category,name,price,description,image,ingredients,veg
-chai,adrak,10,,adrak_chai.png,"sugar, milk, ginger",true
-chai,chocolate,10,,chocolate_chai.png,"sugar, milk, chocolate",true
+chai,adrak,10,"This ginger tea or adrak wali chai is a warming, spiced and fragrant Indian tea",Adrak_chai.jpg,"Ginger,cardamoms,water,sugar,tea powder,milk",true
+chai,chocolate,15,"When people talk about chocolate tea, they're usually referring to tea that has chocolate, cacoa nibs, or cocoa powder added to it for a rich, chocolate-y flavor.",chocalate_chai.jpg,"Coco powder,water,sugar,tea powder,milk",true
+chai,Rose,20,"This delicious tea includes black tea, ginger, cardamom, coriander, cinnamon, black pepper, and rose petals.",rose_chai.jpg,"rose leaves/petals,ginger,water,sugar,tea powder,milk",true
+chai,Tulsi,25,"Tulsi, also known as the ""Queen of Herbs,"" is renowned for its lovely herbaceous flavor and its calming effect.a",tulsi_chai.jpg,"Tulsi leaves,ginger,water,sugar,tea powder,milk",true
+Coffee,Black coffee,30,Black coffee is a beverage made from roasted coffee beans.,black_coffee.jpg,"water,coffee powder,sugar",true
+Coffee,Strong coffee,25,A strong coffee is made by using a higher coffee to water ratio and refers to the concentration of the beverage rather than roast level.,strong_coffee.jpg,"water,coffee powder,sugar",true
+Coffee,Cold Coffee,70,"Cold Coffee is a popular chilled beverage made with coffee, sugar and milk/water.",cold_coffee.jpg,"ice,water,coffee powder,sugar",true
+Coffee, Choco cold coffee,80,Melted Chocolate makes the ice coffee decadent and provides it with a mocha undertone.,choco_cold_coffee.jpg,"coco powder,ice,water,coffee powder,sugar",true
+Junk-food,Burger,50,"indian style veg burger resplendent with a deep-fried vegetable cutlet, topped with coleslaw, tomato ketchup and crispy vegetables",burger.jpg,"onion,tomatoes,cheese,oil,ketchup,salt,chilli,butter,lemon juice,breadcumbs,corriander leaves,pottato,carrot,cucumber,corn",true
+Junk-food,Cheese burger,65,"A cheeseburger is a hamburger topped with cheese. Traditionally, the slice of cheese is placed on top of the meat patty.",cheese_burger.jpg,"Extra Chesse ,onion,tomatoes,cheese,oil,ketchup,salt,chilli,butter,lemon juice,breadcumbs,corriander leaves,pottato,carrot,cucumber,corn",true
+Junk-food,Red sauce pasta,90,"Red sauce pasta made with tomatoes, onions, garlic,spices & herbs.",red_sauce_pasta.jpg,"Tomatoes,garlic,onion,water,bay leaf, sugar,basil leaves,salt,pasta,lemon",true
+Junk-food,White sauce pasta,110,"White sauce pasta is a creamy, delicious and cheesy pasta tossed in white sauce or bechamel sauce.",white_sauce_pasta.jpg,"pasta,salt,water,oil,carrot,green & red capsicum,brocoli,butter,garlic,oregaono,red chilli flakes,milk,salt,pepper",true
+Junk-food,Onion pizza,90,"Easy, crispy, and delicious, this vegetarian onion pizza is a real treat for any pizza lover.a",onion_pizza.jpg,"pizza base,capsicum,pizza sauce,onion,black pepper,oregano,salt,chilli flakes,mozzareela,tomato,capsicum",true
+Junk-food,Extra cheese loaded pizaa,110,"Cheese beautifully complements the flavor profile of other pizza toppings, so you can easily add it when in doubt. Mozzarella, parmesan, pecorino, and asiago are the various cheese types",cheese_loaded_pizza.jpg,"chesse,butter,pizza base,capsicum,pizza sauce,onion,black pepper,oregano,salt,chilli flakes,mozzareela,tomato,capsicum",true
+Junk-food,Sandwitch,50,Sandwich is a quick and filling snack,sandwitch.jpg,"Bread,pizza sauce,mozzarella cheese,veggies,herbs,oil,tomatoes,onions",true
+Drinks,Vanilla shake,80,"Vanilla Milkshake, world's favorite milkshake, is a smooth and creamy concoction of vanilla ice cream, milk",vanilla.jpg,"vanilla ice cream,ice,milk.",true
+Drinks,Butterscotch shake,90,"Butterscotch Milkshake is a flavourful, wonderful drink made by blending milk, butterscotch flavours & ice cream",butterscotch.jpg,"butterscotch ice cream,ice,milk.",true
+Drinks,Classic mojito,70,The mojito is one of the world's most popular cocktails.,classic_mojito.jpg,"sugar,mint leaves,soda,lime,wite rum,ice",true
+Drinks,Raspberry,75,"This raspberry mojito is a must try! Bright and refreshing, this fruity spin on the classic features fresh berries and mint",raspberry.jpg,"Raspberries,lime,granulated sugar,mint,ice,rum,water",true
