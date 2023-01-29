@@ -10,7 +10,6 @@ part './firebase_helpers/firebase_auth.dart';
 part './firebase_helpers/firebase_firestore.dart';
 
 class FirebaseService extends GetxService {
-  // ignore: unused_field
   late final FirebaseApp _firebaseApp;
   late final FirebaseAuthHelper firebaseAuthHelper;
   late final FirebaseFireStoreHelper fireStoreHelper;
@@ -21,8 +20,6 @@ class FirebaseService extends GetxService {
     );
     firebaseAuthHelper = FirebaseAuthHelper(_firebaseApp);
     fireStoreHelper = FirebaseFireStoreHelper(_firebaseApp);
-    // TODO: DEBUG CODE, REMOVE BEFORE PRODUCTION
-    await Future.delayed(const Duration(seconds: 1));
     return this;
   }
 }

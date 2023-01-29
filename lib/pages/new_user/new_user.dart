@@ -23,11 +23,11 @@ class NewUserScreen extends GetView<NewUserController> {
               Center(
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 270),
-                  height: controller.style!.titleStyle.fontSize! * 2.8,
+                  height: controller.fontStyle!.display.fontSize! * 2.8,
                   alignment: Alignment.topCenter,
                   child: Obx(() => Text(
                         controller.header,
-                        style: controller.style!.titleStyle,
+                        style: controller.fontStyle!.display,
                         textAlign: TextAlign.center,
                       )),
                 ),
@@ -74,10 +74,10 @@ class NewUserScreen extends GetView<NewUserController> {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(26),
-        color: controller.style!.inputBoxColor,
+        color: controller.authStyle!.inputBoxColor,
         boxShadow: [
           BoxShadow(
-            color: controller.style!.inputBoxShadowColor,
+            color: controller.authStyle!.inputBoxShadowColor,
             blurRadius: 20,
             offset: const Offset(0, 5),
           )
@@ -94,7 +94,7 @@ class NewUserScreen extends GetView<NewUserController> {
             controller: controller.textController,
             onFieldSubmitted: (_) => controller.onTapHandler(),
             style: TextStyle(
-              color: controller.style!.inputBoxTextColor,
+              color: controller.authStyle!.inputBoxTextColor,
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
@@ -107,13 +107,13 @@ class NewUserScreen extends GetView<NewUserController> {
               focusedBorder: InputBorder.none,
               border: InputBorder.none,
               isDense: true,
-              fillColor: Colors.green,
+              // fillColor: Colors.green,
               contentPadding: EdgeInsets.zero,
               hintText: controller.hintText,
               hintStyle: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.normal,
-                color: controller.style!.inputBoxHintColor,
+                color: controller.authStyle!.inputBoxHintColor,
               ),
               counter: const Offstage(),
             ),

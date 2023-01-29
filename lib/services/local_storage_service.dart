@@ -9,8 +9,6 @@ class LocalStorageService extends GetxService {
   Future<LocalStorageService> init() async {
     _box = await ObjectBox.create();
     storageSetup();
-    // TODO: DEBUG CODE, REMOVE BEFORE PRODUCTION
-    await Future.delayed(const Duration(seconds: 1));
     return this;
   }
 

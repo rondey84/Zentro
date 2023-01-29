@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:zentro/theme/extensions/login_style.dart';
+import 'package:zentro/theme/extensions/custom_font_styles.dart';
+import 'package:zentro/theme/extensions/gradient_border_button_style.dart';
+import 'package:zentro/theme/extensions/authentication_style.dart';
 import 'package:zentro/theme/extensions/onboarding_style.dart';
 import 'package:zentro/theme/theme_helper.dart';
 
@@ -12,6 +14,7 @@ class ZentroTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
+    primaryColor: const Color(0xFFA36B4C),
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: Color(0xFF9c4238),
@@ -49,53 +52,70 @@ class ZentroTheme {
       brightness: Brightness.light,
     ),
     extensions: <ThemeExtension<dynamic>>[
-      OnboardingStyle(
-        buttonColor: const Color(0xFF8B6762),
-        buttonBGColor: Colors.white,
-        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
-        titleStyle: TextStyle(
+      CustomFontStyles(
+        display: TextStyle(
           color: const Color(0xFF58251E),
           fontWeight: FontWeight.bold,
           fontSize: 34.r,
         ),
-        descriptionStyle: TextStyle(
+        header1: TextStyle(
+          color: const Color(0xFF58251E),
+          fontWeight: FontWeight.bold,
+          fontSize: 20.r,
+        ),
+        header2: TextStyle(
+          color: const Color(0xFF58251E),
+          fontWeight: FontWeight.bold,
+          fontSize: 14.r,
+        ),
+        cardTitle: TextStyle(
+          color: const Color(0xFFA36B4C),
+          fontWeight: FontWeight.bold,
+          fontSize: 16.r,
+        ),
+        cardHeader: TextStyle(
+          color: const Color(0xFFA36B4C),
+          fontWeight: FontWeight.bold,
+          fontSize: 14.r,
+        ),
+        body1: TextStyle(
+          color: const Color(0xFFA36B4C),
+          fontWeight: FontWeight.normal,
+          fontSize: 16.r,
+        ),
+        body2: TextStyle(
+          color: const Color(0xFFAC8F8A),
+          fontWeight: FontWeight.normal,
+          fontSize: 14.r,
+        ),
+        caption: TextStyle(
           color: const Color(0xFFAC8F8A),
           fontWeight: FontWeight.normal,
           fontSize: 12.r,
         ),
       ),
-      LoginStyle(
+      OnboardingStyle(
+        buttonColor: const Color(0xFF8B6762),
+        buttonBGColor: Colors.white,
+        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
+      ),
+      GradientBorderButtonStyle(
+        buttonLineColor: const Color(0xFFFAE8B6),
+        buttonTextColor: const Color(0xFFF4F5F9),
+        buttonGradient: const LinearGradient(
+          begin: Alignment.bottomLeft,
+          end: Alignment.topRight,
+          colors: [Color(0xFF603F31), Color(0xFF8F6052), Color(0xFFA66D4B)],
+          stops: [0.0, 0.4, 1.0],
+        ),
+        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
+      ),
+      AuthenticationStyle(
         inputBoxColor: Colors.white,
         underLineColor: const Color(0xFF8B6762),
         inputBoxShadowColor: const Color(0xFF8B6762).withOpacity(0.12),
         inputBoxTextColor: const Color(0xFFAC8F8A),
         inputBoxHintColor: const Color(0xFFAC8F8A).withOpacity(0.60),
-        buttonLineColor: const Color(0xFFFAE8B6),
-        buttonTextColor: const Color(0xFFF4F5F9),
-        buttonGradient: const LinearGradient(
-            begin: Alignment.bottomLeft,
-            end: Alignment.topRight,
-            colors: [
-              Color(0xFF603F31),
-              Color(0xFF8F6052),
-              Color(0xFFA66D4B),
-            ],
-            stops: [
-              0.0,
-              0.4,
-              1.0
-            ]),
-        buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
-        titleStyle: TextStyle(
-          color: const Color(0xFF58251E),
-          fontWeight: FontWeight.bold,
-          fontSize: 34.r,
-        ),
-        captionTextStyle: TextStyle(
-          color: const Color(0xFFAC8F8A),
-          fontWeight: FontWeight.normal,
-          fontSize: 12.r,
-        ),
         modalBgColor: const Color(0xFFF4F5F9),
         modalTextStyle: TextStyle(
           color: const Color(0xFF58251E),

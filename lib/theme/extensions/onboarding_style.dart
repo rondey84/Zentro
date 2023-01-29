@@ -6,30 +6,22 @@ class OnboardingStyle extends ThemeExtension<OnboardingStyle> {
     required this.buttonColor,
     required this.buttonBGColor,
     required this.buttonShadowColor,
-    required this.titleStyle,
-    required this.descriptionStyle,
   });
 
   final Color buttonColor;
   final Color buttonBGColor;
   final Color buttonShadowColor;
-  final TextStyle titleStyle;
-  final TextStyle descriptionStyle;
 
   @override
   OnboardingStyle copyWith({
     Color? buttonColor,
     Color? buttonBGColor,
     Color? buttonShadowColor,
-    TextStyle? titleStyle,
-    TextStyle? descriptionStyle,
   }) =>
       OnboardingStyle(
         buttonColor: buttonColor ?? this.buttonColor,
         buttonBGColor: buttonBGColor ?? this.buttonBGColor,
         buttonShadowColor: buttonShadowColor ?? this.buttonShadowColor,
-        titleStyle: titleStyle ?? this.titleStyle,
-        descriptionStyle: descriptionStyle ?? this.descriptionStyle,
       );
 
   @override
@@ -43,8 +35,6 @@ class OnboardingStyle extends ThemeExtension<OnboardingStyle> {
       buttonBGColor: Color.lerp(buttonBGColor, other.buttonBGColor, t)!,
       buttonShadowColor:
           Color.lerp(buttonShadowColor, other.buttonShadowColor, t)!,
-      titleStyle: titleStyle,
-      descriptionStyle: descriptionStyle,
     );
   }
 }

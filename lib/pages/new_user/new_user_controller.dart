@@ -4,13 +4,17 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
-import 'package:zentro/theme/extensions/login_style.dart';
+import 'package:zentro/theme/extensions/authentication_style.dart';
+import 'package:zentro/theme/extensions/custom_font_styles.dart';
+import 'package:zentro/theme/extensions/gradient_border_button_style.dart';
 import 'package:zentro/util/svg_helper/svg_helper.dart';
 import 'package:email_validator/email_validator.dart';
 
 class NewUserController extends GetxController {
   FirebaseService firebaseService = Get.find();
-  var style = Get.theme.extension<LoginStyle>();
+  var authStyle = Get.theme.extension<AuthenticationStyle>();
+  var buttonStyle = Get.theme.extension<GradientBorderButtonStyle>();
+  var fontStyle = Get.theme.extension<CustomFontStyles>();
 
   RxInt currentPage = 0.obs;
 
@@ -23,21 +27,21 @@ class NewUserController extends GetxController {
   List<Map<String, dynamic>> content = [
     {
       'header': "What is your name?",
-      'image': SvgHelper.newUserName(primaryColor: const Color(0xFFA36B4C)),
+      'image': SvgHelper.newUserName(primaryColor: Get.theme.primaryColor),
       'controller': TextEditingController(),
       'hintText': 'Full Name',
       'keyboardType': TextInputType.name,
     },
     {
       'header': "What is your email?",
-      'image': SvgHelper.newUserEmail(primaryColor: const Color(0xFFA36B4C)),
+      'image': SvgHelper.newUserEmail(primaryColor: Get.theme.primaryColor),
       'controller': TextEditingController(),
       'hintText': 'Email',
       'keyboardType': TextInputType.emailAddress,
     },
     {
       'header': "Verify Email",
-      'image': SvgHelper.newUserEmail(primaryColor: const Color(0xFFA36B4C)),
+      'image': SvgHelper.newUserEmail(primaryColor: Get.theme.primaryColor),
       'controller': TextEditingController(),
       'hintText': 'A verification email has been sent to your email',
     },

@@ -24,8 +24,8 @@ class NewUserDots extends GetView<NewUserController> {
                 decoration: ShapeDecoration(
                   shape: const StadiumBorder(),
                   color: isSelected
-                      ? controller.style!.buttonGradient.colors.last
-                      : controller.style!.buttonShadowColor,
+                      ? controller.buttonStyle!.buttonGradient.colors.last
+                      : controller.buttonStyle!.buttonShadowColor,
                 ),
               ),
             ),

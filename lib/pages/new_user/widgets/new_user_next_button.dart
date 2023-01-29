@@ -22,10 +22,10 @@ class NewUserNextButton extends GetView<NewUserController> {
             shape: const StadiumBorder(),
             color: isDisabled
                 ? Colors.grey
-                : controller.style!.buttonGradient.colors.last,
+                : controller.buttonStyle!.buttonGradient.colors.last,
             shadows: [
               BoxShadow(
-                color: controller.style!.buttonShadowColor,
+                color: controller.buttonStyle!.buttonShadowColor,
                 blurRadius: 7,
                 offset: const Offset(2, 4),
               )
@@ -41,7 +41,7 @@ class NewUserNextButton extends GetView<NewUserController> {
             return Text(
               controller.buttonText,
               style: TextStyle(
-                color: controller.style!.buttonTextColor,
+                color: controller.buttonStyle!.buttonTextColor,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),

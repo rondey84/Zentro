@@ -19,7 +19,7 @@ class ResendEmail extends GetView<NewUserController> {
           Text(
             'Did not receive email?',
             style: TextStyle(
-              color: controller.style!.underLineColor,
+              color: controller.authStyle!.underLineColor,
               fontSize: 12,
             ),
           ),
@@ -29,7 +29,8 @@ class ResendEmail extends GetView<NewUserController> {
                   ? () async => await controller.sendEmailVerification()
                   : null,
               style: TextButton.styleFrom(
-                foregroundColor: controller.style!.buttonGradient.colors.last,
+                foregroundColor:
+                    controller.buttonStyle!.buttonGradient.colors.last,
                 textStyle: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

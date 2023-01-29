@@ -30,7 +30,7 @@ class LoginScreen extends GetView<LoginController> {
                   child: Obx(() {
                     return Text(
                       controller.heading,
-                      style: controller.style!.titleStyle,
+                      style: controller.fontStyle!.display,
                     );
                   }),
                 ),
@@ -42,7 +42,7 @@ class LoginScreen extends GetView<LoginController> {
                   child: Obx(() {
                     return Text(
                       controller.descriptionText,
-                      style: controller.style!.captionTextStyle,
+                      style: controller.fontStyle!.caption,
                     );
                   }),
                 ),
