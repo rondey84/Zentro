@@ -4,6 +4,7 @@ import 'package:zentro/theme/extensions/custom_font_styles.dart';
 import 'package:zentro/theme/extensions/gradient_border_button_style.dart';
 import 'package:zentro/theme/extensions/authentication_style.dart';
 import 'package:zentro/theme/extensions/onboarding_style.dart';
+import 'package:zentro/theme/extensions/shimmer_style.dart';
 import 'package:zentro/theme/theme_helper.dart';
 
 class ZentroTheme {
@@ -126,7 +127,11 @@ class ZentroTheme {
           fontWeight: FontWeight.bold,
           fontSize: 16.r,
         ),
-      )
+      ),
+      ShimmerStyle(
+        baseColor: Colors.grey.shade300,
+        highlightColor: Colors.grey.shade100,
+      ),
     ],
   );
 }

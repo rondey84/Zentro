@@ -1,18 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/location_service.dart';
 import 'package:zentro/theme/extensions/custom_font_styles.dart';
+import 'package:zentro/theme/extensions/shimmer_style.dart';
 import 'package:zentro/util/svg_helper/svg_helper.dart';
+import 'package:zentro/util/text_helper.dart';
 
 class HomeController extends GetxController {
   var fontStyle = Get.theme.extension<CustomFontStyles>();
+  var shimmerStyle = Get.theme.extension<ShimmerStyle>();
   FirebaseService firebaseService = Get.find();
   LocationService locationService = Get.find();
 
-  User? get user => firebaseService.firebaseAuthHelper.currentUser.value;
+  List<Map<String, String?>>? nearbyRestaurants = [];
+
+  RxBool hasResDataLoaded = false.obs;
+
+  FirebaseAuthHelper get authHelper => firebaseService.firebaseAuthHelper;
+  FirebaseFireStoreHelper get dbHelper => firebaseService.fireStoreHelper;
+  FirebaseStorageHelper get storageHelper =>
+      firebaseService.firebaseStorageHelper;
+
+  User? get user => authHelper.currentUser.value;
 
   String get username {
     var name = 'Welcome';
@@ -48,7 +61,57 @@ class HomeController extends GetxController {
     return SvgHelper.profileAvatar(primaryColor: Get.theme.primaryColor);
   }
 
-  void navigateToProfile() {
-    Get.toNamed(AppRoutes.USER_PROFILE);
+  double get textHeight {
+    return TextHelper.textSize('Sample', fontStyle!.cardHeader).height;
   }
+
+  @override
+  void onInit() {
+    _loadNearbyResData();
+    super.onInit();
+  }
+
+  void _loadNearbyResData() async {
+    nearbyRestaurants = dbHelper.getAllDisplayResData();
+
+    if (nearbyRestaurants != null) {
+      if (nearbyRestaurants!.isNotEmpty) {
+        _fetchRestaurantImageURLS().then((_) {
+          _cacheImages().then((_) => hasResDataLoaded.value = true);
+        });
+      }
+    }
+  }
+
+  Future<void> _fetchRestaurantImageURLS() async {
+    if (nearbyRestaurants == null) return;
+    // Fetch image URLs
+    await Future.forEach(nearbyRestaurants!, (restaurant) async {
+      // Fetch Download Url from firebase
+      var imageURL = await storageHelper.fetchRestaurantImageDownloadUrl(
+        resId: restaurant['id']!,
+        image: restaurant['image']!,
+      );
+      // Store the name and the download URL
+      if (imageURL != null) {
+        restaurant.update('url', (value) => value, ifAbsent: () => imageURL);
+      }
+    });
+  }
+
+  Future<void> _cacheImages() async {
+    if (nearbyRestaurants == null) return;
+
+    await Future.forEach(nearbyRestaurants!, (restaurant) async {
+      if (restaurant['url'] != null) {
+        var cacheFile =
+            await DefaultCacheManager().getSingleFile(restaurant['url']!);
+        restaurant['cacheFilePath'] = cacheFile.path;
+      }
+    });
+  }
+
+  void navigateToProfile() => Get.toNamed(AppRoutes.USER_PROFILE);
+
+  void testHandler() {}
 }
