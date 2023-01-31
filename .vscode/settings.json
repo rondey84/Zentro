@@ -3,11 +3,14 @@
 		"autocorrect",
 		"autofocus",
 		"Firestore",
+		"Geolocator",
 		"Getx",
 		"lerp",
 		"Pinput",
+		"placemark",
 		"RGBA",
 		"screenutil",
+		"Snackbars",
 		"Zentro"
 	]
 }

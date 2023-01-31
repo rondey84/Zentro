@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/local_storage_service.dart';
+import 'package:zentro/services/location_service.dart';
 
 class SplashController extends GetxController {
   final String pageName = 'Splash Screen';
   late final FirebaseService firebaseService;
   late final LocalStorageService localStorageService;
+  late final LocationService locationService;
 
   late Rx<User?> firebaseUser;
   late Worker worker;
@@ -25,6 +27,7 @@ class SplashController extends GetxController {
     firebaseService = await Get.putAsync(() => FirebaseService().init());
     localStorageService =
         await Get.putAsync(() => LocalStorageService().init());
+    locationService = await Get.putAsync(() => LocationService().init());
 
     super.onInit();
   }
@@ -56,14 +59,17 @@ class SplashController extends GetxController {
   }
 
   void _initialScreen(User? user) {
-    print('USER: $user');
+    debugPrint('USER: $user');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (user == null) {
         Get.offAllNamed(localStorageService.appData.onBoardComplete
             ? AppRoutes.LOGIN_REGISTER
             : AppRoutes.ONBOARDING);
       } else {
-        Get.offAllNamed(AppRoutes.HOME);
+        Get.offAllNamed(locationService.serviceEnabled &&
+                locationService.isLocationPermissionGranted
+            ? AppRoutes.HOME
+            : AppRoutes.LOCATION_PERMISSION);
       }
     });
   }

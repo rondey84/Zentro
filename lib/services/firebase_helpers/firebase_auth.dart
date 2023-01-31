@@ -39,7 +39,7 @@ class FirebaseAuthHelper {
         } else {
           Get.snackbar('Error', 'Something went wrong. Try again.');
         }
-        print('ERROR!!! $e');
+        debugPrint('ERROR!!! $e');
       },
     );
   }

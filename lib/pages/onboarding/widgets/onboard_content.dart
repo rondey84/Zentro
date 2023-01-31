@@ -26,7 +26,7 @@ class OnBoardContent extends GetView<OnBoardingController> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             content.title,
-            style: controller.style!.titleStyle,
+            style: controller.fontStyle!.display,
           ),
         ),
         SizedBox(height: 14.r),
@@ -34,7 +34,7 @@ class OnBoardContent extends GetView<OnBoardingController> {
           padding: const EdgeInsets.symmetric(horizontal: 22.0),
           child: Text(
             content.description,
-            style: controller.style!.descriptionStyle,
+            style: controller.fontStyle!.body2,
             textAlign: TextAlign.justify,
           ),
         ),

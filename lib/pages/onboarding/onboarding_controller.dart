@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:zentro/data/model/onboard.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/local_storage_service.dart';
+import 'package:zentro/theme/extensions/custom_font_styles.dart';
 import 'package:zentro/theme/extensions/onboarding_style.dart';
 
 class OnBoardingController extends GetxController {
   var style = Get.theme.extension<OnboardingStyle>();
+  var fontStyle = Get.theme.extension<CustomFontStyles>();
   LocalStorageService localStorageService = Get.find();
   var pageController = PageController();
 

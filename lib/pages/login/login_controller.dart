@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
-import 'package:zentro/theme/extensions/login_style.dart';
+import 'package:zentro/theme/extensions/authentication_style.dart';
+import 'package:zentro/theme/extensions/custom_font_styles.dart';
 
 class LoginController extends GetxController {
-  var style = Get.theme.extension<LoginStyle>();
+  var style = Get.theme.extension<AuthenticationStyle>();
+  var fontStyle = Get.theme.extension<CustomFontStyles>();
   var firebaseService = Get.find<FirebaseService>();
   final formKey = GlobalKey<FormState>();
   var image = 'assets/images/login_food.png';

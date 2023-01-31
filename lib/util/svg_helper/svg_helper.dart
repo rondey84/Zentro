@@ -4,6 +4,8 @@ import 'package:zentro/util/extensions/color_extension.dart';
 
 part './svg_string_codes/new_user_name.dart';
 part './svg_string_codes/new_user_email.dart';
+part './svg_string_codes/current_location.dart';
+part './svg_string_codes/profile_avatar.dart';
 
 class SvgHelper {
   static SvgPicture getSvgPicture({
@@ -37,6 +39,20 @@ class SvgHelper {
       primaryColor: primaryColor.toRGBACode(),
     );
 
+    return getSvgPicture(code: code);
+  }
+
+  static SvgPicture currentLocation({required Color primaryColor}) {
+    String code = CurrentLocation.getCode(
+      primaryColor: primaryColor.toRGBACode(),
+    );
+    return getSvgPicture(code: code);
+  }
+
+  static SvgPicture profileAvatar({required Color primaryColor}) {
+    String code = ProfileAvatar.getCode(
+      primaryColor: primaryColor.toRGBACode(),
+    );
     return getSvgPicture(code: code);
   }
 }
