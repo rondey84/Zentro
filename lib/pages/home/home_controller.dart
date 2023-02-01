@@ -18,7 +18,7 @@ class HomeController extends GetxController {
 
   List<Map<String, String?>>? nearbyRestaurants = [];
 
-  RxBool hasResDataLoaded = false.obs;
+  RxBool hasNearbyDataLoaded = false.obs;
 
   FirebaseAuthHelper get authHelper => firebaseService.firebaseAuthHelper;
   FirebaseFireStoreHelper get dbHelper => firebaseService.fireStoreHelper;
@@ -72,13 +72,17 @@ class HomeController extends GetxController {
   }
 
   void _loadNearbyResData() async {
-    nearbyRestaurants = dbHelper.getAllDisplayResData();
+    await dbHelper.getAllDisplayResData().then((value) {
+      nearbyRestaurants = value;
+    });
 
     if (nearbyRestaurants != null) {
       if (nearbyRestaurants!.isNotEmpty) {
-        _fetchRestaurantImageURLS().then((_) {
-          _cacheImages().then((_) => hasResDataLoaded.value = true);
-        });
+        await _fetchRestaurantImageURLS().then((_) => _cacheImages().then((_) {
+              hasNearbyDataLoaded.value = true;
+            }));
+      } else {
+        hasNearbyDataLoaded.value = true;
       }
     }
   }
