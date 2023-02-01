@@ -5,15 +5,9 @@ class FirebaseFireStoreHelper {
   CollectionReference? _restaurantsCollectionRef;
   List<Restaurant>? restaurantsData;
 
-  FirebaseFireStoreHelper._init() {
+  FirebaseFireStoreHelper() {
     _db = FirebaseFirestore.instance;
     _restaurantsCollectionRef = _db.collection('restaurants');
-  }
-
-  static Future<FirebaseFireStoreHelper> init() async {
-    var dbHelper = FirebaseFireStoreHelper._init();
-    await dbHelper._loadRestaurantData();
-    return dbHelper;
   }
 
   Future<void> _loadRestaurantData() async {
@@ -32,8 +26,8 @@ class FirebaseFireStoreHelper {
     }).toList();
   }
 
-  List<Map<String, String?>>? getAllDisplayResData() {
-    if (restaurantsData == null) return null;
+  Future<List<Map<String, String?>>?> getAllDisplayResData() async {
+    if (restaurantsData == null) await _loadRestaurantData();
     List<Map<String, String?>> data = [];
 
     for (Restaurant res in restaurantsData!) {

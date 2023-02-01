@@ -31,7 +31,7 @@ class FirebaseService extends GetxService {
     );
     firebaseAuthHelper = FirebaseAuthHelper(_firebaseApp);
     firebaseStorageHelper = FirebaseStorageHelper();
-    fireStoreHelper = await FirebaseFireStoreHelper.init();
+    fireStoreHelper = FirebaseFireStoreHelper();
     return this;
   }
 }

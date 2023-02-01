@@ -29,7 +29,7 @@ class _NearBySection extends GetView<HomeController> {
           child: _SubHeader(text: 'Near You'),
         ).inGridArea('header'),
         Obx(() {
-          if (!controller.hasResDataLoaded.value) {
+          if (!controller.hasNearbyDataLoaded.value) {
             return loading();
           }
           return SingleChildScrollView(
@@ -83,7 +83,7 @@ class _NearBySection extends GetView<HomeController> {
       child: Shimmer.fromColors(
         baseColor: controller.shimmerStyle!.baseColor,
         highlightColor: controller.shimmerStyle!.highlightColor,
-        enabled: !controller.hasResDataLoaded.value,
+        enabled: !controller.hasNearbyDataLoaded.value,
         child: Row(
           children: List.generate(2, (idx) {
             return Expanded(
