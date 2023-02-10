@@ -7,7 +7,7 @@ class FirebaseAuthHelper {
 
   FirebaseAuthHelper(this.firebaseApp) {
     _firebaseAuth = FirebaseAuth.instance;
-    _firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
+    _firebaseAuth.setSettings(appVerificationDisabledForTesting: false);
   }
 
   Rx<User?> get currentUser => Rx<User?>(_firebaseAuth.currentUser);
@@ -25,6 +25,7 @@ class FirebaseAuthHelper {
       verificationCompleted: (PhoneAuthCredential credential) async {
         // ANDROID ONLY! Sign the user in (or link) with the auto-generated credential
         userCredential = await _firebaseAuth.signInWithCredential(credential);
+        navigateOnVerification();
       },
       codeSent: (String verificationId, int? resendToken) {
         if (updateState != null) updateState();
@@ -59,5 +60,12 @@ class FirebaseAuthHelper {
     userCredential = null;
     await _firebaseAuth.signOut();
     Get.offAllNamed(AppRoutes.LOGIN_REGISTER);
+  }
+
+  void navigateOnVerification() {
+    if (userCredential != null) {
+      var isNewUser = userCredential!.additionalUserInfo!.isNewUser;
+      Get.offAllNamed(isNewUser ? AppRoutes.NEW_USER_REGISTER : AppRoutes.HOME);
+    }
   }
 }
