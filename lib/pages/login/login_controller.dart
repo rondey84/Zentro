@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/theme/extensions/authentication_style.dart';
 import 'package:zentro/theme/extensions/custom_font_styles.dart';
@@ -67,16 +66,12 @@ class LoginController extends GetxController {
     if (isVerifying.value) {
       var isVerified = await firebaseService.firebaseAuthHelper
           .verifyOTP(otp: controllerOTP.text);
-      var userCredential = firebaseService.firebaseAuthHelper.userCredential;
-
-      if (isVerified && userCredential != null) {
-        var isNewUser = userCredential.additionalUserInfo!.isNewUser;
-        Get.offAllNamed(
-            isNewUser ? AppRoutes.NEW_USER_REGISTER : AppRoutes.HOME);
+      if (isVerified) {
+        firebaseService.firebaseAuthHelper.navigateOnVerification();
       }
-
       return;
     }
+
     phoneNumber = '+${phoneCode.value} ${controllerPhoneNumber.text}';
     await firebaseService.firebaseAuthHelper.verifyPhoneNumber(
       phoneNumber.trim(),

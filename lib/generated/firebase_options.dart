@@ -70,7 +70,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '488549098926',
     projectId: 'zentro-f581f',
     storageBucket: 'zentro-f581f.appspot.com',
-    iosClientId: '488549098926-7orbjboc8u63lcgi8cgh7ja7vqdeshro.apps.googleusercontent.com',
+    androidClientId:
+        '488549098926-tfk6ntjfp63al2josik7ri6qes3ovh7f.apps.googleusercontent.com',
+    iosClientId:
+        '488549098926-7orbjboc8u63lcgi8cgh7ja7vqdeshro.apps.googleusercontent.com',
     iosBundleId: 'com.nexus.org.zentro',
   );
 }
