@@ -3,12 +3,13 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import storage
+from tqdm import tqdm
 
 # Firebase service account credentials
 cred = credentials.Certificate(".service-account-file.json")
 # Initializing app with credentials and storage bucket link
 app = firebase_admin.initialize_app(cred, {
-    'storageBucket': 'zentro-f581f.appspot.com'
+    "storageBucket": 'zentro-f581f.appspot.com'
 })
 # Firebase Firestore Database
 firestore_client = firestore.client()
@@ -16,59 +17,74 @@ firestore_client = firestore.client()
 bucket = storage.bucket()
 
 # All Restaurant data CSV File as DataFrame
-restaurants_data = pd.read_csv("restaurants.csv")
+restaurants_df = pd.read_csv("restaurants.csv").fillna('')
 
-for idx in restaurants_data.index:
+for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
     # Converting each row to a dictionary data type
-    restaurant_info = restaurants_data.loc[idx].to_dict()
+    restaurant_info = restaurants_df.loc[idx].to_dict()
     # Removing the collection name from dictionary and storing for later uses
-    collection = restaurant_info.pop('collection')
+    res_id = restaurant_info.pop("collection")
 
-    # New Collection and document based on the collection name received above
-    rest_doc = firestore_client.collection("restaurants").document(collection)
+    # New Collections and document based on the collection name received above
+    rest_doc = firestore_client.collection("restaurants").document(res_id)
+    menu_item_doc = firestore_client.collection("menus").document(res_id)
+
     # Inserting basic data
     rest_doc.set({
+        "id": res_id,
         "name": restaurant_info['name'],
-        "description":  restaurant_info['description'],
+        "short_description":  restaurant_info['short_description'],
+        "long_description":  restaurant_info['long_description'],
         "location":  restaurant_info['location'],
         "geo_location":  firestore.GeoPoint(
-            float(restaurant_info['geo-location'].split(',')[0]),
-            float(restaurant_info['geo-location'].split(',')[1])
+            float(restaurant_info['geo_location'].split(',')[0]),
+            float(restaurant_info['geo_location'].split(',')[1])
         ),
         "image":  restaurant_info['image'],
-        "menu": [],
+        "menu_image": restaurant_info['menu_image'].split(','),
+        "recommended": restaurant_info['recommended'].split(','),
     })
 
     # Uploading cover images to Storage
-    image_path = f"{collection}/{restaurant_info['image']}"
+    image_path = f"{res_id}/{restaurant_info['image']}"
     input_path = f"images/{image_path}"
     output_path = f"restaurants/{image_path}"
     blob = bucket.blob(output_path)
     blob.upload_from_filename(input_path)
 
     # Getting restaurants menu data CSV as DataFrame and removing NaN with empty string
-    restaurant_csv = pd.read_csv(f"data/{collection}.csv").fillna('')
-    menu = []
-    for i in restaurant_csv.index:
-        menu_item = restaurant_csv.loc[i].to_dict()
+    menu_data_df = pd.read_csv(f"menu_data/{res_id}.csv").fillna('')
+    for i in menu_data_df.index:
+        menu_item = menu_data_df.loc[i].to_dict()
+
+        category_collection = menu_item_doc.collection(menu_item['category'])
+        item_doc = category_collection.document(menu_item['id'])
+
         item = {
+            "id": menu_item['id'],
             "name": menu_item['name'],
             "category": menu_item['category'],
             "price": float(menu_item['price']),
+            "tax": float(menu_item['tax']),
             "description": menu_item['description'],
             "image": menu_item['image'],
             "ingredients": menu_item['ingredients'].split(','),
             "veg": menu_item['veg'],
         }
-        menu.append(item)
+
+        if item_doc.get().exists:
+            item_doc.update(item)
+        else:
+            item_doc.set(item)
 
         # Uploading menu item images to Storage
-        image_path = f"{collection}/{menu_item['image']}"
+        image_path = f"{res_id}/{menu_item['image']}"
         input_path = f"images/{image_path}"
         output_path = f"restaurants/{image_path}"
         blob = bucket.blob(output_path)
         blob.upload_from_filename(input_path)
 
-    # Updating the menu list with fetched data
-    rest_doc.update({u'menu': menu})
-    menu = []
+    # Setting the menu data with fetched data
+    menu_item_doc.set({
+        "recommended": restaurant_info['recommended'].split(','),
+    })
