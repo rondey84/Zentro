@@ -1,0 +1,68 @@
+category,name,id,price,tax,description,image,ingredients,veg
+Hot Items,Tea,tea,15,0,,tea.webp,,true
+Hot Items,Coffee,coffee,19,0,,coffee.jpg,,true
+Hot Items,Hot Milk,hot_milk,26,0,,hot_milk.jpg,,true
+Hot Items,Tea (Half),tea_half,10,0,,tea.webp,,true
+Hot Items,Tea (Staff),tea_staff,8,0,,tea.webp,,true
+Snacks,Samosa Pav,samosa_pav,20,0,,samosa_pav.webp,,true
+Snacks,Vada Pav,vada_pav,20,0,,vada_pav.webp,,true
+Snacks,Punjabi Samosa 2Pcs,pujabai_samosa_2pcs,37,0,,pujabai_samosa_2pcs.webp,,true
+Snacks,Pav 1Pcs,pav_1pcs,5,0,,pav_1pcs.jpg,,true
+Snacks,Butter Pav,butter_pav,10,0,,butter_pav.jpg,,true
+Snacks,Batata Vada 2Pcs,batata_vada_2_pcs,32,0,,batata_vada_2_pcs.webp,,true
+Snacks,Dahi Samosa,dahi_samosa,47,0,,dahi_samosa.jpg,,true
+Snacks,Misal Pav,misal_pav,47,0,,misal_pav.jpg,,true
+Snacks,Bread Pakoda,bread_pakoda,37,0,,bread_pakoda.webp,,true
+Snacks,Idli Sambar,idli_sambar,37,0,,idli_sambar.jpg,,true
+Snacks,Medu Vada Sambar,medu_vada_sambar,47,0,,medu_vada_sambar.webp,,true
+Snacks,Idli Wada Sambar,idili_wada_sambar,47,0,,idili_wada_sambar.jpg,,true
+Snacks,Dahi Idli,dahi_idli,52,0,,dahi_idli.jpg,,true
+Snacks,Butter Idli,butter_idli,52,0,,butter_idli.jpg,,true
+Snacks,Idli Fry,idli_fry,47,0,,idli_fry.jpg,,true
+Snacks,Dahi Misal Pav,dahi_misal_pav,63,0,,dahi_misal_pav.jpg,,true
+Snacks,Upma/Poha,upma_poha,34,0,,upma_poha.jpg,,true
+Snacks,Singl Samosa/Vada,single_samosa_vada,18,0,,single_samosa_vada.jpg,,true
+Dosa,Sada Dosa,sada_dosa,42,0,,sada_dosa.jpg,,true
+Dosa,Butter Sada Dosa,butter_sada_dosa,48,0,,sada_dosa.jpg,,true
+Dosa,Cheese Sada Dosa,cheese_sada_dosa,73,0,,cheese_sada_dosa.jpg,,true
+Dosa,Masala Dosa,masala_dosa,58,0,,masala_dosa.png,,true
+Dosa,Cheese Masala Dosa,cheese_masala_dosa,79,0,,cheese_sada_dosa.jpg,,true
+Dosa,Mysore Sada Dosa,mysore_sada_dosa,53,0,,mysore_sada_dosa.jpg,,true
+Dosa,Mysore Masala Dosa,mysore_masala_dosa,74,0,,mysore_masala_dosa.jpg,,true
+Dosa,Cheese Mysore Sada Dosa,cheese_mysore_sada_dosa,79,0,,cheese_mysore_masala_dosa.jpg,,true
+Dosa,Cheese Mysore Masala Dosa,cheese_mysore_masala_dosa,94,0,,cheese_mysore_masala_dosa.jpg,,true
+Dosa,Chinese Sada Dosa,chinese_sada_dosa,47,0,,chinese_sada_dosa.jpg,,true
+Dosa,Chinese Dosa (Noodles),chinese_dosa_noodles,79,0,,chinese_dosa_noodles.jpg,,true
+Dosa,Cheese Chinese Dosa,cheese_chinese_dosa,105,0,,cheese_chinese_dosa.jpg,,true
+Sandwiches,Bread Butter,bread_butter,29,0,,bread_butter.jpg,,true
+Sandwiches,Toast Bread Butter,toast_bread_butter,37,0,,toast_bread_butter.jpg,,true
+Sandwiches,Veg Sandwich,veg_sandwich,34,0,,veg_sandwich.webp,,true
+Sandwiches,Veg Cheese Sandwich,cheese_sandwich,84,0,,cheese_sandwich.jpg,,true
+Sandwiches,Veg Toast Sandwich,taost_sandwich,58,0,,taost_sandwich.jpg,,true
+Sandwiches,Veg Cheese Toast Sandwich,cheese_toast_sandwich,94,0,,cheese_toast_sandwich.jpg,,true
+Sandwiches,Tomato Sandwich,tomato_sandwich,34,0,,tomato_sandwich.webp,,true
+Sandwiches,Club Sandwich,club_sandwich,74,0,,club_sandwich.webp,,true
+Sandwiches,Cheese Club Sandwich,cheese_club_sandwich,105,0,,cheese_club_sandwich.jpg,,true
+Sandwiches,Chinese Toast Sandwich,chinese_toast_sandwich,63,0,,chinese_toast_sandwich.jpg,,true
+Sandwiches,Cheese Chinese Toast Sandwich,cheese_chinese_toast_sandwich,100,0,,cheese_chinese_toast_sandwich.jpg,,true
+Sandwiches,Veg Grilled Sandwich,veg_grilled_sandwich,79,0,,veg_grilled_sandwich.webp,,true
+Sandwiches,Veg Cheese Grilled Sandwich,cheese_grilled_sandwich,100,0,,cheese_grilled_sandwich.jpg,,true
+Sandwiches,Chinese Grilled Sandwich,chinese_grilled_sandwich,79,0,,chinese_toast_sandwich.jpg,,true
+Sandwiches,Chinese Cheese Grill Sandwich,chinese_cheese_grill_sandwich,100,0,,cheese_chinese_toast_sandwich.jpg,,true
+Chat,Bhel Puri,bhel_puri,37,0,,bhel_puri.jpg,,true
+Chat,Sev Puri,sev_puri,37,0,,sev_puri.jpg,,true
+Chat,Dahi Potato Puri,dahi_potato_puri,58,0,,dahi_potato_puri.jpg,,true
+Chat,Sukha Bhel,sukha_bhel,38,0,,sukha_bhel.jpg,,true
+Chat,Cheese Bhel,cheese_bhel,79,0,,cheese_bhel.jpg,,true
+Franky,Veg Franky,veg_franky,28,5,,veg_franky.jpg,,true
+Franky,Schezwan Franky,schezwan_franky,30,5,,schezwan_franky.jpg,,true
+Franky,Noodles Franky,noodles_franky,40,5,,noodles_franky.jpg,,true
+Franky,Cheese Franky,cheese_franky,70,5,,cheese_franky.jpg,,true
+Franky,Paneer Franky,paneer_franky,60,5,,paneer_franky.jpg,,true
+Franky,Mayonise Franky,mayonise_franky,50,5,,mayonise_franky.jpg,,true
+Franky,Manchurian Franky,manchurian_franky,50,5,,manchurian_franky.jpg,,true
+Franky,Cheese Schezwan Franky,cheese_schezwan_franky,75,5,,cheese_schezwan_franky.jpg,,true
+Franky,Cheese Noodles Franky,cheese_noodles_franky,80,5,,cheese_noodles_franky.jpg,,true
+Franky,Cheese Mayonise Franky,cheese_mayonise_franky,80,5,,cheese_mayonise_franky.jpg,,true
+Franky,Cheese Paneer Franky,cheese_paneer_franky,90,5,,cheese_paneer_franky.jpg,,true
+Franky,Cheese Manchurian Franky,cheese_manchurian_franky,80,5,,cheese_manchurian_franky.jpg,,true

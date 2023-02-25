@@ -1,3 +1,4 @@
-collection,name,description,location,geo-location,image
-chai_sutta_bar,Chai Sutta Bar,Tea chain,"shop no 3, besides somaiya college, Vasuki Building, Vidyanagar, Vidya Vihar East, Vidyavihar, Mumbai, Maharashtra 400077","19.07754, 72.90183",chai_sutta_bar.jpg
-se_canteen,Somaiya Engineering Canteen,Students life,"Vidyanagar, Vidya Vihar East, Vidyavihar, Mumbai, Maharashtra 400078","19.07343, 72.900053",se_canteen.jpg
+collection,name,short_description,long_description,location,geo_location,image,menu_image,recommended
+somaiya_canteen,Somaiya Canteen,"Snacks, Chats, Dosa, Fankie, Sandwiches",,"Vidyanagar, Vidya Vihar East, Vidyavihar, Mumbai, Maharashtra 400078","19.07343, 72.900053",somaiya_canteen.jpg,,"samosa_pav, masala_dosa, manchurian_franky, misal_pav, veg_grilled_sandwich, dahi_potato_puri"
+chai_sutta_bar,Chai Sutta Bar,"Street Food, Fast Food, Beverages, Sandwich, Mexican, Shake",,"shop no 3, besides somaiya college, Vasuki Building, Vidyanagar, Vidya Vihar East, Vidyavihar, Mumbai, Maharashtra 400077","19.07754, 72.90183",chai_sutta_bar.jpg,,
+fire_pot,Fire Pot,"Chinese, Pasta, Pizza, Burger, Sandwich, Fast Food, Shake, Beverages",,"24-15/25, Ambedkar Nagar, Rajawadi, Opposite Ambika Book Depot, Ghatkopar East, Mumbai","19.07791, 72.89972",fire_pot.jpg,,
