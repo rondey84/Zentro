@@ -1,11 +1,10 @@
 part of '../firebase_service.dart';
 
 class FirebaseAuthHelper {
-  FirebaseApp firebaseApp;
   late final FirebaseAuth _firebaseAuth;
   UserCredential? userCredential;
 
-  FirebaseAuthHelper(this.firebaseApp) {
+  FirebaseAuthHelper() {
     _firebaseAuth = FirebaseAuth.instance;
     _firebaseAuth.setSettings(appVerificationDisabledForTesting: false);
   }
@@ -62,8 +61,11 @@ class FirebaseAuthHelper {
     Get.offAllNamed(AppRoutes.LOGIN_REGISTER);
   }
 
-  void navigateOnVerification() {
+  void navigateOnVerification() async {
     if (userCredential != null) {
+      await Get.find<FirebaseService>()
+          .fireStoreHelper
+          .saveUserData(currentUser.value);
       var isNewUser = userCredential!.additionalUserInfo!.isNewUser;
       Get.offAllNamed(isNewUser ? AppRoutes.NEW_USER_REGISTER : AppRoutes.HOME);
     }

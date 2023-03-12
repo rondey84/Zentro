@@ -4,9 +4,11 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:zentro/data/constants/hero_tags.dart';
+import 'package:zentro/data/enums/hero_tags.dart';
+import 'package:zentro/data/enums/floating_cart_type.dart';
 import 'package:zentro/pages/home/home_controller.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
+import 'package:zentro/widgets/cart/floating_cart_action.dart';
 
 part './widgets/profile_header.dart';
 part './widgets/search_bar.dart';
@@ -23,16 +25,10 @@ class HomeScreen extends GetView<HomeController> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            // SliverToBoxAdapter(
-            //   child: ElevatedButton(
-            //     onPressed: controller.testHandler,
-            //     child: const Text('Test'),
-            //   ),
-            // ),
-            const SliverToBoxAdapter(
+            SliverToBoxAdapter(
               child: Hero(
-                tag: HeroTag.profileHeader,
-                child: _ProfileHeader(),
+                tag: HeroTag.profileHeader.tag,
+                child: const _ProfileHeader(),
               ),
             ),
             SliverPersistentHeader(
@@ -55,6 +51,17 @@ class HomeScreen extends GetView<HomeController> {
           ],
         ),
       ),
+      floatingActionButton: Obx(() {
+        if (controller.userDataHasLoaded.value) {
+          return const FloatingCartActionWidget(
+            cartType: FloatingCartType.home,
+          );
+        }
+        return const SizedBox.shrink();
+      }),
+      floatingActionButtonLocation: controller.userDataHasLoaded.value
+          ? controller.cartLocation
+          : FloatingActionButtonLocation.centerFloat,
     );
   }
 }

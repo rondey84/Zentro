@@ -24,7 +24,7 @@ class AuthenticationStyle extends ThemeExtension<AuthenticationStyle> {
 
   @override
   AuthenticationStyle copyWith({
-    Color? inputBoxColor,
+    Color? cartColor,
     Color? underLineColor,
     Color? inputBoxShadowColor,
     Color? inputBoxTextColor,
@@ -34,7 +34,7 @@ class AuthenticationStyle extends ThemeExtension<AuthenticationStyle> {
     TextStyle? modalSearchTextStyle,
   }) =>
       AuthenticationStyle(
-        inputBoxColor: inputBoxColor ?? this.inputBoxColor,
+        inputBoxColor: cartColor ?? this.inputBoxColor,
         underLineColor: underLineColor ?? this.underLineColor,
         inputBoxShadowColor: inputBoxShadowColor ?? this.inputBoxShadowColor,
         inputBoxTextColor: inputBoxTextColor ?? this.inputBoxTextColor,

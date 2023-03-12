@@ -1,14 +1,16 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zentro/data/model/user_profile_items.dart';
+import 'package:zentro/data/model/user_models.dart' as user_model;
 import 'package:zentro/services/firebase_service.dart';
+import 'package:zentro/services/local_storage_service.dart';
 import 'package:zentro/theme/extensions/custom_font_styles.dart';
 import 'package:zentro/util/svg_helper/svg_helper.dart';
 
 class UserProfileController extends GetxController {
   var fontStyle = Get.theme.extension<CustomFontStyles>();
   FirebaseService firebaseService = Get.find();
+  LocalStorageService localStorageService = Get.find();
 
   User? get user => firebaseService.firebaseAuthHelper.currentUser.value;
 
@@ -61,27 +63,28 @@ class UserProfileController extends GetxController {
     return SvgHelper.profileAvatar(primaryColor: Get.theme.primaryColor);
   }
 
-  List<UserProfileItem> get listItems {
-    return <UserProfileItem>[
-      UserProfileItem(
+  List<user_model.UserProfileItem> get listItems {
+    return <user_model.UserProfileItem>[
+      user_model.UserProfileItem(
         text: 'About',
         iconData: Icons.supervisor_account_rounded,
       ),
-      UserProfileItem(
+      user_model.UserProfileItem(
         text: 'Feedback',
         iconData: Icons.rss_feed_rounded,
       ),
-      UserProfileItem(
+      user_model.UserProfileItem(
         text: 'Rate Us',
         iconData: Icons.thumb_up_rounded,
       ),
-      UserProfileItem(
+      user_model.UserProfileItem(
         text: 'Log Out',
         iconData: Icons.logout_rounded,
-        onTap: () {
+        onTap: () async {
           // TODO: SHOW CONFIRMATION DIALOG
           FirebaseService firebaseService = Get.find();
-          firebaseService.firebaseAuthHelper.signOut();
+          await firebaseService.firebaseAuthHelper.signOut();
+          localStorageService.deleteUserData();
         },
       ),
     ];

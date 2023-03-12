@@ -1,5 +1,3 @@
-// ignore_for_file: constant_identifier_names
-
 part of 'app_pages.dart';
 
 abstract class AppRoutes {
@@ -9,5 +7,8 @@ abstract class AppRoutes {
   static const NEW_USER_REGISTER = '/new-user-registration';
   static const LOCATION_PERMISSION = '/location-permission';
   static const HOME = '/home-screen';
-  static const USER_PROFILE = '/user-profile';
+  static const USER_PROFILE = '/user-profile-screen';
+  static const RESTAURANT = '/restaurant-screen';
+  static const RESTAURANT_MAP = '/restaurant-map-screen';
+  static const ORDERS = '/orders-screen';
 }

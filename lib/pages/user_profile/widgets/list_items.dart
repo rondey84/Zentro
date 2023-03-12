@@ -22,7 +22,7 @@ class _ListItems extends GetView<UserProfileController> {
     );
   }
 
-  Widget listTile(UserProfileItem profileItem) {
+  Widget listTile(user_model.UserProfileItem profileItem) {
     return GestureDetector(
       onTap: profileItem.onTap,
       child: Container(

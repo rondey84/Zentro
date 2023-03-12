@@ -9,6 +9,12 @@ import 'package:zentro/pages/new_user/new_user.dart';
 import 'package:zentro/pages/new_user/new_user_bindings.dart';
 import 'package:zentro/pages/onboarding/onboarding.dart';
 import 'package:zentro/pages/onboarding/onboarding_bindings.dart';
+import 'package:zentro/pages/orders/orders.dart';
+import 'package:zentro/pages/orders/orders_bindings.dart';
+import 'package:zentro/pages/restaurant/restaurant.dart';
+import 'package:zentro/pages/restaurant/restaurant_bindings.dart';
+import 'package:zentro/pages/restaurant_map/restaurant_map.dart';
+import 'package:zentro/pages/restaurant_map/restaurant_map_bindings.dart';
 import 'package:zentro/pages/splash/splash.dart';
 import 'package:zentro/pages/splash/splash_bindings.dart';
 import 'package:zentro/pages/user_profile/user_profile.dart';
@@ -58,6 +64,24 @@ class AppPages {
       name: AppRoutes.USER_PROFILE,
       page: () => const UserProfile(),
       binding: UserProfileBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.RESTAURANT,
+      page: () => const RestaurantScreen(),
+      binding: RestaurantBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.RESTAURANT_MAP,
+      page: () => const RestaurantMapScreen(),
+      binding: RestaurantMapBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.ORDERS,
+      page: () => const OrdersScreen(),
+      binding: OrdersBindings(),
       preventDuplicates: true,
     ),
   ];

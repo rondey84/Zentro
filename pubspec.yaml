@@ -15,7 +15,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   firebase_core: ^2.4.0
   get: ^4.6.5
-  objectbox: ^1.7.0
+  objectbox: ^1.7.2
   objectbox_flutter_libs: any
   flutter_screenutil: ^5.6.0
   firebase_auth: ^4.2.1
@@ -33,6 +33,9 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   shimmer: ^2.0.0
   firebase_app_check: ^0.1.1+9
+  flutter_rating_bar: ^4.0.1
+  badges: ^3.0.2
+  collection: ^1.17.0
 
 dev_dependencies:
   flutter_test:

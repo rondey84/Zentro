@@ -1,11 +1,17 @@
 {
 	"cSpell.words": [
+		"appdata",
 		"autocorrect",
 		"autofocus",
+		"Backlink",
+		"cupertino",
+		"fenix",
 		"Firestore",
 		"Geolocator",
 		"Getx",
 		"lerp",
+		"LTRB",
+		"objectbox",
 		"Pinput",
 		"placemark",
 		"reacptcha",
@@ -13,6 +19,8 @@
 		"RGBA",
 		"screenutil",
 		"Snackbars",
+		"vsync",
 		"Zentro"
-	]
+	],
+	"java.configuration.updateBuildConfiguration": "interactive"
 }

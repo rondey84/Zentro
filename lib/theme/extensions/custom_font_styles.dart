@@ -11,6 +11,8 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
     required this.body1,
     required this.body2,
     required this.caption,
+    required this.chipTextStyle,
+    required this.restHeaderHead,
   });
 
   final TextStyle display;
@@ -21,6 +23,8 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
   final TextStyle body1;
   final TextStyle body2;
   final TextStyle caption;
+  final TextStyle chipTextStyle;
+  final TextStyle restHeaderHead;
 
   @override
   CustomFontStyles copyWith({
@@ -32,6 +36,8 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
     TextStyle? body1,
     TextStyle? body2,
     TextStyle? caption,
+    TextStyle? chipTextStyle,
+    TextStyle? restHeaderHead,
   }) =>
       CustomFontStyles(
         display: display ?? this.display,
@@ -42,6 +48,8 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
         body1: body1 ?? this.body1,
         body2: body2 ?? this.body2,
         caption: caption ?? this.caption,
+        chipTextStyle: chipTextStyle ?? this.chipTextStyle,
+        restHeaderHead: restHeaderHead ?? this.restHeaderHead,
       );
 
   @override
@@ -59,6 +67,8 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
       body1: body1,
       body2: body2,
       caption: caption,
+      chipTextStyle: chipTextStyle,
+      restHeaderHead: restHeaderHead,
     );
   }
 }

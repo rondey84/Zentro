@@ -5,9 +5,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:zentro/data/model/menu.dart';
+import 'package:zentro/data/model/menu_item.dart';
 import 'package:zentro/data/model/restaurant.dart';
 import 'package:zentro/generated/firebase_options.dart';
 import 'package:zentro/routes/app_pages.dart';
+
+import 'firebase_helpers/fs_db_helper.dart';
 
 part './firebase_helpers/firebase_app_check.dart';
 part './firebase_helpers/firebase_auth.dart';
@@ -36,7 +40,7 @@ class FirebaseService extends GetxService {
     );
     _appCheckHelper = FirebaseAppCheckHelper();
     _appCheckHelper.activate();
-    firebaseAuthHelper = FirebaseAuthHelper(_firebaseApp);
+    firebaseAuthHelper = FirebaseAuthHelper();
     firebaseStorageHelper = FirebaseStorageHelper();
     fireStoreHelper = FirebaseFireStoreHelper();
     return this;

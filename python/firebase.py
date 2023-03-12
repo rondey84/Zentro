@@ -41,8 +41,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
             float(restaurant_info['geo_location'].split(',')[1])
         ),
         "image":  restaurant_info['image'],
-        "menu_image": restaurant_info['menu_image'].split(','),
-        "recommended": restaurant_info['recommended'].split(','),
+        # "menu_image": restaurant_info['menu_image'].split(','),
     })
 
     # Uploading cover images to Storage
@@ -54,8 +53,12 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
 
     # Getting restaurants menu data CSV as DataFrame and removing NaN with empty string
     menu_data_df = pd.read_csv(f"menu_data/{res_id}.csv").fillna('')
+    categories = []
     for i in menu_data_df.index:
         menu_item = menu_data_df.loc[i].to_dict()
+
+        if menu_item['category'] not in categories:
+            categories.append(menu_item['category'])
 
         category_collection = menu_item_doc.collection(menu_item['category'])
         item_doc = category_collection.document(menu_item['id'])
@@ -68,7 +71,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
             "tax": float(menu_item['tax']),
             "description": menu_item['description'],
             "image": menu_item['image'],
-            "ingredients": menu_item['ingredients'].split(','),
+            "ingredients": [item.strip() for item in menu_item['ingredients'].split(',') if item.strip()],
             "veg": menu_item['veg'],
         }
 
@@ -86,5 +89,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
 
     # Setting the menu data with fetched data
     menu_item_doc.set({
-        "recommended": restaurant_info['recommended'].split(','),
+        "restaurantId": res_id,
+        "categories": categories,
+        "recommended": [item.strip() for item in restaurant_info['recommended'].split(',') if item.strip()],
     })

@@ -6,6 +6,7 @@ import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/local_storage_service.dart';
 import 'package:zentro/services/location_service.dart';
+import 'package:zentro/services/user_cart_service.dart';
 
 class SplashController extends GetxController {
   final String pageName = 'Splash Screen';
@@ -24,10 +25,12 @@ class SplashController extends GetxController {
       DeviceOrientation.portraitDown,
     ]);
 
+    // Load Services
     firebaseService = await Get.putAsync(() => FirebaseService().init());
     localStorageService =
         await Get.putAsync(() => LocalStorageService().init());
     locationService = await Get.putAsync(() => LocationService().init());
+    Get.lazyPut(() => UserCartService());
 
     super.onInit();
   }
@@ -59,7 +62,6 @@ class SplashController extends GetxController {
   }
 
   void _initialScreen(User? user) {
-    debugPrint('USER: $user');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (user == null) {
         Get.offAllNamed(localStorageService.appData.onBoardComplete

@@ -6,6 +6,7 @@ part './svg_string_codes/new_user_name.dart';
 part './svg_string_codes/new_user_email.dart';
 part './svg_string_codes/current_location.dart';
 part './svg_string_codes/profile_avatar.dart';
+part './svg_string_codes/error.dart';
 
 class SvgHelper {
   static SvgPicture getSvgPicture({
@@ -52,6 +53,19 @@ class SvgHelper {
   static SvgPicture profileAvatar({required Color primaryColor}) {
     String code = ProfileAvatar.getCode(
       primaryColor: primaryColor.toRGBACode(),
+    );
+    return getSvgPicture(code: code);
+  }
+
+  static SvgPicture somethingWentWrong({
+    required Color primaryColor,
+    Color? secondaryColor,
+    Color? detailsColor,
+  }) {
+    String code = SomethingWentWrong.getCode(
+      primaryColor: primaryColor.toRGBACode(),
+      secondaryColor: secondaryColor?.toRGBACode(),
+      detailsColor: detailsColor?.toRGBACode(),
     );
     return getSvgPicture(code: code);
   }

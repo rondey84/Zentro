@@ -40,8 +40,14 @@ class _NearBySection extends GetView<HomeController> {
               child: Row(
                 children: List.generate(
                   controller.nearbyRestaurants!.length,
-                  (i) => card('${controller.nearbyRestaurants![i]['name']}',
-                      '${controller.nearbyRestaurants![i]['cacheFilePath']}'),
+                  (i) {
+                    return card(
+                      id: controller.nearbyRestaurants![i]['id'],
+                      name: '${controller.nearbyRestaurants![i]['name']}',
+                      filePath:
+                          '${controller.nearbyRestaurants![i]['cacheFilePath']}',
+                    );
+                  },
                 ),
               ),
             ),
@@ -51,28 +57,31 @@ class _NearBySection extends GetView<HomeController> {
     );
   }
 
-  Widget card(String name, String filePath) {
+  Widget card({String? id, required String name, required String filePath}) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: cardPadding),
-      child: Column(
-        children: [
-          Container(
-            width: 220,
-            height: cardHeight,
-            decoration: cardDecoration.copyWith(
-              image: DecorationImage(
-                image: FileImage(File(filePath)),
-                fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => controller.navigateToRestaurant(restaurantId: id ?? ''),
+        child: Column(
+          children: [
+            Container(
+              width: 220,
+              height: cardHeight,
+              decoration: cardDecoration.copyWith(
+                image: DecorationImage(
+                  image: FileImage(File(filePath)),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-          ),
-          SizedBox(height: gap),
-          Text(
-            name,
-            style: controller.fontStyle!.cardHeader,
-            textAlign: TextAlign.center,
-          ),
-        ],
+            SizedBox(height: gap),
+            Text(
+              name,
+              style: controller.fontStyle!.cardHeader,
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
