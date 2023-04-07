@@ -79,7 +79,7 @@ class StripeController extends GetxController {
   Future<void> _createPaymentSheet() async {
     // Load Receiver Name
     var name = RemoteConfigKey.paymentDisplayName.value as String?;
-    name ??= dotenv.maybeGet(EnvKeys.paymentDisplayName.key, fallback: null);
+    name ??= 'Zentro';
 
     // Sheet appearance
     var appearance = PaymentSheetAppearance(
@@ -121,7 +121,7 @@ class StripeController extends GetxController {
       paymentSheetParameters: SetupPaymentSheetParameters(
         paymentIntentClientSecret: _paymentIntent!['client_secret'],
         style: ThemeMode.light,
-        merchantDisplayName: name ?? 'Zentro',
+        merchantDisplayName: name,
         appearance: appearance,
       ),
     );

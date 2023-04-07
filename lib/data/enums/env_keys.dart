@@ -1,5 +1,4 @@
 enum EnvKeys {
-  paymentDisplayName,
   razorpayTestKey,
   razorpayTestSecretKey,
   stripeTestKey,
@@ -9,8 +8,6 @@ enum EnvKeys {
 extension EnvKeysExtension on EnvKeys {
   String get key {
     switch (this) {
-      case EnvKeys.paymentDisplayName:
-        return 'PAYMENT_DISPLAY_NAME';
       case EnvKeys.razorpayTestKey:
         return 'RAZORPAY_TEST_KEY';
       case EnvKeys.razorpayTestSecretKey:

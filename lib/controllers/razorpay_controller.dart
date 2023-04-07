@@ -57,7 +57,7 @@ class RazorpayController extends GetxController {
 
     // Load Receiver Name
     var name = RemoteConfigKey.paymentDisplayName.value as String?;
-    name ??= dotenv.maybeGet(EnvKeys.paymentDisplayName.key, fallback: null);
+    name ??= 'Zentro';
 
     // Transaction Timeout
     var timeout = RemoteConfigKey.paymentTimeout.value as int?;
@@ -70,7 +70,7 @@ class RazorpayController extends GetxController {
       'key': publicKey,
       // Amount set in paisa 100paisa = 1rupees
       'amount': 100, //in the smallest currency sub-unit.
-      'name': name ?? '',
+      'name': name,
       'order_id': 'Test Order', // Generate order_id using Orders API
       'description': '',
       'timeout': timeout ?? 60, // in seconds
