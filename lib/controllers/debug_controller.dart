@@ -14,6 +14,10 @@ class DebugController extends GetxController {
     Get.offAllNamed(AppRoutes.ONBOARDING);
   }
 
+  void newUserScreenHandler() {
+    Get.offAllNamed(AppRoutes.NEW_USER_REGISTER);
+  }
+
   void errorSnackbarHandler() {
     Get.back();
     CustomSnackbars.error(title: 'Error', message: 'Test Message');

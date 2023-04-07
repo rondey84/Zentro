@@ -24,7 +24,7 @@ class LoginController extends SuperController {
 
   String get buttonText => otpMode.value ? 'Continue' : 'Get OTP';
   String get descriptionText => otpMode.value
-      ? 'Did not receive OTP? Resend in 0:22'
+      ? 'Enter the 6 digit code received on your device'
       : 'By clicking, I accept the terms of service and privacy policy.';
 
   // ====== Country CODE =========

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:zentro/data/constants/debug.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/theme/extensions/authentication_style.dart';
@@ -9,11 +10,14 @@ import 'package:zentro/theme/extensions/custom_font_styles.dart';
 import 'package:zentro/theme/extensions/gradient_border_button_style.dart';
 import 'package:zentro/util/svg_helper/svg_helper.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:zentro/util/text_helper.dart';
 
-class NewUserController extends GetxController {
-  var authStyle = Get.theme.extension<AuthenticationStyle>();
-  var buttonStyle = Get.theme.extension<GradientBorderButtonStyle>();
-  var fontStyle = Get.theme.extension<CustomFontStyles>();
+class NewUserController extends SuperController {
+  // ======== DESIGN =========
+  final authStyle = Get.theme.extension<AuthenticationStyle>();
+  final buttonStyle = Get.theme.extension<GradientBorderButtonStyle>();
+  final fontStyle = Get.theme.extension<CustomFontStyles>();
+  final animDuration = const Duration(milliseconds: 175);
 
   RxInt currentPage = 0.obs;
 
@@ -46,6 +50,7 @@ class NewUserController extends GetxController {
     },
   ];
 
+  // ======== Getters =======
   String get header => content[currentPage.value]['header'];
   Widget get svgImage => content[currentPage.value]['image'];
   String get buttonText =>
@@ -57,16 +62,29 @@ class NewUserController extends GetxController {
       content[currentPage.value]['keyboardType'];
   bool get readOnly => currentPage.value == 2;
 
-  void onTapHandler() {
+  // ===== State =====
+  @override
+  void onClose() {
+    timer?.cancel();
+    super.onClose();
+  }
+
+  // ====== Loading State =======
+  final isLoading = false.obs;
+
+  // ===== Button Handlers =======
+  Future<void> onTapHandler() async {
+    if (isLoading.value) return;
+    isLoading.value = true;
     switch (currentPage.value) {
       case 0:
-        _nameUpdating();
+        await _nameUpdating().then((_) => isLoading.value = false);
         break;
       case 1:
-        _emailUpdating();
+        await _emailUpdating().then((_) => isLoading.value = false);
         break;
       case 2:
-        _handleContinue();
+        await _handleContinue().then((_) => isLoading.value = false);
         break;
       default:
         return;
@@ -79,11 +97,11 @@ class NewUserController extends GetxController {
     var name = '';
     if (textController != null) name = textController!.text;
     if (name.isEmpty) {
-      Get.snackbar('Error', 'Please enter your name');
+      setError('Please enter your name');
       return;
     }
     if (!RegExp('[a-zA-Z]').hasMatch(name)) {
-      Get.snackbar('Error', 'Please enter a valid name');
+      setError('Please enter a valid name');
       return;
     }
     await FirebaseService.instance.firebaseAuthHelper.currentUser.value
@@ -98,11 +116,11 @@ class NewUserController extends GetxController {
     var email = '';
     if (textController != null) email = textController!.text;
     if (email.isEmpty) {
-      Get.snackbar('Error', 'Please enter your email');
+      setError('Please enter your email');
       return;
     }
     if (!EmailValidator.validate(email)) {
-      Get.snackbar('Error', 'Please enter a valid email');
+      setError('Please enter a valid email');
       return;
     }
 
@@ -144,7 +162,8 @@ class NewUserController extends GetxController {
       await Future.delayed(const Duration(seconds: 5));
       canResendEmail.value = true;
     } catch (e) {
-      Get.snackbar('Error', '$e');
+      setError('Firebase error occurred');
+      logPrint(e);
     }
   }
 
@@ -157,9 +176,60 @@ class NewUserController extends GetxController {
     }
   }
 
+  // ======= ERROR ========
+  final _errorMessage = ''.obs;
+  String get errorMessage => _errorMessage.value;
+  set errorMessage(String val) => _errorMessage.value = val;
+  final _hasError = false.obs;
+  bool get hasError => _hasError.value;
+  Future<void> setError(String message) async {
+    if (_hasError.value) return;
+    errorMessage = message;
+    _hasError.value = true;
+    await Future.delayed(const Duration(seconds: 5), resetError);
+  }
+
+  void resetError() {
+    if (_hasError.value) {
+      errorMessage = '';
+      _hasError.value = false;
+    }
+  }
+
+  // ===== Keyboard Open State Handler =====
+  var isKeyboardOpen = false.obs;
+
   @override
-  void onClose() {
-    timer?.cancel();
-    super.onClose();
+  void didChangeMetrics() {
+    final isKeyboardOpenValue = GetPlatform.isIOS ||
+        GetPlatform.isAndroid &&
+            MediaQuery.of(Get.context!).viewInsets.bottom > 0;
+    isKeyboardOpen.value = isKeyboardOpenValue;
+    super.didChangeMetrics();
+  }
+
+  // ===== MISC =====
+  double textHeight(String text, TextStyle? ts) {
+    return TextHelper.textSize(text, ts).height;
+  }
+
+  @override
+  void onDetached() {
+    // onDetached
+  }
+
+  @override
+  void onInactive() {
+    // onInactive
+  }
+
+  @override
+  void onPaused() {
+    // onPaused
+  }
+
+  @override
+  void onResumed() {
+    // onResumed
   }
 }

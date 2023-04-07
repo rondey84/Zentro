@@ -38,6 +38,10 @@ class DebugContent extends GetView<DebugController> {
               onTap: controller.onBoardScreenHandler,
             ),
             _dialogButton(
+              text: 'New User Screen',
+              onTap: controller.newUserScreenHandler,
+            ),
+            _dialogButton(
               text: 'Show Error Snackbar',
               onTap: controller.errorSnackbarHandler,
             ),

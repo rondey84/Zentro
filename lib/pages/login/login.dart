@@ -39,12 +39,12 @@ class LoginScreen extends GetView<LoginController> {
                     ),
                   ),
                 ),
-                Obx(
-                  () => AnimatedContainer(
+                Obx(() {
+                  return AnimatedContainer(
                     duration: controller.animDuration,
                     height: controller.isKeyboardOpen.value ? 20 : 40,
-                  ),
-                ),
+                  );
+                }),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Obx(() {
@@ -78,7 +78,7 @@ class LoginScreen extends GetView<LoginController> {
                         ),
                         child: const Text('Debug Button'),
                       ),
-                      const SizedBox(width: 16),
+                      const SizedBox(width: 24),
                     ],
                   )
               ],

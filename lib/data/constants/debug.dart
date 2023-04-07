@@ -1,6 +1,6 @@
-const DEBUG_MODE = false;
+const DEBUG_MODE = true;
 
-void logPrint(String text) {
+void logPrint(Object? object) {
   // ignore: avoid_print
-  if (DEBUG_MODE) print(text);
+  if (DEBUG_MODE) print(object);
 }
