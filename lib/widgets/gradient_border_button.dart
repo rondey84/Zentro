@@ -7,19 +7,28 @@ class GradientBorderButton extends StatelessWidget {
     super.key,
     required this.onTap,
     required this.text,
+    this.loading = false,
   });
 
   final VoidCallback onTap;
   final String text;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
     var style = Get.theme.extension<GradientBorderButtonStyle>()!;
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
         height: 60,
         constraints: const BoxConstraints(maxWidth: 350),
+        foregroundDecoration: loading
+            ? BoxDecoration(
+                color: Colors.grey.withOpacity(1),
+                backgroundBlendMode: BlendMode.saturation,
+              )
+            : null,
         decoration: BoxDecoration(
           gradient: style.buttonGradient,
           borderRadius: BorderRadius.circular(22),
@@ -39,13 +48,35 @@ class GradientBorderButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           alignment: Alignment.center,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: style.buttonTextColor,
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
-            ),
+          child: AnimatedSwitcher(
+            duration: const Duration(milliseconds: 150),
+            transitionBuilder: (ch, ani) {
+              return FadeTransition(
+                opacity: Tween<double>(begin: 0.0, end: 1.0).animate(ani),
+                child: ch,
+              );
+            },
+            child: loading
+                ? const Center(
+                    key: ValueKey(0),
+                    child: SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                  )
+                : Text(
+                    text,
+                    key: const ValueKey(1),
+                    style: TextStyle(
+                      color: style.buttonTextColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
           ),
         ),
       ),

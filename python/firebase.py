@@ -17,7 +17,11 @@ firestore_client = firestore.client()
 bucket = storage.bucket()
 
 # All Restaurant data CSV File as DataFrame
-restaurants_df = pd.read_csv("restaurants.csv").fillna('')
+restaurants_df = pd.read_csv("restaurants.csv", dtype={
+                             "inside_campus": bool}).fillna('')
+
+inside = 0
+outside = 0
 
 for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
     # Converting each row to a dictionary data type
@@ -30,6 +34,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
     menu_item_doc = firestore_client.collection("menus").document(res_id)
 
     # Inserting basic data
+    inside_campus = restaurant_info['inside_campus']
     rest_doc.set({
         "id": res_id,
         "name": restaurant_info['name'],
@@ -41,9 +46,16 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
             float(restaurant_info['geo_location'].split(',')[1])
         ),
         "image":  restaurant_info['image'],
-        "menu_image": restaurant_info['menu_image'].split(','),
-        "recommended": restaurant_info['recommended'].split(','),
+        "inside_campus": inside_campus,
+        "order_index": inside if inside_campus else outside,
+        "outlets": [item.strip() for item in restaurant_info['outlets'].split(',') if item.strip()]
+        # "menu_image": restaurant_info['menu_image'].split(','),
     })
+
+    if (inside_campus):
+        inside += 1
+    else:
+        outside += 1
 
     # Uploading cover images to Storage
     image_path = f"{res_id}/{restaurant_info['image']}"
@@ -54,8 +66,12 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
 
     # Getting restaurants menu data CSV as DataFrame and removing NaN with empty string
     menu_data_df = pd.read_csv(f"menu_data/{res_id}.csv").fillna('')
+    categories = []
     for i in menu_data_df.index:
         menu_item = menu_data_df.loc[i].to_dict()
+
+        if menu_item['category'] not in categories:
+            categories.append(menu_item['category'])
 
         category_collection = menu_item_doc.collection(menu_item['category'])
         item_doc = category_collection.document(menu_item['id'])
@@ -68,7 +84,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
             "tax": float(menu_item['tax']),
             "description": menu_item['description'],
             "image": menu_item['image'],
-            "ingredients": menu_item['ingredients'].split(','),
+            "ingredients": [item.strip() for item in menu_item['ingredients'].split(',') if item.strip()],
             "veg": menu_item['veg'],
         }
 
@@ -86,5 +102,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
 
     # Setting the menu data with fetched data
     menu_item_doc.set({
-        "recommended": restaurant_info['recommended'].split(','),
+        "restaurantId": res_id,
+        "categories": categories,
+        "recommended": [item.strip() for item in restaurant_info['recommended'].split(',') if item.strip()],
     })

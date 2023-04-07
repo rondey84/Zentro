@@ -1,5 +1,8 @@
+import 'package:flutter_svg/flutter_svg.dart';
+
 class Onboard {
-  final String image, title, description;
+  final SvgPicture image;
+  final String title, description;
 
   Onboard({
     required this.image,

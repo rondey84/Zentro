@@ -11,7 +11,7 @@ class _ProfileHeader extends GetView<HomeController> {
         onTap: controller.navigateToProfile,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: const EdgeInsets.fromLTRB(18, 8, 10, 8),
           decoration: const BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -23,9 +23,14 @@ class _ProfileHeader extends GetView<HomeController> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(controller.username,
-                      style: controller.fontStyle!.header1),
-                  Text(controller.address,
-                      style: controller.fontStyle!.caption),
+                      style: controller.fontStyles!.header1),
+                  const SizedBox(height: 4),
+                  Obx(() {
+                    return Text(
+                      controller.address.value,
+                      style: controller.fontStyles!.caption,
+                    );
+                  }),
                 ],
               ),
               const Spacer(),

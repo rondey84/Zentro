@@ -21,17 +21,274 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:4724441390522776892",
+      "lastPropertyId": "14:8684723159237737512",
+      "name": "Restaurant",
+      "properties": [
+        {
+          "id": "1:3623659279633574955",
+          "name": "obId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5596735156652126874",
+          "name": "restaurantId",
+          "type": 9
+        },
+        {
+          "id": "3:7859164875157764577",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:1181754778827555225",
+          "name": "shortDescription",
+          "type": 9
+        },
+        {
+          "id": "5:4520587275344885799",
+          "name": "longDescription",
+          "type": 9
+        },
+        {
+          "id": "6:451688447233058176",
+          "name": "image",
+          "type": 9
+        },
+        {
+          "id": "7:4480315925097498688",
+          "name": "address",
+          "type": 9
+        },
+        {
+          "id": "8:8706173286366687535",
+          "name": "imageUrl",
+          "type": 9
+        },
+        {
+          "id": "9:4042400073350102519",
+          "name": "cachedImagePath",
+          "type": 9
+        },
+        {
+          "id": "10:2392913265104298935",
+          "name": "insideCampus",
+          "type": 1
+        },
+        {
+          "id": "11:498868725883083509",
+          "name": "orderIndex",
+          "type": 6
+        },
+        {
+          "id": "13:4490818185237463635",
+          "name": "outlets",
+          "type": 30
+        },
+        {
+          "id": "14:8684723159237737512",
+          "name": "selectedOutlet",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:758452242637440875",
+      "lastPropertyId": "5:5036708428447501993",
+      "name": "Menu",
+      "properties": [
+        {
+          "id": "1:4650756424588070780",
+          "name": "obId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7272102755236382931",
+          "name": "restaurantId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "3:8971071227008860450",
+          "relationTarget": "Restaurant"
+        },
+        {
+          "id": "3:1349058932781506761",
+          "name": "categories",
+          "type": 30
+        },
+        {
+          "id": "4:6099171570097774825",
+          "name": "recommended",
+          "type": 30
+        },
+        {
+          "id": "5:5036708428447501993",
+          "name": "restId",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:5647535351455786804",
+      "lastPropertyId": "14:3274447976838971629",
+      "name": "MenuItem",
+      "properties": [
+        {
+          "id": "1:21545632671346599",
+          "name": "obId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1248797882655377813",
+          "name": "id",
+          "type": 9
+        },
+        {
+          "id": "3:3068636025269445563",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:4452363046906295275",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "5:1275005334963471739",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "6:524982851967709586",
+          "name": "image",
+          "type": 9
+        },
+        {
+          "id": "7:6119157078550315920",
+          "name": "ingredients",
+          "type": 30
+        },
+        {
+          "id": "8:7625327987425473951",
+          "name": "price",
+          "type": 8
+        },
+        {
+          "id": "9:6149711681246137907",
+          "name": "isVeg",
+          "type": 1
+        },
+        {
+          "id": "10:7445777632081980175",
+          "name": "ratingsValue",
+          "type": 6
+        },
+        {
+          "id": "11:9139793151278485061",
+          "name": "ratingsCount",
+          "type": 6
+        },
+        {
+          "id": "12:6151058348002947689",
+          "name": "menuId",
+          "type": 11,
+          "flags": 520,
+          "indexId": "4:2263936258773225459",
+          "relationTarget": "Menu"
+        },
+        {
+          "id": "13:1398853103651702601",
+          "name": "tax",
+          "type": 8
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:6275780280476848974",
+      "lastPropertyId": "10:8877968701304949113",
+      "name": "User",
+      "properties": [
+        {
+          "id": "1:6207158125301149226",
+          "name": "obId",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6523435860539374872",
+          "name": "phoneNumber",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "5:8512438781740087374"
+        },
+        {
+          "id": "3:3114335332701379657",
+          "name": "uid",
+          "type": 9,
+          "flags": 2080,
+          "indexId": "6:845407995124739022"
+        },
+        {
+          "id": "4:6290468959841022468",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "5:7626290881521508063",
+          "name": "email",
+          "type": 9
+        },
+        {
+          "id": "6:4337588625550506285",
+          "name": "isEmailVerified",
+          "type": 1
+        },
+        {
+          "id": "7:5344711991069716749",
+          "name": "favRestaurants",
+          "type": 30
+        },
+        {
+          "id": "8:8328965874211800314",
+          "name": "cartJson",
+          "type": 9
+        },
+        {
+          "id": "9:605815687444895436",
+          "name": "ordersId",
+          "type": 30
+        },
+        {
+          "id": "10:8877968701304949113",
+          "name": "currentOrderId",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:1776383139611139805",
-  "lastIndexId": "0:0",
+  "lastEntityId": "5:6275780280476848974",
+  "lastIndexId": "6:845407995124739022",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
   "retiredEntityUids": [],
-  "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredIndexUids": [
+    3876710157874936833,
+    228944955049398548
+  ],
+  "retiredPropertyUids": [
+    3274447976838971629,
+    5799389104553878390
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

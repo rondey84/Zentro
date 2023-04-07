@@ -10,7 +10,10 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
     required this.cardHeader,
     required this.body1,
     required this.body2,
+    required this.button,
     required this.caption,
+    required this.chipTextStyle,
+    required this.restHeaderHead,
   });
 
   final TextStyle display;
@@ -20,7 +23,10 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
   final TextStyle cardHeader;
   final TextStyle body1;
   final TextStyle body2;
+  final TextStyle button;
   final TextStyle caption;
+  final TextStyle chipTextStyle;
+  final TextStyle restHeaderHead;
 
   @override
   CustomFontStyles copyWith({
@@ -31,7 +37,10 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
     TextStyle? cardHeader,
     TextStyle? body1,
     TextStyle? body2,
+    TextStyle? button,
     TextStyle? caption,
+    TextStyle? chipTextStyle,
+    TextStyle? restHeaderHead,
   }) =>
       CustomFontStyles(
         display: display ?? this.display,
@@ -41,7 +50,10 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
         cardHeader: cardHeader ?? this.cardHeader,
         body1: body1 ?? this.body1,
         body2: body2 ?? this.body2,
+        button: button ?? this.button,
         caption: caption ?? this.caption,
+        chipTextStyle: chipTextStyle ?? this.chipTextStyle,
+        restHeaderHead: restHeaderHead ?? this.restHeaderHead,
       );
 
   @override
@@ -58,7 +70,10 @@ class CustomFontStyles extends ThemeExtension<CustomFontStyles> {
       cardHeader: cardHeader,
       body1: body1,
       body2: body2,
+      button: button,
       caption: caption,
+      chipTextStyle: chipTextStyle,
+      restHeaderHead: restHeaderHead,
     );
   }
 }

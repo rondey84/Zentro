@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:zentro/data/constants/hero_tags.dart';
-import 'package:zentro/data/model/user_profile_items.dart';
+import 'package:zentro/data/enums/hero_tags.dart';
+import 'package:zentro/data/model/user_models.dart' as user_model;
 import 'package:zentro/pages/user_profile/user_profile_controller.dart';
 
 part './widgets/profile_header.dart';
@@ -17,13 +17,13 @@ class UserProfile extends GetView<UserProfileController> {
       appBar: AppBar(),
       body: SafeArea(
         child: Column(
-          children: const [
+          children: [
             Hero(
-              tag: HeroTag.profileHeader,
-              child: _ProfileHeader(),
+              tag: HeroTag.profileHeader.tag,
+              child: const _ProfileHeader(),
             ),
-            _ButtonsList(),
-            Flexible(fit: FlexFit.loose, child: _ListItems()),
+            const _ButtonsList(),
+            const Flexible(fit: FlexFit.loose, child: _ListItems()),
           ],
         ),
       ),

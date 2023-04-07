@@ -1,1 +1,0 @@
-In database we need to add id field for each restaurant as well as for menu items

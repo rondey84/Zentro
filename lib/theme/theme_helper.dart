@@ -15,8 +15,10 @@ class ThemeHelper {
       toolbarHeight: kToolbarHeight,
       iconTheme: IconThemeData(color: iconColor),
       actionsIconTheme: IconThemeData(color: actionIconColor ?? iconColor),
-      titleTextStyle: Typography.englishLike2021.titleLarge!.copyWith(
+      titleTextStyle: TextStyle(
+        fontWeight: FontWeight.w500,
         color: titleColor,
+        fontSize: 22,
       ),
       scrolledUnderElevation: 0,
       systemOverlayStyle: SystemUiOverlayStyle(

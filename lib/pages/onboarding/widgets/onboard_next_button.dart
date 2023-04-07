@@ -10,15 +10,15 @@ class OnBoardingNextButton extends GetView<OnBoardingController> {
     return Obx(() {
       return AnimatedContainer(
         duration: const Duration(milliseconds: 375),
-        height: 80,
-        width: controller.isLastPage ? null : 80,
+        height: controller.nextButtonSize,
+        width: controller.isLastPage ? null : controller.nextButtonSize,
         constraints: const BoxConstraints(maxWidth: 270),
         child: Stack(
           alignment: Alignment.center,
           children: [
             SizedBox(
-              height: 80,
-              width: 80,
+              height: controller.nextButtonSize,
+              width: controller.nextButtonSize,
               child: TweenAnimationBuilder(
                 duration: const Duration(milliseconds: 375),
                 tween: Tween<double>(

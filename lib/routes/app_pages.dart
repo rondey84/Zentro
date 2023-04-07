@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:zentro/pages/feedback/feedback.dart';
+import 'package:zentro/pages/feedback/feedback_bindings.dart';
 import 'package:zentro/pages/home/home.dart';
 import 'package:zentro/pages/home/home_bindings.dart';
 import 'package:zentro/pages/location/location_permission.dart';
@@ -9,6 +11,18 @@ import 'package:zentro/pages/new_user/new_user.dart';
 import 'package:zentro/pages/new_user/new_user_bindings.dart';
 import 'package:zentro/pages/onboarding/onboarding.dart';
 import 'package:zentro/pages/onboarding/onboarding_bindings.dart';
+import 'package:zentro/pages/order_complete/order_complete.dart';
+import 'package:zentro/pages/order_complete/order_complete_bindings.dart';
+import 'package:zentro/pages/order_status/order_status.dart';
+import 'package:zentro/pages/order_status/order_status_bindings.dart';
+import 'package:zentro/pages/orders/orders.dart';
+import 'package:zentro/pages/orders/orders_bindings.dart';
+import 'package:zentro/pages/payment/payment.dart';
+import 'package:zentro/pages/payment/payment_bindings.dart';
+import 'package:zentro/pages/restaurant/restaurant.dart';
+import 'package:zentro/pages/restaurant/restaurant_bindings.dart';
+import 'package:zentro/pages/restaurant_map/restaurant_map.dart';
+import 'package:zentro/pages/restaurant_map/restaurant_map_bindings.dart';
 import 'package:zentro/pages/splash/splash.dart';
 import 'package:zentro/pages/splash/splash_bindings.dart';
 import 'package:zentro/pages/user_profile/user_profile.dart';
@@ -58,6 +72,48 @@ class AppPages {
       name: AppRoutes.USER_PROFILE,
       page: () => const UserProfile(),
       binding: UserProfileBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.RESTAURANT,
+      page: () => const RestaurantScreen(),
+      binding: RestaurantBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.RESTAURANT_MAP,
+      page: () => const RestaurantMapScreen(),
+      binding: RestaurantMapBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.ORDERS,
+      page: () => const OrdersScreen(),
+      binding: OrdersBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.PAYMENT,
+      page: () => const PaymentScreen(),
+      binding: PaymentBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.ORDER_STATUS,
+      page: () => const OrderStatusScreen(),
+      binding: OrderStatusBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.ORDER_COMPLETE,
+      page: () => const OrderCompleteScreen(),
+      binding: OrderCompleteBindings(),
+      preventDuplicates: true,
+    ),
+    GetPage(
+      name: AppRoutes.FEEDBACK,
+      page: () => const FeedbackScreen(),
+      binding: FeedbackBindings(),
       preventDuplicates: true,
     ),
   ];

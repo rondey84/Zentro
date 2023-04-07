@@ -1,18 +1,32 @@
 {
 	"cSpell.words": [
+		"appdata",
 		"autocorrect",
 		"autofocus",
+		"Backlink",
+		"cupertino",
+		"dotenv",
+		"fenix",
 		"Firestore",
 		"Geolocator",
 		"Getx",
 		"lerp",
+		"LTRB",
+		"mircodeposits",
+		"netbanking",
+		"objectbox",
+		"paytm",
 		"Pinput",
 		"placemark",
+		"Razorpay",
 		"reacptcha",
 		"Recaptcha",
 		"RGBA",
 		"screenutil",
 		"Snackbars",
+		"vsync",
 		"Zentro"
-	]
+	],
+	"java.configuration.updateBuildConfiguration": "interactive",
+	"python.analysis.typeCheckingMode": "off"
 }

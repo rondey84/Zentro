@@ -47,7 +47,7 @@ class _ButtonsList extends GetView<UserProfileController> {
                 ),
               ),
               const SizedBox(height: 4),
-              Text(text, style: controller.fontStyle!.caption),
+              Text(text, style: controller.fontStyles!.caption),
             ],
           ),
         ),

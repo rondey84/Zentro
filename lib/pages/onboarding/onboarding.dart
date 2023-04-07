@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:zentro/pages/onboarding/onboarding_controller.dart';
 import 'package:zentro/pages/onboarding/widgets/onboard_content.dart';
@@ -26,7 +27,7 @@ class OnBoardingScreen extends GetView<OnBoardingController> {
                 ),
               ),
               const OnBoardingNextButton(),
-              const SizedBox(height: 60),
+              SizedBox(height: 0.12.sh),
             ],
           ),
         ),

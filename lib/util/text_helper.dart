@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TextHelper {
-  static Size textSize(String text, TextStyle style) {
+  static Size textSize(String text, TextStyle? style) {
     final TextPainter textPainter = TextPainter(
         text: TextSpan(text: text, style: style),
         maxLines: 1,
