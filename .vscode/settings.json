@@ -5,15 +5,20 @@
 		"autofocus",
 		"Backlink",
 		"cupertino",
+		"dotenv",
 		"fenix",
 		"Firestore",
 		"Geolocator",
 		"Getx",
 		"lerp",
 		"LTRB",
+		"mircodeposits",
+		"netbanking",
 		"objectbox",
+		"paytm",
 		"Pinput",
 		"placemark",
+		"Razorpay",
 		"reacptcha",
 		"Recaptcha",
 		"RGBA",
@@ -22,5 +27,6 @@
 		"vsync",
 		"Zentro"
 	],
-	"java.configuration.updateBuildConfiguration": "interactive"
+	"java.configuration.updateBuildConfiguration": "interactive",
+	"python.analysis.typeCheckingMode": "off"
 }

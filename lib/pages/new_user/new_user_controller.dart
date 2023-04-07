@@ -11,7 +11,6 @@ import 'package:zentro/util/svg_helper/svg_helper.dart';
 import 'package:email_validator/email_validator.dart';
 
 class NewUserController extends GetxController {
-  FirebaseService firebaseService = Get.find();
   var authStyle = Get.theme.extension<AuthenticationStyle>();
   var buttonStyle = Get.theme.extension<GradientBorderButtonStyle>();
   var fontStyle = Get.theme.extension<CustomFontStyles>();
@@ -87,9 +86,10 @@ class NewUserController extends GetxController {
       Get.snackbar('Error', 'Please enter a valid name');
       return;
     }
-    await firebaseService.firebaseAuthHelper.currentUser.value
+    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
         ?.updateDisplayName(name);
-    await firebaseService.firebaseAuthHelper.currentUser.value?.reload();
+    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
+        ?.reload();
     currentPage.value += 1;
   }
 
@@ -106,9 +106,10 @@ class NewUserController extends GetxController {
       return;
     }
 
-    await firebaseService.firebaseAuthHelper.currentUser.value
+    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
         ?.updateEmail(email);
-    await firebaseService.firebaseAuthHelper.currentUser.value?.reload();
+    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
+        ?.reload();
     currentPage.value += 1;
 
     // Sending Verification Email
@@ -124,18 +125,19 @@ class NewUserController extends GetxController {
   }
 
   Future<void> _checkEmailVerified() async {
-    await firebaseService.firebaseAuthHelper.currentUser.value?.reload();
+    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
+        ?.reload();
 
-    isEmailVerified.value =
-        firebaseService.firebaseAuthHelper.currentUser.value?.emailVerified ??
-            false;
+    isEmailVerified.value = FirebaseService
+            .instance.firebaseAuthHelper.currentUser.value?.emailVerified ??
+        false;
 
     if (isEmailVerified.value) timer?.cancel();
   }
 
   Future<void> sendEmailVerification() async {
     try {
-      await firebaseService.firebaseAuthHelper.currentUser.value
+      await FirebaseService.instance.firebaseAuthHelper.currentUser.value
           ?.sendEmailVerification();
 
       canResendEmail.value = false;
@@ -150,7 +152,7 @@ class NewUserController extends GetxController {
     if (currentPage.value != 2) return;
     if (isEmailVerified.value) {
       // Update Firestore Database
-      await firebaseService.fireStoreHelper.updateNewUserData();
+      await FirebaseService.instance.fireStoreHelper.updateNewUserData();
       Get.offAllNamed(AppRoutes.HOME);
     }
   }

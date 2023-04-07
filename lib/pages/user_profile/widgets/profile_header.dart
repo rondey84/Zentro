@@ -22,21 +22,21 @@ class _ProfileHeader extends GetView<UserProfileController> {
               children: [
                 Text(
                   controller.username,
-                  style: controller.fontStyle!.header1,
+                  style: controller.fontStyles!.header1,
                   maxLines: 1,
                   overflow: TextOverflow.fade,
                 ),
                 const SizedBox(height: 6),
                 Text(
                   controller.email,
-                  style: controller.fontStyle!.body2,
+                  style: controller.fontStyles!.body2,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
                 Text(
                   controller.phoneNumber,
-                  style: controller.fontStyle!.caption,
+                  style: controller.fontStyles!.caption,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

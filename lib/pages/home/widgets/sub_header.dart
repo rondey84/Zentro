@@ -8,7 +8,7 @@ class _SubHeader extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: controller.fontStyle!.header2,
+      style: controller.fontStyles!.header2,
       textAlign: TextAlign.left,
       maxLines: 1,
       overflow: TextOverflow.fade,

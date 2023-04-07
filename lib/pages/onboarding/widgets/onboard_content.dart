@@ -14,24 +14,25 @@ class OnBoardContent extends GetView<OnBoardingController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 30.r),
+        SizedBox(height: 0.04.sh),
         Container(
           width: 1.sw,
-          height: 0.75.sw,
+          height: 0.4.sh,
           alignment: Alignment.center,
-          child: Image.asset(content.image),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: content.image,
         ),
-        SizedBox(height: 30.r),
+        SizedBox(height: 0.04.sh),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             content.title,
             style: controller.fontStyle!.display,
           ),
         ),
-        SizedBox(height: 14.r),
+        SizedBox(height: 0.016.sh),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             content.description,
             style: controller.fontStyle!.body2,

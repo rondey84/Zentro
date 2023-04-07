@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:zentro/widgets/loading_item.dart';
 import 'package:zentro/widgets/spaced_cards.dart';
 
 import 'restaurant_header_controller.dart';
@@ -36,7 +36,13 @@ class RestaurantHeader extends GetView<RestaurantHeaderController> {
               return heading();
             }),
             const SizedBox(height: 4),
-            if (actions.isNotEmpty) actionsRow()
+            if (actions.isNotEmpty)
+              Obx(() {
+                if (!controller.hasRestaurantDataLoaded.value) {
+                  return loadingRow();
+                }
+                return actionsRow();
+              })
           ],
         ),
       ),
@@ -49,19 +55,28 @@ class RestaurantHeader extends GetView<RestaurantHeaderController> {
         4 +
         controller.textHeight('Sample' * 20, controller.fontStyles?.caption) +
         16 * 2;
-    return Shimmer.fromColors(
-      baseColor: controller.shimmerStyle!.baseColor,
-      highlightColor: controller.shimmerStyle!.highlightColor,
+    return LoadingItem(
       enabled: !controller.hasRestaurantDataLoaded.value,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius:
-              BorderRadius.all(Radius.circular(controller.innerRadius)),
-        ),
-        height: calcHeight,
-        width: double.infinity,
-      ),
+      height: calcHeight,
+      borderRadius: controller.innerRadius,
+    );
+  }
+
+  Widget loadingRow() {
+    var shimmer = LoadingItem(
+      enabled: !controller.hasRestaurantDataLoaded.value,
+      height: 48,
+      borderRadius: controller.innerRadius,
+    );
+
+    return Row(
+      children: [
+        Expanded(child: shimmer),
+        const SizedBox(width: 4),
+        Expanded(child: shimmer),
+        const SizedBox(width: 4),
+        SizedBox(width: 50, child: shimmer),
+      ],
     );
   }
 
@@ -92,7 +107,7 @@ class RestaurantHeader extends GetView<RestaurantHeaderController> {
             ),
           ),
           if (showRatings) const SizedBox(width: 4),
-          if (showRatings)
+          if (showRatings && controller.hasRatingsDataLoaded.value)
             Center(
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -114,16 +129,22 @@ class RestaurantHeader extends GetView<RestaurantHeaderController> {
                   gridFit: GridFit.loose,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(
-                          Icons.stars_rounded,
-                          size: 14,
-                          color:
-                              controller.extendedColorsStyle?.ratingsIconColor,
-                        ),
+                        if (controller.rating > 0)
+                          Icon(
+                            Icons.stars_rounded,
+                            size: 14,
+                            color: controller
+                                .extendedColorsStyle?.ratingsIconColor,
+                          ),
                         const SizedBox(width: 6),
-                        // TODO: Fetch Data from server
-                        Text('4.5', style: controller.fontStyles?.body2)
+                        Text(
+                          controller.rating <= 0
+                              ? 'No'
+                              : controller.rating.toStringAsFixed(1),
+                          style: controller.fontStyles?.body2,
+                        )
                       ],
                     ).inGridArea('value'),
                     Center(

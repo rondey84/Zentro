@@ -11,12 +11,14 @@ import 'package:zentro/theme/extensions/shimmer_style.dart';
 import 'package:zentro/util/text_helper.dart';
 
 class RestaurantHeaderController extends GetxController {
-  final FirebaseService firebaseService = Get.find();
   final LocalStorageService _localStorageService = Get.find();
+  final _fireStoreHelper = FirebaseService.instance.fireStoreHelper;
 
   late Restaurant? restaurant;
+  double rating = 0.0;
 
   final hasRestaurantDataLoaded = false.obs;
+  final hasRatingsDataLoaded = false.obs;
 
   final shadowStyles = Get.theme.extension<ShadowStyles>();
   final fontStyles = Get.theme.extension<CustomFontStyles>();
@@ -32,13 +34,11 @@ class RestaurantHeaderController extends GetxController {
 
     if (restData == null) {
       // 1. Fetch Restaurant Data from server
-      restaurant = await firebaseService.fireStoreHelper.getRestaurantData(
-        restaurantId,
-      );
+      restaurant = await _fireStoreHelper.getRestaurantData(restaurantId);
 
       if (restaurant != null) {
         // 2. Fetch Restaurant ImageDownloadUrl from firebase storage
-        var imageUrl = await firebaseService.firebaseStorageHelper
+        var imageUrl = await FirebaseService.instance.firebaseStorageHelper
             .fetchRestaurantImageDownloadUrl(
           resId: restaurantId,
           image: restaurant!.image!,
@@ -54,7 +54,7 @@ class RestaurantHeaderController extends GetxController {
         // Code placed here so that we don't check for duplicate placement
         _localStorageService.insertRestaurantData(
           restaurant!,
-          noDuplicateCheck: true,
+          // noDuplicateCheck: true,
         );
       }
     } else {
@@ -63,9 +63,20 @@ class RestaurantHeaderController extends GetxController {
 
     if (restaurant != null) {
       hasRestaurantDataLoaded.value = true;
+
+      // Load Ratings Data
+      await _loadRatingsData();
     }
 
     return restaurant;
+  }
+
+  Future<void> _loadRatingsData() async {
+    rating = await _fireStoreHelper.restaurantRating(
+      restaurantId: restaurant!.restaurantId,
+    );
+
+    hasRatingsDataLoaded.value = true;
   }
 
   /// Helpers

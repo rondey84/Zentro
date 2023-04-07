@@ -14,6 +14,10 @@ class Restaurant {
   @Transient()
   GeoPoint? geoLocation;
   String? address;
+  bool insideCampus;
+  int orderIndex;
+  List<String>? outlets;
+  String? selectedOutlet;
 
   String? imageUrl;
   String? cachedImagePath;
@@ -40,6 +44,10 @@ class Restaurant {
     this.address,
     this.imageUrl,
     this.cachedImagePath,
+    this.insideCampus = false,
+    this.orderIndex = 0,
+    this.outlets,
+    this.selectedOutlet,
   });
 
   factory Restaurant.fromFirestore(
@@ -53,8 +61,13 @@ class Restaurant {
       shortDescription: data?[RestaurantFields.shortDes],
       longDescription: data?[RestaurantFields.longDes],
       image: data?[RestaurantFields.image],
-      geoLocation: data?[RestaurantFields.geoLocation],
+      geoLocation: data?[RestaurantFields.geoLocation] as GeoPoint?,
       address: data?[RestaurantFields.address],
+      insideCampus: data?[RestaurantFields.inCampus],
+      orderIndex: data?[RestaurantFields.orderIndex],
+      outlets: data?[RestaurantFields.outlets] is Iterable
+          ? List.from(data?[RestaurantFields.outlets] ?? [])
+          : null,
     );
   }
 
@@ -67,6 +80,8 @@ class Restaurant {
       if (image != null) RestaurantFields.image: image,
       if (geoLocation != null) RestaurantFields.geoLocation: geoLocation,
       if (address != null) RestaurantFields.address: address,
+      RestaurantFields.inCampus: insideCampus,
+      RestaurantFields.orderIndex: orderIndex,
     };
   }
 
@@ -89,6 +104,10 @@ class Restaurant {
     String? address,
     String? imageUrl,
     String? cachedImagePath,
+    bool? insideCampus,
+    int? orderIndex,
+    List<String>? outlets,
+    String? selectedOutlet,
   }) {
     return Restaurant(
       restaurantId: restaurantId ?? this.restaurantId,
@@ -100,6 +119,10 @@ class Restaurant {
       address: address ?? this.address,
       imageUrl: imageUrl ?? this.imageUrl,
       cachedImagePath: cachedImagePath ?? this.cachedImagePath,
+      insideCampus: insideCampus ?? this.insideCampus,
+      orderIndex: orderIndex ?? this.orderIndex,
+      outlets: outlets ?? this.outlets,
+      selectedOutlet: selectedOutlet ?? this.selectedOutlet,
     )..obId = obId ?? this.obId;
   }
 
@@ -115,6 +138,10 @@ class Restaurant {
       'location': address,
       'imageUrl': imageUrl,
       'cachedImagePath': cachedImagePath,
+      'insideCampus': insideCampus,
+      'orderIndex': orderIndex,
+      'outlets': outlets,
+      'selectedOutlet': selectedOutlet,
     };
     return map.toString();
   }

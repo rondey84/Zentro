@@ -24,7 +24,7 @@
     },
     {
       "id": "2:4724441390522776892",
-      "lastPropertyId": "9:4042400073350102519",
+      "lastPropertyId": "14:8684723159237737512",
       "name": "Restaurant",
       "properties": [
         {
@@ -71,6 +71,26 @@
         {
           "id": "9:4042400073350102519",
           "name": "cachedImagePath",
+          "type": 9
+        },
+        {
+          "id": "10:2392913265104298935",
+          "name": "insideCampus",
+          "type": 1
+        },
+        {
+          "id": "11:498868725883083509",
+          "name": "orderIndex",
+          "type": 6
+        },
+        {
+          "id": "13:4490818185237463635",
+          "name": "outlets",
+          "type": 30
+        },
+        {
+          "id": "14:8684723159237737512",
+          "name": "selectedOutlet",
           "type": 9
         }
       ],
@@ -192,7 +212,7 @@
     },
     {
       "id": "5:6275780280476848974",
-      "lastPropertyId": "8:8328965874211800314",
+      "lastPropertyId": "10:8877968701304949113",
       "name": "User",
       "properties": [
         {
@@ -239,6 +259,16 @@
           "id": "8:8328965874211800314",
           "name": "cartJson",
           "type": 9
+        },
+        {
+          "id": "9:605815687444895436",
+          "name": "ordersId",
+          "type": 30
+        },
+        {
+          "id": "10:8877968701304949113",
+          "name": "currentOrderId",
+          "type": 9
         }
       ],
       "relations": []
@@ -256,7 +286,8 @@
     228944955049398548
   ],
   "retiredPropertyUids": [
-    3274447976838971629
+    3274447976838971629,
+    5799389104553878390
   ],
   "retiredRelationUids": [],
   "version": 1

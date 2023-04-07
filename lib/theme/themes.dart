@@ -11,6 +11,7 @@ import 'package:zentro/theme/extensions/onboarding_style.dart';
 import 'package:zentro/theme/extensions/shadows_styles.dart';
 import 'package:zentro/theme/extensions/shimmer_style.dart';
 import 'package:zentro/theme/theme_helper.dart';
+import 'package:zentro/util/extensions/theme_data_extension.dart';
 
 class ZentroTheme {
   static const String darkId = 'ztr_dark';
@@ -20,7 +21,7 @@ class ZentroTheme {
   static const Color _primary = Color(0xFFA36B4C);
   static const Color _lightPrimary = Color(0xFFAC8F8A);
   static const Color _darkPrimary = Color(0xFF58251E);
-  static const Color _accent = Color(0xFFFFB7B7);
+  static const Color _accent = Color(0xFFFF6584);
   static const Color _card = Colors.white;
   static const Color _shadow = Color(0xFF8B6762);
 
@@ -56,7 +57,7 @@ class ZentroTheme {
       onTertiary: Color(0xFFffffff),
       tertiaryContainer: Color(0xFFfcdfa6),
       onTertiaryContainer: Color(0xFF261a00),
-      error: Color(0xFFba1a1a),
+      error: Color(0xFFFF4B61),
       onError: Color(0xFFffffff),
       errorContainer: Color(0xFFffdad6),
       onErrorContainer: Color(0xFF410002),
@@ -72,18 +73,19 @@ class ZentroTheme {
     splashColor: Colors.transparent,
     splashFactory: InkSplash.splashFactory,
     scaffoldBackgroundColor: const Color(0xFFF4F5F9),
+    cardColor: _card,
     appBarTheme: ThemeHelper.appBarTheme(
       bgColor: Colors.transparent,
       iconColor: _darkPrimary,
-      titleColor: _darkPrimary,
+      titleColor: _text08,
       brightness: Brightness.light,
     ),
-    cardColor: _card,
     extensions: <ThemeExtension<dynamic>>[
       const ExtendedColorsStyle(
         vegColor: Color(0xFF9ACD32),
         nonVegColor: Color(0xFFFF4500),
         ratingsIconColor: Color(0xFFD3A93B),
+        currentOrderCardColor: Color(0xFF4FAF5A),
       ),
       CustomFontStyles(
         display: TextStyle(
@@ -120,6 +122,11 @@ class ZentroTheme {
           color: _text04,
           fontWeight: FontWeight.normal,
           fontSize: 14.r,
+        ),
+        button: TextStyle(
+          color: _text07,
+          fontWeight: FontWeight.bold,
+          fontSize: 16.r,
         ),
         caption: TextStyle(
           color: _text04,
@@ -165,6 +172,8 @@ class ZentroTheme {
         ],
       ),
       OnboardingStyle(
+        svgPrimary: _primary,
+        svgAccent: _accent,
         buttonColor: const Color(0xFF8B6762),
         buttonBGColor: Colors.white,
         buttonShadowColor: const Color(0xFF8B6762).withOpacity(0.25),
@@ -237,7 +246,6 @@ class ZentroTheme {
           fontSize: 12.r,
           overflow: TextOverflow.ellipsis,
         ),
-        buttonColor: _text07,
         iconSize: 14,
       ),
       const FloatingCartStyle(
@@ -255,5 +263,17 @@ class ZentroTheme {
         miniBoxColor: Color(0xFF724B39),
       )
     ],
-  );
+  )..addColors(const CustomColorFields(
+      text00: _text00,
+      text01: _text01,
+      text02: _text02,
+      text03: _text03,
+      text04: _text04,
+      text05: _text05,
+      text06: _text06,
+      text07: _text07,
+      text08: _text08,
+      text09: _text09,
+      text10: _text10,
+    ));
 }

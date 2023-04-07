@@ -1,33 +1,43 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
-import 'package:zentro/pages/login/login_controller.dart';
-import 'package:pinput/pinput.dart';
+part of '../login.dart';
 
-class LoginInputBox extends GetView<LoginController> {
-  const LoginInputBox({Key? key}) : super(key: key);
+class _LoginInputBox extends GetView<LoginController> {
+  const _LoginInputBox();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(26),
-        color: controller.style!.inputBoxColor,
-        boxShadow: [
-          BoxShadow(
-            color: controller.style!.inputBoxShadowColor,
-            blurRadius: 20,
-            offset: const Offset(0, 5),
-          )
-        ],
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      constraints: const BoxConstraints(maxWidth: 350),
-      child: Obx(() {
-        return controller.isVerifying.value ? buildPinPut() : mobileInput();
-      }),
-    );
+    return Obx(() {
+      return AnimatedContainer(
+        duration: controller.animDuration,
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 4,
+            color: controller.hasError
+                ? Get.theme.colorScheme.error
+                : controller.style?.inputBoxColor ?? Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(26),
+          color: controller.style?.inputBoxColor,
+          boxShadow: [
+            BoxShadow(
+              color: controller.style!.inputBoxShadowColor,
+              blurRadius: 20,
+              offset: const Offset(0, 5),
+            )
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        margin: EdgeInsets.fromLTRB(
+          20,
+          controller.isKeyboardOpen.value ? 20 : 30,
+          20,
+          controller.isKeyboardOpen.value ? 15 : 30,
+        ),
+        constraints: const BoxConstraints(maxWidth: 350),
+        child: Obx(() {
+          return controller.otpMode.value ? buildPinPut() : mobileInput();
+        }),
+      );
+    });
   }
 
   Widget mobileInput() {
@@ -52,9 +62,9 @@ class LoginInputBox extends GetView<LoginController> {
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
+            validator: controller.inputValidator,
             enableSuggestions: false,
             autocorrect: false,
-            autofocus: true,
             decoration: InputDecoration(
               enabledBorder: borderStyle,
               focusedBorder: borderStyle,
@@ -62,7 +72,11 @@ class LoginInputBox extends GetView<LoginController> {
               isDense: true,
               fillColor: Colors.green,
               contentPadding: EdgeInsets.zero,
-              prefix: Row(
+              prefixIconConstraints: const BoxConstraints(
+                minWidth: 0,
+                minHeight: 0,
+              ),
+              prefixIcon: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   GestureDetector(
@@ -72,7 +86,7 @@ class LoginInputBox extends GetView<LoginController> {
                       style: TextStyle(
                         color: controller.style!.inputBoxTextColor,
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ),
@@ -88,6 +102,12 @@ class LoginInputBox extends GetView<LoginController> {
                 overflow: TextOverflow.ellipsis,
               ),
               counter: const Offstage(),
+              errorText: '',
+              errorMaxLines: 1,
+              errorStyle: const TextStyle(
+                color: Colors.transparent,
+                fontSize: 0,
+              ),
             ),
           ),
           Positioned.fill(
@@ -153,6 +173,7 @@ class LoginInputBox extends GetView<LoginController> {
       showCursor: true,
       cursor: cursor,
       preFilledWidget: preFilledWidget,
+      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
     );
   }
 }

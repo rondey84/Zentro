@@ -41,7 +41,15 @@ class MenuCategoryBar extends GetView<RestaurantController> {
                                       controller.categoryOnTapHandler(idx),
                                 ),
                               )
-                            : loadingChip(),
+                            : LoadingItem(
+                                enabled: !controller.hasMenuDataLoaded.value,
+                                height: 32,
+                                width: 0.25.sw,
+                                containerDecoration: const ShapeDecoration(
+                                  shape: StadiumBorder(),
+                                  color: Colors.white,
+                                ),
+                              ),
                       );
                     },
                   ),
@@ -49,22 +57,6 @@ class MenuCategoryBar extends GetView<RestaurantController> {
               ),
             );
           },
-        ),
-      ),
-    );
-  }
-
-  Widget loadingChip() {
-    return Shimmer.fromColors(
-      baseColor: controller.shimmerStyle!.baseColor,
-      highlightColor: controller.shimmerStyle!.highlightColor,
-      enabled: !controller.hasMenuDataLoaded.value,
-      child: Container(
-        height: 32,
-        width: 0.25.sw,
-        decoration: const ShapeDecoration(
-          shape: StadiumBorder(),
-          color: Colors.white,
         ),
       ),
     );

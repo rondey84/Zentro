@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:get/get.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 import 'package:zentro/data/enums/food_type_enum.dart';
 import 'package:zentro/data/model/menu.dart';
 import 'package:zentro/data/model/menu_item.dart';
@@ -16,32 +17,35 @@ import 'package:zentro/theme/extensions/extended_colors_style.dart';
 import 'package:zentro/theme/extensions/menu_item_style.dart';
 import 'package:zentro/theme/extensions/shadows_styles.dart';
 import 'package:zentro/theme/extensions/shimmer_style.dart';
+import 'package:zentro/util/extensions/theme_data_extension.dart';
 import 'package:zentro/util/text_helper.dart';
 import 'package:zentro/widgets/cart/floating_cart_controller.dart';
+import 'package:zentro/widgets/custom_dialogs.dart';
 import 'package:zentro/widgets/restaurant_header/restaurant_header_controller.dart';
 
 class RestaurantController extends GetxController
     with GetTickerProviderStateMixin {
   // Parameters, controllers and services
   late String restaurantId;
-  final FirebaseService firebaseService = Get.find();
-  final LocalStorageService _localStorageService = Get.find();
-  final LocationService locationService = Get.find();
-  final UserCartService userCartService = Get.find();
-  final FloatingCartController _floatingCartController = Get.find();
+  final _localStorageService = LocalStorageService.instance;
+  final userCartService = UserCartService.instance;
+  final FloatingCartController floatingCartController = Get.find();
+  final RestaurantHeaderController headerController = Get.find();
 
   // Controllers
   late TabController tabController;
 
   // Restaurant Data
-  late Restaurant? restaurant;
-  late Menu? menu;
+  Restaurant? restaurant;
+  Menu? menu;
   Map<String, List<MenuItem>> menuItemsMap = {};
   Map<String, List<MenuItem>> filteredMenuItemsMap = {};
+  String? restaurantAddress;
 
   // Page Data based observables
   final isRestaurantFav = false.obs;
   final hasMenuDataLoaded = false.obs;
+  final hasRestaurantPlacemarkLoaded = false.obs;
 
   // Menu Categories variables
   late List<String> categories;
@@ -50,6 +54,9 @@ class RestaurantController extends GetxController
   // Menu Filter observables
   final menuTypeFilterVisible = false.obs;
   final selectedFilterType = FoodType.unknown.obs;
+
+  // Restaurant Header Visibility Observer
+  final isRestaurantHeaderVisible = true.obs;
 
   // ERROR
   final _hasError = false.obs;
@@ -78,8 +85,24 @@ class RestaurantController extends GetxController
   // Getters
   bool get isUnknownFoodType => selectedFilterType.value == FoodType.unknown;
   FloatingActionButtonLocation get cartLocation {
-    return _floatingCartController.widgetLocation;
+    return floatingCartController.widgetLocation;
   }
+
+  // ======== Outlets =======
+  bool get hasOutlets {
+    return restaurant?.outlets?.isNotEmpty ?? false;
+  }
+
+  final _selectedOutlet = ''.obs;
+  String get selectedOutlet {
+    return hasOutlets
+        ? _selectedOutlet.value.isEmpty
+            ? restaurant?.outlets?.first ?? ''
+            : _selectedOutlet.value
+        : '';
+  }
+
+  set selectedOutlet(String val) => _selectedOutlet.value = val;
 
   @override
   void onInit() async {
@@ -127,12 +150,26 @@ class RestaurantController extends GetxController
 
   Future<void> _loadRestaurantData() async {
     // Fetch from local storage
-    restaurant = await Get.find<RestaurantHeaderController>()
-        .loadRestaurantData(restaurantId);
+    restaurant = await headerController.loadRestaurantData(restaurantId);
 
     if (restaurant == null) {
       hasError = true;
     } else {
+      if (restaurant?.selectedOutlet != null) {
+        selectedOutlet = restaurant!.selectedOutlet!;
+      }
+      if (!hasOutlets) {
+        // Fetch address
+        var geoLocation = (await FirebaseService.instance.fireStoreHelper
+                .getRestaurantData(restaurantId))
+            ?.geoLocation;
+        var placemark = await LocationService.instance.fetchPlacemark(
+          latitude: geoLocation!.latitude,
+          longitude: geoLocation.longitude,
+        );
+        restaurantAddress = placemark[0].subLocality?.capitalize;
+        hasRestaurantPlacemarkLoaded.value = true;
+      }
       hasError = false;
     }
   }
@@ -143,7 +180,7 @@ class RestaurantController extends GetxController
     if (isResFavData != null) {
       isRestaurantFav.value = isResFavData;
     } else {
-      isRestaurantFav.value = await firebaseService.fireStoreHelper
+      isRestaurantFav.value = await FirebaseService.instance.fireStoreHelper
           .checkIsRestaurantFav(restaurantId);
     }
   }
@@ -153,7 +190,8 @@ class RestaurantController extends GetxController
   }
 
   Future<void> _fetchMenu() async {
-    menu = await firebaseService.fireStoreHelper.getMenuData(restaurantId);
+    menu = await FirebaseService.instance.fireStoreHelper
+        .getMenuData(restaurantId);
 
     if (menu != null) {
       categories = menu?.categories ?? [];
@@ -169,7 +207,8 @@ class RestaurantController extends GetxController
     await Future.forEach(
       categories,
       (category) async {
-        var menuItems = await firebaseService.fireStoreHelper.getMenuItemsData(
+        var menuItems =
+            await FirebaseService.instance.fireStoreHelper.getMenuItemsData(
           restaurantId: restaurantId,
           menuCategory: category,
         );
@@ -186,7 +225,7 @@ class RestaurantController extends GetxController
   }
 
   Future<String?> _cacheImage(String image) async {
-    var imageUrl = await firebaseService.firebaseStorageHelper
+    var imageUrl = await FirebaseService.instance.firebaseStorageHelper
         .fetchRestaurantImageDownloadUrl(resId: restaurantId, image: image);
 
     if (imageUrl != null) {
@@ -217,13 +256,14 @@ class RestaurantController extends GetxController
   void _toggleFavRestaurant(bool isAdded) {
     var userData = _localStorageService.getUserData();
     if (isAdded) {
-      firebaseService.fireStoreHelper.addFavRestaurant(restaurantId);
+      FirebaseService.instance.fireStoreHelper.addFavRestaurant(restaurantId);
       userData.favRestaurants.addIf(
         !userData.favRestaurants.contains(restaurantId),
         restaurantId,
       );
     } else {
-      firebaseService.fireStoreHelper.removeFavRestaurant(restaurantId);
+      FirebaseService.instance.fireStoreHelper
+          .removeFavRestaurant(restaurantId);
       userData.favRestaurants.remove(restaurantId);
     }
     _localStorageService.insertUserData(userData);
@@ -235,9 +275,86 @@ class RestaurantController extends GetxController
     isRestaurantFav.value = !isRestaurantFav.value;
   }
 
+  void outletSwitcher() {
+    const animDuration = Duration(milliseconds: 300);
+
+    Widget selectionItem(int index) {
+      bool isSelected = selectedOutlet == restaurant!.outlets![index];
+
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: GestureDetector(
+          onTap: () async {
+            if (isSelected) return;
+            selectedOutlet = restaurant!.outlets![index];
+            if (Get.isBottomSheetOpen ?? false) {
+              await Future.delayed(
+                animDuration,
+                () {
+                  var res = restaurant!;
+                  res.selectedOutlet = selectedOutlet;
+                  _localStorageService.insertRestaurantData(res);
+                  Get.back();
+                },
+              );
+            }
+          },
+          child: AnimatedContainer(
+            duration: animDuration,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: isSelected ? 2 : 1,
+                color:
+                    isSelected ? theme.primaryColor : theme.primaryColorLight,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  restaurant!.outlets![index],
+                  style: fontStyles?.chipTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    color: isSelected
+                        ? theme.primaryColor
+                        : theme.primaryColorLight,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    Get.bottomSheet(
+      Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(
+              'Select an Outlet',
+              style: fontStyles?.header1,
+            ),
+            ...List.generate(restaurant!.outlets!.length, (idx) {
+              return Obx(() => selectionItem(idx));
+            })
+          ],
+        ),
+      ),
+      backgroundColor: Get.theme.scaffoldBackgroundColor,
+    );
+  }
+
   void locationButtonHandler() => Get.toNamed(AppRoutes.RESTAURANT_MAP);
   void shareButtonHandler() {}
   void filterButtonHandler() {
+    if (!hasMenuDataLoaded.value) return;
     menuTypeFilterVisible.value = !menuTypeFilterVisible.value;
   }
 
@@ -303,8 +420,25 @@ class RestaurantController extends GetxController
   }
 
   // Cart Handlers
-  void addToCardHandler(MenuItem menuItem) {
+  void addToCardHandler(MenuItem menuItem) async {
     if (userCartService.isMenuItemInCart(menuItem)) return;
+
+    // Check if new restaurant
+    if (userCartService.userCart != null &&
+        userCartService.userCart!.restId != restaurantId) {
+      // Ask for confirmation first, if user sends ok then clear and add new restaurant,
+      // else cancel and show the current order to user.
+      final bool replaceCart = await _showReplaceCartItemDialog(
+        oldRestId: userCartService.userCart!.restId,
+        newRestId: restaurantId,
+      );
+      if (replaceCart) {
+        userCartService.clearCart();
+      } else {
+        return;
+      }
+    }
+
     userCartService.addMenuItem(
       restaurantId: restaurantId,
       menu: menu!,
@@ -327,13 +461,103 @@ class RestaurantController extends GetxController
   }
 
   void _updateFloatingCartState() {
-    _floatingCartController.showCart = !userCartService.isCartEmpty;
+    floatingCartController.showCart = !userCartService.isCartEmpty;
     if (userCartService.userData.cart != null) {
-      _floatingCartController.itemQuantity =
+      floatingCartController.itemQuantity =
           userCartService.userData.cart!.totalQuantity;
-      _floatingCartController.priceWithoutTax =
+      floatingCartController.priceWithoutTax =
           userCartService.userData.cart!.priceWithoutTax;
+      floatingCartController.priceWithTax =
+          userCartService.userData.cart!.priceWithTax;
     }
+  }
+
+  void onVisibilityChanged(VisibilityInfo info) {
+    if (info.visibleFraction <= 0.6) {
+      isRestaurantHeaderVisible.value = false;
+    } else {
+      isRestaurantHeaderVisible.value = true;
+    }
+  }
+
+  Future<bool> _showReplaceCartItemDialog({
+    required String oldRestId,
+    required String newRestId,
+  }) async {
+    final oldRestName = _localStorageService.getRestaurantData(oldRestId)?.name;
+    final newRestName = _localStorageService.getRestaurantData(newRestId)?.name;
+
+    bool replace = false;
+
+    Widget button({
+      required Color buttonColor,
+      required String text,
+      required textColor,
+      VoidCallback? onTap,
+    }) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          decoration: ShapeDecoration(
+            shape: const StadiumBorder(),
+            color: buttonColor,
+          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+          child: Text(
+            text,
+            style: fontStyles?.button.copyWith(color: textColor),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      );
+    }
+
+    await CustomDialogs.animatedDialog(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Replace cart Items?',
+              style: fontStyles?.header1,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Your cart contains dishes from $oldRestName. Do you want to discard the selection and add dishes from $newRestName?',
+              style: fontStyles?.body2.copyWith(fontStyle: FontStyle.italic),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: button(
+                    buttonColor: Get.theme.primaryColor.withOpacity(0.2),
+                    text: 'No',
+                    textColor: Get.theme.customColor()?.text06,
+                    onTap: () => Get.back(),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: button(
+                    buttonColor: Get.theme.primaryColor,
+                    text: 'Replace',
+                    textColor: Get.theme.customColor()?.text00,
+                    onTap: () {
+                      replace = true;
+                      Get.back();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+
+    return replace;
   }
 
   /// Helpers

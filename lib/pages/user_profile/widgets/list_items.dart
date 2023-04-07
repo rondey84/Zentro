@@ -46,7 +46,7 @@ class _ListItems extends GetView<UserProfileController> {
             Expanded(
               child: Text(
                 profileItem.text,
-                style: controller.fontStyle!.body2,
+                style: controller.fontStyles!.body2,
               ),
             ),
             const SizedBox(width: 14),

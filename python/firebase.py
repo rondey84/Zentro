@@ -17,7 +17,11 @@ firestore_client = firestore.client()
 bucket = storage.bucket()
 
 # All Restaurant data CSV File as DataFrame
-restaurants_df = pd.read_csv("restaurants.csv").fillna('')
+restaurants_df = pd.read_csv("restaurants.csv", dtype={
+                             "inside_campus": bool}).fillna('')
+
+inside = 0
+outside = 0
 
 for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
     # Converting each row to a dictionary data type
@@ -30,6 +34,7 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
     menu_item_doc = firestore_client.collection("menus").document(res_id)
 
     # Inserting basic data
+    inside_campus = restaurant_info['inside_campus']
     rest_doc.set({
         "id": res_id,
         "name": restaurant_info['name'],
@@ -41,8 +46,16 @@ for idx in tqdm(restaurants_df.index, desc="Uploading Restaurant Data"):
             float(restaurant_info['geo_location'].split(',')[1])
         ),
         "image":  restaurant_info['image'],
+        "inside_campus": inside_campus,
+        "order_index": inside if inside_campus else outside,
+        "outlets": [item.strip() for item in restaurant_info['outlets'].split(',') if item.strip()]
         # "menu_image": restaurant_info['menu_image'].split(','),
     })
+
+    if (inside_campus):
+        inside += 1
+    else:
+        outside += 1
 
     # Uploading cover images to Storage
     image_path = f"{res_id}/{restaurant_info['image']}"

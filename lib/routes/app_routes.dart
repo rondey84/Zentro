@@ -11,4 +11,8 @@ abstract class AppRoutes {
   static const RESTAURANT = '/restaurant-screen';
   static const RESTAURANT_MAP = '/restaurant-map-screen';
   static const ORDERS = '/orders-screen';
+  static const PAYMENT = '/payment-screen';
+  static const ORDER_STATUS = '/order-status';
+  static const ORDER_COMPLETE = '/order-complete';
+  static const FEEDBACK = '/feedback';
 }

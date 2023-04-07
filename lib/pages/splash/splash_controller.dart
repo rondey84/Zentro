@@ -1,15 +1,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:get/get.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/local_storage_service.dart';
 import 'package:zentro/services/location_service.dart';
 import 'package:zentro/services/user_cart_service.dart';
+import 'package:zentro/util/keyboard_helper.dart';
 
 class SplashController extends GetxController {
-  final String pageName = 'Splash Screen';
+  final String appName = 'Zentro';
+  final String description = 'Order in, take away with Zentro!';
   late final FirebaseService firebaseService;
   late final LocalStorageService localStorageService;
   late final LocationService locationService;
@@ -25,6 +28,12 @@ class SplashController extends GetxController {
       DeviceOrientation.portraitDown,
     ]);
 
+    // Close keyboard if open
+    KeyboardHelper.closeKeyboard();
+
+    // To load the .env file contents into dotenv.
+    await dotenv.load(fileName: './assets/.env');
+
     // Load Services
     firebaseService = await Get.putAsync(() => FirebaseService().init());
     localStorageService =
@@ -38,10 +47,11 @@ class SplashController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
     if (firebaseService.initialized && localStorageService.initialized) {
       firebaseUser = firebaseService.firebaseAuthHelper.currentUser;
       firebaseUser.bindStream(firebaseService.firebaseAuthHelper.userChanges);
+
+      // Initialize worker method
       worker = ever(firebaseUser, _initialScreen);
     }
   }
@@ -68,10 +78,13 @@ class SplashController extends GetxController {
             ? AppRoutes.LOGIN_REGISTER
             : AppRoutes.ONBOARDING);
       } else {
-        Get.offAllNamed(locationService.serviceEnabled &&
-                locationService.isLocationPermissionGranted
-            ? AppRoutes.HOME
-            : AppRoutes.LOCATION_PERMISSION);
+        // Get.offAllNamed(locationService.isStatusServiceEnabled &&
+        //         locationService.isLocationPermissionGranted
+        // ?
+        // AppRoutes.HOME
+        // : AppRoutes.LOCATION_PERMISSION);
+
+        Get.offAllNamed(AppRoutes.HOME);
       }
     });
   }

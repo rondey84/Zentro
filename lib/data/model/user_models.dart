@@ -16,8 +16,10 @@ class User {
   String? email;
   bool isEmailVerified;
   String? cartJson;
+  String? currentOrderId;
 
   List<String> favRestaurants;
+  List<String> ordersId;
 
   UserCart? get cart {
     if (cartJson == null) return null;
@@ -35,7 +37,9 @@ class User {
     this.email,
     this.isEmailVerified = false,
     this.favRestaurants = const [],
+    this.ordersId = const [],
     UserCart? cart,
+    this.currentOrderId,
   }) : cartJson = cart != null ? jsonEncode(cart.toJson()) : null;
 
   UserCart addCart(String restaurantId) {
@@ -56,7 +60,9 @@ class User {
     String? email,
     bool? isEmailVerified,
     List<String>? favRestaurants,
+    List<String>? ordersId,
     UserCart? cart,
+    String? currentOrderId,
   }) {
     return User(
       phoneNumber: phoneNumber ?? this.phoneNumber,
@@ -65,19 +71,27 @@ class User {
       email: email ?? this.email,
       isEmailVerified: isEmailVerified ?? this.isEmailVerified,
       favRestaurants: favRestaurants ?? this.favRestaurants,
+      ordersId: ordersId ?? this.ordersId,
       cart: cart,
+      currentOrderId: currentOrderId ?? this.currentOrderId,
     )..obId = obId ?? this.obId;
   }
 
   @override
   String toString() {
-    return '''{ phone: $phoneNumber,
-  uid: $uid,
-  name: $name, 
-  email: $email, 
-  EmailVerification: ${isEmailVerified ? 'Email Verified' : 'Email needs to be verified'},
-  Favorite Restaurants: $favRestaurants,
-  Cart: $cart }''';
+    Map<String, dynamic> toMap = {
+      'Phone': phoneNumber,
+      'uid': uid,
+      'Name': name,
+      'Email': email,
+      'EmailVerification':
+          isEmailVerified ? 'Email Verified' : 'Email needs to be verified',
+      'Favorite Restaurants': favRestaurants,
+      'Orders': ordersId,
+      'CurrentOrderID': currentOrderId,
+      'Cart': cart
+    };
+    return toMap.toString();
   }
 }
 

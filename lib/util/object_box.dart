@@ -10,7 +10,8 @@ import 'package:zentro/generated/objectbox.g.dart';
 
 /// A class representing the ObjectBox database instance and its boxes for the app.
 class ObjectBox {
-  late final Store _store; // ObjectBox's store variable
+  final Store _store; // ObjectBox's store variable
+  static Store? _existingStore;
 
   // Declaring ObjectBox's boxes
   late final Box<AppData> appDataBox;
@@ -31,7 +32,15 @@ class ObjectBox {
   /// Factory method to create and return a new instance of the ObjectBox class.
   static Future<ObjectBox> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
-    final store = await openStore(directory: p.join(docsDir.path, 'objectBox'));
+    final dbPath = p.join(docsDir.path, 'objectBox');
+
+    if (_existingStore != null) {
+      if (!_existingStore!.isClosed()) {
+        return ObjectBox._create(_existingStore!);
+      }
+    }
+    final store = await openStore(directory: dbPath);
+    _existingStore = store;
     return ObjectBox._create(store);
   }
 

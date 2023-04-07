@@ -19,9 +19,9 @@ class _TabBar extends GetView<OrdersController> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(child: tabButton('Your Orders')),
+                Expanded(child: tabButton(controller.tabData[0], 0)),
                 const SizedBox(width: 4),
-                Expanded(child: tabButton('Detailed Bill')),
+                Expanded(child: tabButton(controller.tabData[1], 1)),
               ],
             ),
           ),
@@ -30,9 +30,27 @@ class _TabBar extends GetView<OrdersController> {
     );
   }
 
-  Widget tabButton(String text) {
-    return SpacedCards(
-      child: Center(child: Text(text)),
+  Widget tabButton(String text, int index) {
+    return GetBuilder<OrdersController>(
+      key: ValueKey(index),
+      id: controller.tabsTag,
+      builder: (_) {
+        return SpacedCards(
+          isSelected: controller.selectedIndex.value == index,
+          selectedColor: Get.theme.primaryColor,
+          onTap: () => controller.tabOnPressed(index),
+          child: Center(
+            child: Text(
+              text,
+              style: controller.fontStyles?.chipTextStyle.copyWith(
+                color: controller.selectedIndex.value == index
+                    ? Colors.white
+                    : controller.fontStyles?.chipTextStyle.color,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

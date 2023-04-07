@@ -21,7 +21,39 @@ class MenuList extends GetView<RestaurantController> {
   }
 
   Widget emptyMenu() {
-    return const Center(child: Text('Empty Data'));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          'No Menu Items Found',
+          style: TextStyle(
+            fontSize: 0.055.sw,
+            color: Get.theme.primaryColor,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        SizedBox(height: 0.035.sh, width: 1.sw),
+        SvgHelper.cooking(
+          width: 0.55.sw,
+        ),
+        SizedBox(height: 0.035.sh),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            'We apologize, but it seems that there are no menu items that match your search.',
+            style: TextStyle(
+              fontSize: 0.04.sw,
+              color: Get.theme.primaryColorLight,
+              fontStyle: FontStyle.italic,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(height: 0.055.sh, width: 1.sw),
+      ],
+    );
   }
 
   Widget loadingMenu() {
@@ -29,18 +61,11 @@ class MenuList extends GetView<RestaurantController> {
       children: List.generate(3, (i) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Shimmer.fromColors(
-            baseColor: controller.shimmerStyle!.baseColor,
-            highlightColor: controller.shimmerStyle!.highlightColor,
+          child: LoadingItem(
             enabled: !controller.hasMenuDataLoaded.value,
-            child: Container(
-              height: 0.12.sh,
-              width: 1.sw,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
+            height: 0.12.sh,
+            width: 1.sw,
+            borderRadius: 12,
           ),
         );
       }),
@@ -59,11 +84,20 @@ class MenuList extends GetView<RestaurantController> {
           var menuItems = controller.menuItemsMap[(controller.isUnknownFoodType
               ? controller.categories
               : controller.filteredCategories)[index]]!;
-          return ListView.builder(
-            padding: const EdgeInsets.only(left: 16, right: 16),
-            itemCount: menuItems.length,
-            itemBuilder: (_, idx) => _menuItem(menuItem: menuItems[idx]),
-          );
+          return Obx(() => ListView.builder(
+                padding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  bottom: controller.floatingCartController.showCart
+                      ? 16 +
+                          (controller.floatingCartController.cartStyle
+                                  ?.cartHeight ??
+                              0.0)
+                      : 0,
+                ),
+                itemCount: menuItems.length,
+                itemBuilder: (_, idx) => _menuItem(menuItem: menuItems[idx]),
+              ));
         },
       ),
     );
@@ -197,7 +231,7 @@ class MenuList extends GetView<RestaurantController> {
           height: widgetHeight,
           child: Icon(
             iconData,
-            color: controller.menuItemStyle?.buttonColor,
+            color: controller.fontStyles?.button.color,
           ),
         ),
       );
@@ -207,11 +241,6 @@ class MenuList extends GetView<RestaurantController> {
       id: controller.addToCarButtonTag,
       builder: (_) {
         bool isAdded = controller.userCartService.isMenuItemInCart(menuItem);
-        String cartValue = '0';
-        if (isAdded) {
-          cartValue =
-              '${controller.userCartService.menuItemQuantity(menuItem) ?? 0}';
-        }
 
         return GestureDetector(
           onTap: isAdded ? null : () => controller.addToCardHandler(menuItem),
@@ -222,8 +251,8 @@ class MenuList extends GetView<RestaurantController> {
                 side: BorderSide(
                   width: 1,
                   strokeAlign: BorderSide.strokeAlignInside,
-                  color: controller.menuItemStyle?.buttonColor ??
-                      Colors.transparent,
+                  color:
+                      controller.fontStyles?.button.color ?? Colors.transparent,
                 ),
               ),
             ),
@@ -240,9 +269,16 @@ class MenuList extends GetView<RestaurantController> {
                     height: widgetHeight,
                     child: Center(
                       child: Text(
-                        isAdded ? cartValue : 'Add',
-                        style: controller.fontStyles?.body2.copyWith(
-                            color: controller.menuItemStyle?.buttonColor),
+                        isAdded
+                            ? (controller.userCartService
+                                        .menuItemQuantity(menuItem) ??
+                                    0)
+                                .toString()
+                            : 'Add',
+                        style: controller.fontStyles?.button.copyWith(
+                          fontWeight: FontWeight.normal,
+                          fontSize: 16,
+                        ),
                       ),
                     ),
                   ),

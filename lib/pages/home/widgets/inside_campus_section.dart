@@ -1,7 +1,7 @@
 part of '../home.dart';
 
-class _NearBySection extends GetView<HomeController> {
-  const _NearBySection();
+class _InsideCampusSection extends GetView<HomeController> {
+  const _InsideCampusSection();
 
   final double cardHeight = 120;
   final BoxDecoration cardDecoration = const BoxDecoration(
@@ -24,12 +24,12 @@ class _NearBySection extends GetView<HomeController> {
       rowGap: 8,
       gridFit: GridFit.passthrough,
       children: [
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 12),
-          child: _SubHeader(text: 'Near You'),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          child: Obx(() => _SubHeader(text: controller.sectionOneHeader.value)),
         ).inGridArea('header'),
         Obx(() {
-          if (!controller.hasNearbyDataLoaded.value) {
+          if (!controller.hasInCampusDataLoaded.value) {
             return loading();
           }
           return SingleChildScrollView(
@@ -39,13 +39,16 @@ class _NearBySection extends GetView<HomeController> {
               padding: EdgeInsets.symmetric(horizontal: pagePadding),
               child: Row(
                 children: List.generate(
-                  controller.nearbyRestaurants!.length,
+                  controller.inCampusRestaurants!.length,
                   (i) {
                     return card(
-                      id: controller.nearbyRestaurants![i]['id'],
-                      name: '${controller.nearbyRestaurants![i]['name']}',
+                      id: controller.inCampusRestaurants![i]
+                          [RestaurantFields.id],
+                      name: controller.inCampusRestaurants![i]
+                              [RestaurantFields.name] ??
+                          '',
                       filePath:
-                          '${controller.nearbyRestaurants![i]['cacheFilePath']}',
+                          '${controller.inCampusRestaurants![i]['cacheFilePath']}',
                     );
                   },
                 ),
@@ -77,7 +80,7 @@ class _NearBySection extends GetView<HomeController> {
             SizedBox(height: gap),
             Text(
               name,
-              style: controller.fontStyle!.cardHeader,
+              style: controller.fontStyles!.cardHeader,
               textAlign: TextAlign.center,
             ),
           ],
@@ -87,12 +90,14 @@ class _NearBySection extends GetView<HomeController> {
   }
 
   Widget loading() {
+    double textHeight = controller.textHeight(
+      'Sample',
+      controller.fontStyles?.cardHeader,
+    );
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: pagePadding),
-      child: Shimmer.fromColors(
-        baseColor: controller.shimmerStyle!.baseColor,
-        highlightColor: controller.shimmerStyle!.highlightColor,
-        enabled: !controller.hasNearbyDataLoaded.value,
+      child: LoadingItem(
+        enabled: !controller.hasInCampusDataLoaded.value,
         child: Row(
           children: List.generate(2, (idx) {
             return Expanded(
@@ -104,10 +109,10 @@ class _NearBySection extends GetView<HomeController> {
                     SizedBox(height: gap),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 40),
-                      height: controller.textHeight,
+                      height: textHeight,
                       decoration: cardDecoration.copyWith(
                         borderRadius: BorderRadius.all(
-                          Radius.circular(controller.textHeight / 3),
+                          Radius.circular(textHeight / 3),
                         ),
                       ),
                     ),

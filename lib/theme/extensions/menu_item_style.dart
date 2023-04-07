@@ -15,7 +15,6 @@ class MenuItemStyle extends ThemeExtension<MenuItemStyle> {
     required this.ratingsTS,
     required this.ratingsColor,
     required this.descriptionTS,
-    required this.buttonColor,
     required this.iconSize,
   });
 
@@ -29,7 +28,6 @@ class MenuItemStyle extends ThemeExtension<MenuItemStyle> {
   final TextStyle ratingsTS;
   final Color ratingsColor;
   final TextStyle descriptionTS;
-  final Color buttonColor;
   final double iconSize;
 
   @override
@@ -44,7 +42,6 @@ class MenuItemStyle extends ThemeExtension<MenuItemStyle> {
     TextStyle? ratingsTS,
     Color? ratingsColor,
     TextStyle? descriptionTS,
-    Color? buttonColor,
     double? iconSize,
   }) =>
       MenuItemStyle(
@@ -58,7 +55,6 @@ class MenuItemStyle extends ThemeExtension<MenuItemStyle> {
         ratingsTS: ratingsTS ?? this.ratingsTS,
         ratingsColor: ratingsColor ?? this.ratingsColor,
         descriptionTS: descriptionTS ?? this.descriptionTS,
-        buttonColor: buttonColor ?? this.buttonColor,
         iconSize: iconSize ?? this.iconSize,
       );
 
@@ -79,7 +75,6 @@ class MenuItemStyle extends ThemeExtension<MenuItemStyle> {
       ratingsTS: ratingsTS,
       ratingsColor: Color.lerp(ratingsColor, other.ratingsColor, t)!,
       descriptionTS: descriptionTS,
-      buttonColor: Color.lerp(buttonColor, other.buttonColor, t)!,
       iconSize: lerpDouble(iconSize, other.iconSize, t)!,
     );
   }

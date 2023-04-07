@@ -6,7 +6,7 @@ class FirebaseAuthHelper {
 
   FirebaseAuthHelper() {
     _firebaseAuth = FirebaseAuth.instance;
-    _firebaseAuth.setSettings(appVerificationDisabledForTesting: false);
+    _firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
   }
 
   Rx<User?> get currentUser => Rx<User?>(_firebaseAuth.currentUser);
@@ -18,6 +18,7 @@ class FirebaseAuthHelper {
   Future<void> verifyPhoneNumber(
     String phoneNumber, {
     VoidCallback? updateState,
+    VoidCallback? errorHandler,
   }) async {
     await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
@@ -34,10 +35,23 @@ class FirebaseAuthHelper {
         this.verificationId.value = verificationId;
       },
       verificationFailed: (FirebaseAuthException e) {
+        if (errorHandler != null) errorHandler();
         if (e.code == 'invalid-phone-number') {
-          Get.snackbar('Error', 'The provided phone number is not valid');
+          CustomSnackbars.error(
+            title: 'Invalid Phone Number',
+            message: 'The provided phone number is not valid',
+          );
+        } else if (e.code == 'too-many-requests') {
+          CustomSnackbars.error(
+            title: 'Too Many Requests',
+            message:
+                'Too many attempts has been made from this device, please try again after some time.',
+          );
         } else {
-          Get.snackbar('Error', 'Something went wrong. Try again.');
+          CustomSnackbars.error(
+            title: 'Unknown Error',
+            message: 'Something went wrong. Try again or contact support.',
+          );
         }
         debugPrint('ERROR!!! $e');
       },
@@ -57,14 +71,14 @@ class FirebaseAuthHelper {
 
   Future<void> signOut() async {
     userCredential = null;
+    verificationId.value = '';
     await _firebaseAuth.signOut();
     Get.offAllNamed(AppRoutes.LOGIN_REGISTER);
   }
 
   void navigateOnVerification() async {
     if (userCredential != null) {
-      await Get.find<FirebaseService>()
-          .fireStoreHelper
+      await FirebaseService.instance.fireStoreHelper
           .saveUserData(currentUser.value);
       var isNewUser = userCredential!.additionalUserInfo!.isNewUser;
       Get.offAllNamed(isNewUser ? AppRoutes.NEW_USER_REGISTER : AppRoutes.HOME);

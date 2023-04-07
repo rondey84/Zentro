@@ -7,7 +7,10 @@ import 'package:zentro/data/model/user_models.dart' as user_model;
 import 'package:zentro/services/local_storage_service.dart';
 
 class UserCartService extends GetxService {
-  final LocalStorageService _localStorageService = Get.find();
+  // Instance of this Service
+  static final instance = Get.find<UserCartService>();
+
+  final _localStorageService = LocalStorageService.instance;
 
   // Getters
   user_model.User get userData => _localStorageService.getUserData();
@@ -21,6 +24,10 @@ class UserCartService extends GetxService {
 
   user_model.UserCart? get userCart => userData.cart;
 
+  Map<MenuItem, int> get cartItems {
+    return userCart?.cartItems ?? {};
+  }
+
   Restaurant? get restLocalStorageData {
     return _localStorageService.getRestaurantData(userCart!.restId);
   }
@@ -31,19 +38,19 @@ class UserCartService extends GetxService {
     return userCart!.cartItems.containsKey(menuItem);
   }
 
-  void _clearCart(String restaurantId) {
-    if (userCart != null) {
-      if (userCart!.restId != restaurantId) {
-        if (userCart!.cartItems.isNotEmpty) {
-          // Remove cartItems from local Storage
-          _localStorageService.removeManyMenuItemsData(restaurantId);
-          _localStorageService.removeMenuData(
-            menu: _localStorageService.getMenuData(userCart!.restId)!,
-          );
-        }
-        userData = userData..cart = null;
-      }
+  void clearCart() {
+    if (userCart == null) return;
+
+    // Clearing cart
+    var cartRestId = userCart!.restId;
+    final menuData = _localStorageService.getMenuData(cartRestId)!;
+    final cartItemsNotEmpty = userCart!.cartItems.isNotEmpty;
+    if (cartItemsNotEmpty) {
+      // Remove cartItems from local Storage
+      _localStorageService.removeManyMenuItemsData(cartRestId);
+      _localStorageService.removeMenuData(menu: menuData);
     }
+    userData = userData..cart = null;
   }
 
   void addMenuItem({
@@ -51,8 +58,7 @@ class UserCartService extends GetxService {
     required Menu menu,
     required MenuItem menuItem,
   }) {
-    // Check if new restaurant then reset cart first
-    _clearCart(restaurantId);
+    // clearCart();
 
     if (isMenuItemInCart(menuItem)) return;
 
@@ -70,7 +76,7 @@ class UserCartService extends GetxService {
       menuItem: menuItem,
     );
 
-    /// 2. Store the menuItem in the userCart
+    /// 2. Update User Data with new MenuItem
     user_model.UserCart userCartData = userData.addCart(restaurantId);
     userCartData.addItem(menuItem);
     userData = userData..cart = userCartData;

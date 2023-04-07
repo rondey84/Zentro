@@ -36,16 +36,41 @@ class FloatingCartActionWidget extends GetView<FloatingCartController> {
                   : cartType == FloatingCartType.home
                       ? _home()
                       : cartType == FloatingCartType.order
-                          ? []
-                          : cartType == FloatingCartType.orderStatus
-                              ? []
-                              : [],
+                          ? _order()
+                          : [],
             ),
           ),
         );
       }
       return const SizedBox.shrink();
     });
+  }
+
+  List<Widget> _order() {
+    List<Widget> orderWidgets = [];
+
+    orderWidgets.add(Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: _heroWidget(
+          HeroTag.cartPriceValue,
+          Text(
+            '₹${controller.priceWithTax}',
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.normal,
+              color: controller.cartStyle?.text01,
+            ),
+          ),
+        ),
+      ),
+    ));
+
+    orderWidgets.add(
+      _heroWidget(HeroTag.cartMainText, mainText('Confirm Order')),
+    );
+
+    return orderWidgets;
   }
 
   List<Widget> _home() {
@@ -182,13 +207,13 @@ class FloatingCartActionWidget extends GetView<FloatingCartController> {
             Text(
               '${controller.itemQuantity} item${controller.itemQuantity > 1 ? "s" : ""}',
               style: TextStyle(
-                fontSize: 12,
+                fontSize: 11,
                 fontWeight: FontWeight.bold,
                 color: controller.cartStyle?.text04,
               ),
             ),
           ),
-          const SizedBox(height: 2),
+          // const SizedBox(height: 2),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -198,7 +223,7 @@ class FloatingCartActionWidget extends GetView<FloatingCartController> {
                 Text(
                   '₹${controller.priceWithoutTax}',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: controller.cartStyle?.text01,
                   ),
@@ -208,7 +233,7 @@ class FloatingCartActionWidget extends GetView<FloatingCartController> {
               Text(
                 'plus taxes',
                 style: TextStyle(
-                  fontSize: 11,
+                  fontSize: 10,
                   fontWeight: FontWeight.normal,
                   color: controller.cartStyle?.text05,
                 ),

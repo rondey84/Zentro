@@ -7,12 +7,13 @@ import 'package:zentro/data/model/user_models.dart' as user_model;
 import 'package:zentro/util/object_box.dart';
 
 class LocalStorageService extends GetxService {
+  // Instance of this service
+  static final instance = Get.find<LocalStorageService>();
+
   late ObjectBox _box;
   late AppData appData;
 
-  // TODO: TESTING GETTER for easy access to ObjectBox, REMOVE AFTER TESTING
-  ObjectBox get box => _box;
-
+  // TODO: Add StreamListener to user data and restaurant data
   Future<LocalStorageService> init() async {
     _box = await ObjectBox.create();
     storageSetup();
@@ -52,7 +53,9 @@ class LocalStorageService extends GetxService {
           email: user.email,
           isEmailVerified: user.isEmailVerified,
           favRestaurants: user.favRestaurants,
+          ordersId: user.ordersId,
           cart: user.cart,
+          currentOrderId: user.currentOrderId,
         ) ??
         user;
     _box.insertUserData(user);
@@ -86,6 +89,10 @@ class LocalStorageService extends GetxService {
           image: res.image,
           geoLocation: res.geoLocation,
           address: res.address,
+          insideCampus: res.insideCampus,
+          orderIndex: res.orderIndex,
+          outlets: res.outlets,
+          selectedOutlet: res.selectedOutlet,
         ) ??
         res;
 

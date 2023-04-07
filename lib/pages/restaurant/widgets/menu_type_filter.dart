@@ -65,9 +65,8 @@ class MenuTypeFilter extends GetView<RestaurantController> {
             const SizedBox(width: 8),
             Text(
               text,
-              style: controller.fontStyles?.caption.copyWith(
+              style: controller.fontStyles?.chipTextStyle.copyWith(
                 color: isSelected ? Colors.white : color,
-                fontWeight: FontWeight.bold,
               ),
             ),
           ],

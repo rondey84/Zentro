@@ -6,22 +6,27 @@ class ExtendedColorsStyle extends ThemeExtension<ExtendedColorsStyle> {
     required this.vegColor,
     required this.nonVegColor,
     required this.ratingsIconColor,
+    required this.currentOrderCardColor,
   });
 
   final Color vegColor;
   final Color nonVegColor;
   final Color ratingsIconColor;
+  final Color currentOrderCardColor;
 
   @override
   ExtendedColorsStyle copyWith({
     Color? vegColor,
     Color? nonVegColor,
     Color? ratingsIconColor,
+    Color? currentOrderCardColor,
   }) =>
       ExtendedColorsStyle(
         vegColor: vegColor ?? this.vegColor,
         nonVegColor: nonVegColor ?? this.nonVegColor,
         ratingsIconColor: ratingsIconColor ?? this.ratingsIconColor,
+        currentOrderCardColor:
+            currentOrderCardColor ?? this.currentOrderCardColor,
       );
 
   @override
@@ -36,6 +41,8 @@ class ExtendedColorsStyle extends ThemeExtension<ExtendedColorsStyle> {
       nonVegColor: Color.lerp(nonVegColor, other.nonVegColor, t)!,
       ratingsIconColor:
           Color.lerp(ratingsIconColor, other.ratingsIconColor, t)!,
+      currentOrderCardColor:
+          Color.lerp(currentOrderCardColor, other.currentOrderCardColor, t)!,
     );
   }
 }
