@@ -17,6 +17,8 @@ class UserProfileController extends GetxController {
     return FirebaseService.instance.firebaseAuthHelper.currentUser.value;
   }
 
+  bool showFeedbacksCard = false;
+
   String get username {
     var name = 'Welcome';
     if (user != null) {
@@ -81,6 +83,7 @@ class UserProfileController extends GetxController {
       user_model.UserProfileItem(
         text: 'About',
         iconData: Icons.supervisor_account_rounded,
+        onTap: _aboutUsHandler,
       ),
       user_model.UserProfileItem(
         text: 'Rate Us',
@@ -92,6 +95,44 @@ class UserProfileController extends GetxController {
         onTap: _logOutHandler,
       ),
     ];
+  }
+
+  Future<void> _aboutUsHandler() async {
+    await CustomDialogs.animatedDialog(
+      barrierDismissible: true,
+      barrierLabel: 'About Zentro',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'About Us',
+              style: fontStyles?.header1,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '''Welcome to Zentro, the ultimate mobile app for ordering food on Somaiya Campus! Zentro was created by Somen Dey and Prathamesh More as a final sem project, under the guidance of our Professor Anushree Sukhi.
+
+Our goal is to provide a quick and easy way for students and faculty members to order food inside and near the campus. With Zentro, you can browse menus, place orders, and pay for your meals all from your mobile device. No more waiting in long lines or struggling to find the perfect meal option!''',
+              style: fontStyles?.body1.copyWith(fontStyle: FontStyle.italic),
+              textAlign: TextAlign.justify,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              '''
+Somen Dey - 31011220017
+Prathamesh More - 31011220032''',
+              style: fontStyles?.body1,
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _logOutHandler() async {

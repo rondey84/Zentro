@@ -63,6 +63,6 @@ class RestaurantMapScreen extends GetView<RestaurantMapController> {
   }
 
   Widget _mapWidget() {
-    return const Placeholder();
+    return const SizedBox.expand(child: Center(child: Text('Show Map here')));
   }
 }

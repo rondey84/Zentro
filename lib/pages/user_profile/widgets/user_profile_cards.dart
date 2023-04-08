@@ -67,32 +67,33 @@ class _UsersProfileCards extends GetView<UserProfileController> {
               ),
             ),
             // Feedbacks
-            ContainerCard(
-              shadowStyle: ShadowStyle.style1,
-              padding: const EdgeInsets.only(top: 12),
-              boxConstraints: BoxConstraints(minWidth: 1.sw),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SvgHelper.userProfileCard(
-                    type: UserProfileCards.feedbacks,
-                  ),
-                  Positioned.fill(
-                    left: 34,
-                    bottom: 30,
-                    child: Align(
-                      alignment: Alignment.bottomLeft,
-                      child: SizedBox(
-                        width: 150.r,
-                        child: _cardsText(
-                          text: 'Feedbacks',
+            if (controller.showFeedbacksCard)
+              ContainerCard(
+                shadowStyle: ShadowStyle.style1,
+                padding: const EdgeInsets.only(top: 12),
+                boxConstraints: BoxConstraints(minWidth: 1.sw),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SvgHelper.userProfileCard(
+                      type: UserProfileCards.feedbacks,
+                    ),
+                    Positioned.fill(
+                      left: 34,
+                      bottom: 30,
+                      child: Align(
+                        alignment: Alignment.bottomLeft,
+                        child: SizedBox(
+                          width: 150.r,
+                          child: _cardsText(
+                            text: 'Feedbacks',
+                          ),
                         ),
                       ),
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),
