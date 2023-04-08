@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:zentro/data/model/user_models.dart' as user_model;
+import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/local_storage_service.dart';
 import 'package:zentro/theme/extensions/custom_font_styles.dart';
@@ -65,15 +66,21 @@ class UserProfileController extends GetxController {
     return SvgHelper.profileAvatar(primaryColor: Get.theme.primaryColor);
   }
 
+  // Cards Handler
+  void yourOrdersOnTapHandler() {
+    Get.toNamed(AppRoutes.USER_PROFILE + AppRoutes.USERS_ORDERS);
+  }
+
+  void favRestOnTapHandler() {
+    Get.toNamed(AppRoutes.USER_PROFILE + AppRoutes.USERS_FAV_RESTAURANTS);
+  }
+
+  // ====== LIST ITEMS =======
   List<user_model.UserProfileItem> get listItems {
     return <user_model.UserProfileItem>[
       user_model.UserProfileItem(
         text: 'About',
         iconData: Icons.supervisor_account_rounded,
-      ),
-      user_model.UserProfileItem(
-        text: 'Feedback',
-        iconData: Icons.rss_feed_rounded,
       ),
       user_model.UserProfileItem(
         text: 'Rate Us',
@@ -82,61 +89,62 @@ class UserProfileController extends GetxController {
       user_model.UserProfileItem(
         text: 'Log Out',
         iconData: Icons.logout_rounded,
-        onTap: () async {
-          await CustomDialogs.animatedDialog(
-            barrierDismissible: true,
-            barrierLabel: 'Logout confirm dialog',
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24,
-                vertical: 16,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Log out',
-                    style: fontStyles?.header1,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'Are you sure you want to log out?',
-                    style:
-                        fontStyles?.body2.copyWith(fontStyle: FontStyle.italic),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: _dialogButton(
-                          buttonColor: Get.theme.primaryColor.withOpacity(0.2),
-                          text: 'Cancel',
-                          textColor: Get.theme.customColor()?.text06,
-                          onTap: () => Get.back(),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _dialogButton(
-                          buttonColor: Get.theme.primaryColor,
-                          text: 'Log Out',
-                          textColor: Get.theme.customColor()?.text00,
-                          onTap: () async {
-                            LocalStorageService.instance.deleteUserData();
-                            await FirebaseService.instance.firebaseAuthHelper
-                                .signOut();
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+        onTap: _logOutHandler,
       ),
     ];
+  }
+
+  Future<void> _logOutHandler() async {
+    await CustomDialogs.animatedDialog(
+      barrierDismissible: true,
+      barrierLabel: 'Logout confirm dialog',
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 16,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Log out',
+              style: fontStyles?.header1,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Are you sure you want to log out?',
+              style: fontStyles?.body2.copyWith(fontStyle: FontStyle.italic),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _dialogButton(
+                    buttonColor: Get.theme.primaryColor.withOpacity(0.2),
+                    text: 'Cancel',
+                    textColor: Get.theme.customColor()?.text06,
+                    onTap: () => Get.back(),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: _dialogButton(
+                    buttonColor: Get.theme.primaryColor,
+                    text: 'Log Out',
+                    textColor: Get.theme.customColor()?.text00,
+                    onTap: () async {
+                      LocalStorageService.instance.deleteUserData();
+                      await FirebaseService.instance.firebaseAuthHelper
+                          .signOut();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _dialogButton({

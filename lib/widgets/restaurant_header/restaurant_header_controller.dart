@@ -72,7 +72,7 @@ class RestaurantHeaderController extends GetxController {
   }
 
   Future<void> _loadRatingsData() async {
-    rating = await _fireStoreHelper.restaurantRating(
+    rating = await _fireStoreHelper.totalRatingForRestaurant(
       restaurantId: restaurant!.restaurantId,
     );
 

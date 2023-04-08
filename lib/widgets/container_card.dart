@@ -11,6 +11,7 @@ class ContainerCard extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final double borderRadius;
   final BoxConstraints? boxConstraints;
+  final BoxBorder? border;
 
   const ContainerCard({
     super.key,
@@ -20,6 +21,7 @@ class ContainerCard extends StatelessWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 12, vertical: 20),
     this.borderRadius = 32.0,
     this.boxConstraints,
+    this.border,
   });
 
   @override
@@ -32,6 +34,7 @@ class ContainerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Get.theme.cardColor,
         borderRadius: BorderRadius.circular(borderRadius),
+        border: border,
         boxShadow: shadowStyle == ShadowStyle.style1
             ? shadowStyles?.cardShadow01
             : shadowStyle == ShadowStyle.style2

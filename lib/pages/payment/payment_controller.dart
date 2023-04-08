@@ -170,6 +170,9 @@ class PaymentController extends GetxController {
       return MapEntry(menu.id, quantity);
     });
 
+    print(
+        'SELECTED OUTLET: ${LocalStorageService.instance.getRestaurantData(_restaurantId)?.selectedOutlet}');
+
     // Create the Order Class
     var order = ZentroOrder(
       orderId: orderId,

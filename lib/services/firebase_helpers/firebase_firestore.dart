@@ -5,7 +5,7 @@ class FirebaseFireStoreHelper {
   CollectionReference? _usersCollectionRef;
   CollectionReference? _restaurantsCollectionRef;
   CollectionReference? _menusCollectionRef;
-  CollectionReference? _ordersRef;
+  CollectionReference<ZentroOrder>? _ordersRef;
   CollectionReference<RestaurantRatings>? _ratingsRef;
 
   FirebaseFireStoreHelper() {
@@ -13,7 +13,10 @@ class FirebaseFireStoreHelper {
     _usersCollectionRef = _db.collection(Collection.users);
     _restaurantsCollectionRef = _db.collection(Collection.restaurants);
     _menusCollectionRef = _db.collection(Collection.menus);
-    _ordersRef = _db.collection(Collection.orders);
+    _ordersRef = _db.collection(Collection.orders).withConverter(
+          fromFirestore: ZentroOrder.fromFirestore,
+          toFirestore: (ZentroOrder order, options) => order.toFirestore(),
+        );
 
     _ratingsRef = _db.collection(Collection.ratings).withConverter(
           fromFirestore: RestaurantRatings.fromFirestore,
@@ -154,7 +157,8 @@ class FirebaseFireStoreHelper {
     final restaurantsData = await _loadRestaurantsData(inCampus: false);
     List<Map<String, String?>> data = [];
     for (Restaurant res in restaurantsData) {
-      var rating = await restaurantRating(restaurantId: res.restaurantId);
+      var rating =
+          await totalRatingForRestaurant(restaurantId: res.restaurantId);
       var subLocality = (await LocationService.instance.fetchPlacemark(
         latitude: res.geoLocation!.latitude,
         longitude: res.geoLocation!.longitude,
@@ -216,13 +220,28 @@ class FirebaseFireStoreHelper {
     return snapshot.docs.map((e) => e.data()).toList();
   }
 
+  Future<MenuItem?> getMenuItemData({
+    required String menuItemId,
+    required String restaurantId,
+  }) async {
+    // FIXME: Bad Query, optimize with better query
+    final menuData = await getMenuData(restaurantId);
+    final categories = menuData?.categories;
+    List<MenuItem> allItems = [];
+
+    await Future.forEach(categories!, (category) async {
+      final items = await getMenuItemsData(
+        restaurantId: restaurantId,
+        menuCategory: category,
+      );
+      allItems.addAll(items);
+    });
+
+    return allItems.firstWhereOrNull((e) => e.id == menuItemId);
+  }
+
   DocumentReference<ZentroOrder> orderDocRef(String orderId) {
-    return _ordersRef!
-        .withConverter(
-          fromFirestore: ZentroOrder.fromFirestore,
-          toFirestore: (ZentroOrder order, options) => order.toFirestore(),
-        )
-        .doc(orderId);
+    return _ordersRef!.doc(orderId);
   }
 
   Future<void> createOrder(ZentroOrder order) async {
@@ -240,6 +259,14 @@ class FirebaseFireStoreHelper {
   Future<ZentroOrder?> getOrder(String orderId) async {
     final orderSnapshot = await orderDocRef(orderId).get();
     return orderSnapshot.data();
+  }
+
+  Future<List<ZentroOrder>> getOrders(List<String> orderIds) async {
+    final query = _ordersRef!.where(OrderFields.orderId, whereIn: orderIds);
+
+    final snapshot = await query.get();
+
+    return snapshot.docs.map((e) => e.data()).toList();
   }
 
   Future<void> updateOrderStatus(OrderStatus status, [String? orderId]) async {
@@ -320,6 +347,12 @@ class FirebaseFireStoreHelper {
     return data.isNotEmpty;
   }
 
+  Future<RestaurantRatings?> getRating({required String ratingId}) async {
+    final data = await ratingDocRef(ratingId).get();
+
+    return data.data();
+  }
+
   Future<void> createRating(RestaurantRatings rating) async {
     if (await ratingExistsForOrder(orderId: rating.orderId)) return;
 
@@ -328,7 +361,8 @@ class FirebaseFireStoreHelper {
     await docRef.set(rating);
   }
 
-  Future<double> restaurantRating({required String restaurantId}) async {
+  Future<double> totalRatingForRestaurant(
+      {required String restaurantId}) async {
     final querySnapshot = await _ratingsRef!
         .where(RatingFields.restId, isEqualTo: restaurantId)
         .get();

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:zentro/services/firebase_helpers/fs_db_helper.dart';
 
+// Should be Food Rating or OrderRating
 class RestaurantRatings {
   final String ratingId;
   final String orderId;

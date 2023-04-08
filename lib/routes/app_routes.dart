@@ -15,4 +15,6 @@ abstract class AppRoutes {
   static const ORDER_STATUS = '/order-status';
   static const ORDER_COMPLETE = '/order-complete';
   static const FEEDBACK = '/feedback';
+  static const USERS_ORDERS = '/users-orders';
+  static const USERS_FAV_RESTAURANTS = '/users-fav-rest';
 }

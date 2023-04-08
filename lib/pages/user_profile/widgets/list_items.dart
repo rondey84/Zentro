@@ -5,19 +5,13 @@ class _ListItems extends GetView<UserProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 20),
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(32)),
-      ),
+    return ContainerCard(
       child: ListView.separated(
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (_, index) => listTile(controller.listItems[index]),
         separatorBuilder: (_, __) => const SizedBox(height: 12),
         itemCount: controller.listItems.length,
         shrinkWrap: true,
-        // physics: const ScrollPhysics(),
       ),
     );
   }

@@ -73,6 +73,18 @@ class AppPages {
       page: () => const UserProfile(),
       binding: UserProfileBindings(),
       preventDuplicates: true,
+      children: [
+        GetPage(
+          name: AppRoutes.USERS_ORDERS,
+          page: () => const UsersOrders(),
+          preventDuplicates: true,
+        ),
+        GetPage(
+          name: AppRoutes.USERS_FAV_RESTAURANTS,
+          page: () => const UsersFavRestaurant(),
+          preventDuplicates: true,
+        ),
+      ],
     ),
     GetPage(
       name: AppRoutes.RESTAURANT,

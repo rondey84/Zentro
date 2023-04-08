@@ -7,13 +7,11 @@ class _ProfileHeader extends GetView<UserProfileController> {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 12),
+      child: ContainerCard(
+        shadowStyle: ShadowStyle.style1,
+        margin: const EdgeInsets.fromLTRB(12, 0, 12, 16),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(26)),
-        ),
+        borderRadius: 26,
         child: Row(
           children: [
             Column(

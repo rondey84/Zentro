@@ -15,6 +15,7 @@ part './svg_string_codes/empty_cart.dart';
 part './svg_string_codes/cooking.dart';
 part './svg_string_codes/onboarding_images.dart';
 part './svg_string_codes/mobile_login.dart';
+part 'svg_string_codes/user_profile_card_images.dart';
 
 class SvgHelper {
   static SvgPicture getSvgPicture({
@@ -163,5 +164,15 @@ class SvgHelper {
   }) {
     String code = MobileLogin.getCode(primaryColor: primaryColor.toRGBACode());
     return getSvgPicture(code: code, height: height, width: width);
+  }
+
+  static SvgPicture userProfileCard({
+    required UserProfileCards type,
+    double? width,
+    double? height,
+    Key? key,
+  }) {
+    String code = type._getCode();
+    return getSvgPicture(key: key, code: code, height: height, width: width);
   }
 }

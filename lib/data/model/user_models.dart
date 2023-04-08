@@ -95,18 +95,6 @@ class User {
   }
 }
 
-class UserProfileItem {
-  final String text;
-  final IconData iconData;
-  final VoidCallback? onTap;
-
-  UserProfileItem({
-    required this.text,
-    required this.iconData,
-    this.onTap,
-  });
-}
-
 class UserCart {
   String restId;
 
@@ -194,5 +182,88 @@ class UserCart {
   @override
   String toString() {
     return '{Restaurant: $restId, Cart: $cartItems}';
+  }
+}
+
+class UserProfileItem {
+  final String text;
+  final IconData iconData;
+  final VoidCallback? onTap;
+
+  UserProfileItem({
+    required this.text,
+    required this.iconData,
+    this.onTap,
+  });
+}
+
+class UsersOrderItem {
+  final String orderId;
+  final bool isOrderPickedUp;
+  final double totalPrice;
+  final DateTime orderDate;
+  final Map<String, int> orderItems;
+
+  final String restId;
+  final String restName;
+  final String? restOutlet;
+
+  final String? ratingId;
+  final double? rating;
+
+  UsersOrderItem({
+    required this.orderId,
+    required this.isOrderPickedUp,
+    required this.totalPrice,
+    required this.orderDate,
+    required this.orderItems,
+    required this.restId,
+    required this.restName,
+    this.restOutlet,
+    this.ratingId,
+    this.rating,
+  });
+
+  UsersOrderItem copyWith({
+    String? orderId,
+    bool? isOrderPickedUp,
+    double? totalPrice,
+    DateTime? orderDate,
+    Map<String, int>? orderItems,
+    String? restId,
+    String? restName,
+    String? restOutlet,
+    String? ratingId,
+    double? rating,
+  }) {
+    return UsersOrderItem(
+      orderId: orderId ?? this.orderId,
+      isOrderPickedUp: isOrderPickedUp ?? this.isOrderPickedUp,
+      totalPrice: totalPrice ?? this.totalPrice,
+      orderDate: orderDate ?? this.orderDate,
+      orderItems: orderItems ?? this.orderItems,
+      restId: restId ?? this.restId,
+      restName: restName ?? this.restName,
+      restOutlet: restOutlet ?? this.restOutlet,
+      ratingId: ratingId ?? this.ratingId,
+      rating: rating ?? this.rating,
+    );
+  }
+
+  @override
+  String toString() {
+    Map<String, dynamic> toMap = {
+      'orderId': orderId,
+      'isOrderPickedUp': isOrderPickedUp,
+      'totalPrice': totalPrice,
+      'orderDate': orderDate,
+      'orderItems': orderItems,
+      'restId': restId,
+      'restName': restName,
+      'restOutlet': restOutlet,
+      'ratingId': ratingId,
+      'rating': rating,
+    };
+    return toMap.toString();
   }
 }
