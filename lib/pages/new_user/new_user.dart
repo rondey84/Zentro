@@ -82,13 +82,13 @@ class NewUserScreen extends GetView<NewUserController> {
               Obx(() {
                 return AnimatedSwitcher(
                   duration: controller.animDuration,
-                  child: controller.isEmailVerified.value &&
+                  child: !controller.isEmailVerified.value &&
                           controller.currentPage.value == 2
                       ? const ResendEmail(key: ValueKey(0))
                       : SizedBox(
                           key: const ValueKey(1),
                           height: controller.textHeight(
-                            'Resend',
+                            'Sample',
                             const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,

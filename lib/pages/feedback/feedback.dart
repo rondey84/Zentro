@@ -41,9 +41,7 @@ class FeedbackScreen extends GetView<FeedbackController> {
               // 2. Ratings
               const _FeedbackRatings(),
               // 3. Feedback input
-              const Expanded(
-                child: _FeedbackInput(),
-              ),
+              const Expanded(child: _FeedbackInput()),
               // 4. Submit Button
               const _SubmitButton(),
               Obx(() {

@@ -38,8 +38,8 @@ class _FeedbackInput extends GetView<FeedbackController> {
                   controller: controller.inputController,
                   style: TextStyle(
                     color: Get.theme.customColor()?.text04,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    fontWeight: FontWeight.normal,
                   ),
                   keyboardType: TextInputType.multiline,
                   minLines: 1,

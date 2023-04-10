@@ -1,4 +1,4 @@
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 
 void logPrint(Object? object) {
   // ignore: avoid_print

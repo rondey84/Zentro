@@ -115,6 +115,7 @@ class RestaurantController extends GetxController
     super.onInit();
   }
 
+  // OPTIMIZE DATA LOADING...
   Future<void> loadData() async {
     await _loadRestaurantData();
     _getFavStatus();

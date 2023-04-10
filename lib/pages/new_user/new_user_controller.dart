@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:zentro/data/constants/debug.dart';
@@ -124,11 +125,21 @@ class NewUserController extends SuperController {
       return;
     }
 
-    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
-        ?.updateEmail(email);
-    await FirebaseService.instance.firebaseAuthHelper.currentUser.value
-        ?.reload();
-    currentPage.value += 1;
+    try {
+      await FirebaseService.instance.firebaseAuthHelper.currentUser.value
+          ?.updateEmail(email);
+      await FirebaseService.instance.firebaseAuthHelper.currentUser.value
+          ?.reload();
+      currentPage.value += 1;
+    } on FirebaseAuthException catch (e) {
+      logPrint(e);
+      if (e.code == 'email-already-in-use') {
+        setError('The email address is already in use by another account.');
+      } else {
+        setError('Please check your email.');
+      }
+      return;
+    }
 
     // Sending Verification Email
     await _checkEmailVerified();

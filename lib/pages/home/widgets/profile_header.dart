@@ -22,8 +22,12 @@ class _ProfileHeader extends GetView<HomeController> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(controller.username,
-                      style: controller.fontStyles!.header1),
+                  Text(
+                    controller.username,
+                    style: controller.fontStyles!.header1,
+                    softWrap: false,
+                    overflow: TextOverflow.fade,
+                  ),
                   const SizedBox(height: 4),
                   Obx(() {
                     return Text(
