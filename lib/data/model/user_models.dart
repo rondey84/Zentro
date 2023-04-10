@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:zentro/data/model/restaurant_ratings.dart';
 
 import 'menu_item.dart';
 
@@ -202,14 +203,14 @@ class UsersOrderItem {
   final bool isOrderPickedUp;
   final double totalPrice;
   final DateTime orderDate;
-  final Map<String, int> orderItems;
+  final Map<MenuItem, int> orderItems;
+  final String paymentType;
 
   final String restId;
   final String restName;
   final String? restOutlet;
 
-  final String? ratingId;
-  final double? rating;
+  final RestaurantRatings? rating;
 
   UsersOrderItem({
     required this.orderId,
@@ -217,10 +218,10 @@ class UsersOrderItem {
     required this.totalPrice,
     required this.orderDate,
     required this.orderItems,
+    required this.paymentType,
     required this.restId,
     required this.restName,
     this.restOutlet,
-    this.ratingId,
     this.rating,
   });
 
@@ -229,12 +230,12 @@ class UsersOrderItem {
     bool? isOrderPickedUp,
     double? totalPrice,
     DateTime? orderDate,
-    Map<String, int>? orderItems,
+    Map<MenuItem, int>? orderItems,
+    String? paymentType,
     String? restId,
     String? restName,
     String? restOutlet,
-    String? ratingId,
-    double? rating,
+    RestaurantRatings? rating,
   }) {
     return UsersOrderItem(
       orderId: orderId ?? this.orderId,
@@ -242,10 +243,10 @@ class UsersOrderItem {
       totalPrice: totalPrice ?? this.totalPrice,
       orderDate: orderDate ?? this.orderDate,
       orderItems: orderItems ?? this.orderItems,
+      paymentType: paymentType ?? this.paymentType,
       restId: restId ?? this.restId,
       restName: restName ?? this.restName,
       restOutlet: restOutlet ?? this.restOutlet,
-      ratingId: ratingId ?? this.ratingId,
       rating: rating ?? this.rating,
     );
   }
@@ -258,10 +259,10 @@ class UsersOrderItem {
       'totalPrice': totalPrice,
       'orderDate': orderDate,
       'orderItems': orderItems,
+      'paymentType': paymentType,
       'restId': restId,
       'restName': restName,
       'restOutlet': restOutlet,
-      'ratingId': ratingId,
       'rating': rating,
     };
     return toMap.toString();

@@ -262,11 +262,26 @@ class FirebaseFireStoreHelper {
   }
 
   Future<List<ZentroOrder>> getOrders(List<String> orderIds) async {
-    final query = _ordersRef!.where(OrderFields.orderId, whereIn: orderIds);
+    // Firebase Cloud Firestore where-in filter support's a maximum of 10 elements in the value
+    // Breaking the list into smaller list of 10 elements
+    // And running separate queries for each list.
 
-    final snapshot = await query.get();
+    const batchSize = 10;
+    final batches = <List<String>>[];
 
-    return snapshot.docs.map((e) => e.data()).toList();
+    for (var i = 0; i < orderIds.length; i += batchSize) {
+      final end =
+          (i + batchSize < orderIds.length) ? i + batchSize : orderIds.length;
+      batches.add(orderIds.sublist(i, end));
+    }
+    final result = <ZentroOrder>[];
+
+    for (final batch in batches) {
+      final query = _ordersRef!.where(OrderFields.orderId, whereIn: batch);
+      final snapshot = await query.get();
+      result.addAll(snapshot.docs.map((e) => e.data()).toList());
+    }
+    return result;
   }
 
   Future<void> updateOrderStatus(OrderStatus status, [String? orderId]) async {

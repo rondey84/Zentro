@@ -272,7 +272,7 @@ class RestaurantController extends GetxController
 
   // Action Buttons Handlers
   void favButtonHandler() {
-    if (!hasMenuDataLoaded.value) return;
+    if (!headerController.hasRestaurantDataLoaded.value) return;
     isRestaurantFav.value = !isRestaurantFav.value;
   }
 

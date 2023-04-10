@@ -70,14 +70,20 @@ class AppPages {
     ),
     GetPage(
       name: AppRoutes.USER_PROFILE,
-      page: () => const UserProfile(),
+      page: () => const UserProfileScreen(),
       binding: UserProfileBindings(),
       preventDuplicates: true,
       children: [
         GetPage(
           name: AppRoutes.USERS_ORDERS,
-          page: () => const UsersOrders(),
+          page: () => const UsersOrdersScreen(),
           preventDuplicates: true,
+          children: [
+            GetPage(
+              name: AppRoutes.USER_ORDER_DETAIL,
+              page: () => const UserOrderDetailScreen(),
+            ),
+          ],
         ),
         GetPage(
           name: AppRoutes.USERS_FAV_RESTAURANTS,

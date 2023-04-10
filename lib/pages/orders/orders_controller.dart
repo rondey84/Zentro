@@ -96,6 +96,7 @@ class OrdersController extends GetxController
   Future<void> loadData() async {
     var restDataLoaded = await _loadRestaurantData();
     if (restDataLoaded) {
+      await _getFavStatus();
       hasError = false;
       hasDataLoaded.value = true;
     } else {
@@ -109,6 +110,17 @@ class OrdersController extends GetxController
         .loadRestaurantData(restaurantId);
 
     return !(restaurant == null);
+  }
+
+  Future<void> _getFavStatus() async {
+    var isResFavData = _localStorageService.checkIsRestaurantFav(restaurantId);
+
+    if (isResFavData != null) {
+      isRestaurantFav.value = isResFavData;
+    } else {
+      isRestaurantFav.value = await FirebaseService.instance.fireStoreHelper
+          .checkIsRestaurantFav(restaurantId);
+    }
   }
 
   // FAV HANDLERS

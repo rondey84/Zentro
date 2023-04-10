@@ -46,4 +46,11 @@ class UsersFavRestController extends GetxController {
 
     removeIndex.value = index;
   }
+
+  void navigateToRestaurant(int index) {
+    Get.toNamed(
+      AppRoutes.RESTAURANT,
+      parameters: {'restaurantId': favRestaurants[index].restaurantId},
+    );
+  }
 }

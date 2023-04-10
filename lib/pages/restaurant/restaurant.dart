@@ -66,8 +66,8 @@ class RestaurantScreen extends GetView<RestaurantController> {
               );
             },
             child: hideTitle
-                ? const SizedBox.shrink()
-                : Text(controller.restaurant!.name!),
+                ? const SizedBox.shrink(key: ValueKey(0))
+                : Text(controller.restaurant!.name!, key: const ValueKey(1)),
           );
         }),
         actions: [
@@ -117,8 +117,8 @@ class RestaurantScreen extends GetView<RestaurantController> {
                                                     .value
                                                 ? controller
                                                         .restaurantAddress ??
-                                                    ''
-                                                : 'Failed to fetch location...'
+                                                    'Failed to Fetch...'
+                                                : 'Loading...'
                                         : 'Please Wait...',
                                     style: controller.fontStyles?.body2,
                                     maxLines: 1,

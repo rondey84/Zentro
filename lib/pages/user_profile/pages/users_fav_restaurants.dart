@@ -68,13 +68,13 @@ class UsersFavRestaurant extends GetView<UsersFavRestController> {
   }
 
   Widget _buildItem(
-      BuildContext context, int index, Animation<double> animation) {
+    BuildContext context,
+    int index,
+    Animation<double> animation,
+  ) {
     final restDetail = controller.favRestaurants[index];
-    return SlideTransition(
-      position: Tween<Offset>(
-        begin: const Offset(-1, 0),
-        end: const Offset(0, 0),
-      ).animate(animation),
+    return GestureDetector(
+      onTap: () => controller.navigateToRestaurant(index),
       child: ContainerCard(
         borderRadius: 22,
         padding: const EdgeInsets.all(16),
