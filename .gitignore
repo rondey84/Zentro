@@ -11,6 +11,7 @@
 migrate_working_dir/
 .fvm/flutter_sdk
 *.env
+# google-services.json
 
 # IntelliJ related
 *.iml

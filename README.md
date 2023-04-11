@@ -6,7 +6,7 @@ Project Description
 
 ### FIRST TIME SETUP
 
-1. **FVM USEAGE**
+1. **FVM USAGE**
 
    * *Read Me: https://fvm.app/docs/getting_started/installation*
    * Install and Activate FVM
@@ -45,6 +45,5 @@ fvm flutter pub run build_runner build
       STRIPE_TEST_KEY=<YOUR_PRIVATE_KEY>
       STRIPE_TEST_SECRET_KEY=<YOUR_SECRET_KEY>
       ```
-
 
 ## ScreenShots

@@ -11,12 +11,10 @@ import 'package:zentro/widgets/custom_dialogs.dart';
 import 'package:zentro/widgets/fav_button.dart';
 import 'package:zentro/widgets/loading_item.dart';
 import 'package:zentro/widgets/restaurant_header/restaurant_header.dart';
-import 'package:collection/collection.dart';
 
 part './widgets/status_card.dart';
 part 'widgets/floating_payment_widget.dart';
 
-// TODO: add debug button to update Order Status
 class OrderStatusScreen extends GetView<OrderStatusController> {
   const OrderStatusScreen({super.key});
 
@@ -83,8 +81,9 @@ class OrderStatusScreen extends GetView<OrderStatusController> {
                         controller.orderStatus;
                     // deepCopy from the old list with completed status added
                     final debugOrderStatues = [
-                      ...controller.visibleOrderStatuses
-                    ]..add(OrderStatus.completed);
+                      ...controller.visibleOrderStatuses,
+                      OrderStatus.completed
+                    ];
                     await CustomDialogs.animatedDialog(
                       removeDuplicateDialog: false,
                       barrierDismissible: true,
