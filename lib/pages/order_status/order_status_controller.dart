@@ -4,12 +4,15 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:zentro/data/constants/debug.dart';
 import 'package:zentro/data/enums/order_enums.dart';
 import 'package:zentro/data/model/zentro_order.dart';
 import 'package:zentro/routes/app_pages.dart';
+import 'package:zentro/services/firebase_helpers/fs_db_helper.dart';
 import 'package:zentro/services/firebase_service.dart';
 import 'package:zentro/services/local_storage_service.dart';
 import 'package:zentro/theme/extensions/custom_font_styles.dart';
+import 'package:zentro/theme/extensions/extended_colors_style.dart';
 import 'package:zentro/theme/extensions/floating_cart_style.dart';
 import 'package:zentro/theme/extensions/shimmer_style.dart';
 import 'package:zentro/util/text_helper.dart';
@@ -26,6 +29,13 @@ class OrderStatusController extends GetxController {
   OrderStatus get orderStatus => _orderStatus.value;
   set orderStatus(OrderStatus status) => _orderStatus.value = status;
 
+  final List<OrderStatus> visibleOrderStatuses = [
+    OrderStatus.initialized,
+    OrderStatus.confirmed,
+    OrderStatus.preparing,
+    OrderStatus.ready,
+  ];
+
   final _isOrderPaid = false.obs;
   bool get isOrderPaid => _isOrderPaid.value;
   set isOrderPaid(bool val) => _isOrderPaid.value = val;
@@ -40,6 +50,7 @@ class OrderStatusController extends GetxController {
   final fontStyles = Get.theme.extension<CustomFontStyles>();
   var shimmerStyle = Get.theme.extension<ShimmerStyle>();
   final cartStyle = Get.theme.extension<FloatingCartStyle>();
+  final extendedStyle = Get.theme.extension<ExtendedColorsStyle>();
 
   // Getters
   FirebaseFireStoreHelper get _firestoreHelper {
@@ -168,5 +179,16 @@ class OrderStatusController extends GetxController {
   /// Helpers
   double textHeight(String text, TextStyle? ts) {
     return TextHelper.textSize(text, ts).height;
+  }
+
+  // ======== DEBUG MODE =========
+  final debugSelectedOrderStatus = OrderStatus.initialized.obs;
+  Future<void> updateOrderStatus() async {
+    if (!DEBUG_MODE) return;
+
+    _firestoreHelper
+        .orderDocRef(_orderId)
+        .update({OrderFields.orderStatus: debugSelectedOrderStatus.value.name});
+    Get.close(1);
   }
 }

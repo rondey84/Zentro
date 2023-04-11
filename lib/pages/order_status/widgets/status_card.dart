@@ -44,13 +44,6 @@ class _OrderStatus extends GetView<OrderStatusController> {
   }
 
   Widget _statusWidget() {
-    List<OrderStatus> visibleOS = [
-      OrderStatus.initialized,
-      OrderStatus.confirmed,
-      OrderStatus.preparing,
-      OrderStatus.ready,
-    ];
-
     double rowSize = 72;
     double smallCircleSize = 24;
     double largeCircleSize = 48;
@@ -58,8 +51,10 @@ class _OrderStatus extends GetView<OrderStatusController> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18),
       child: Column(
-        children: List.generate(visibleOS.length, (index) {
-          bool isSelected = controller.orderStatus == visibleOS[index];
+        children:
+            List.generate(controller.visibleOrderStatuses.length, (index) {
+          bool isSelected =
+              controller.orderStatus == controller.visibleOrderStatuses[index];
           return Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -113,7 +108,8 @@ class _OrderStatus extends GetView<OrderStatusController> {
                           fontSize: 14,
                         ),
                   duration: const Duration(milliseconds: 375),
-                  child: Text(visibleOS[index].message, softWrap: false),
+                  child: Text(controller.visibleOrderStatuses[index].message,
+                      softWrap: false),
                 ),
               ),
             ],
