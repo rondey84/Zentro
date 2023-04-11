@@ -17,7 +17,6 @@ class FirebaseFireStoreHelper {
           fromFirestore: ZentroOrder.fromFirestore,
           toFirestore: (ZentroOrder order, options) => order.toFirestore(),
         );
-
     _ratingsRef = _db.collection(Collection.ratings).withConverter(
           fromFirestore: RestaurantRatings.fromFirestore,
           toFirestore: (RestaurantRatings rating, options) =>
@@ -224,20 +223,28 @@ class FirebaseFireStoreHelper {
     required String menuItemId,
     required String restaurantId,
   }) async {
-    // FIXME: Bad Query, optimize with better query
     final menuData = await getMenuData(restaurantId);
     final categories = menuData?.categories;
-    List<MenuItem> allItems = [];
 
-    await Future.forEach(categories!, (category) async {
-      final items = await getMenuItemsData(
-        restaurantId: restaurantId,
-        menuCategory: category,
-      );
-      allItems.addAll(items);
-    });
+    for (final category in categories!) {
+      final menuItemDocRef = _menusCollectionRef!
+          .doc(restaurantId)
+          .collection(category)
+          .doc(menuItemId);
 
-    return allItems.firstWhereOrNull((e) => e.id == menuItemId);
+      final data = await menuItemDocRef
+          .withConverter(
+            fromFirestore: MenuItem.fromFirestore,
+            toFirestore: (menuItem, _) => menuItem.toJson(),
+          )
+          .get();
+
+      if (data.exists) {
+        return data.data();
+      }
+    }
+
+    return null;
   }
 
   DocumentReference<ZentroOrder> orderDocRef(String orderId) {
@@ -277,7 +284,9 @@ class FirebaseFireStoreHelper {
     final result = <ZentroOrder>[];
 
     for (final batch in batches) {
-      final query = _ordersRef!.where(OrderFields.orderId, whereIn: batch);
+      final query = _ordersRef!
+          .where(OrderFields.orderId, whereIn: batch)
+          .orderBy(OrderFields.createdAt, descending: true);
       final snapshot = await query.get();
       result.addAll(snapshot.docs.map((e) => e.data()).toList());
     }

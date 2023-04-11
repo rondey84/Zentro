@@ -118,8 +118,7 @@ class RestaurantController extends GetxController
   // OPTIMIZE DATA LOADING...
   Future<void> loadData() async {
     await _loadRestaurantData();
-    _getFavStatus();
-    _calculateDistance();
+    await _getFavStatus();
     await _fetchMenu();
   }
 
@@ -186,10 +185,6 @@ class RestaurantController extends GetxController
     }
   }
 
-  void _calculateDistance() async {
-    // MapBox errors, Google Map - Needs Payment, Find Alternative
-  }
-
   Future<void> _fetchMenu() async {
     menu = await FirebaseService.instance.fireStoreHelper
         .getMenuData(restaurantId);
@@ -205,24 +200,21 @@ class RestaurantController extends GetxController
   Future<void> _fetchMenuItems() async {
     if (categories.isEmpty) return;
 
-    await Future.forEach(
-      categories,
-      (category) async {
-        var menuItems =
-            await FirebaseService.instance.fireStoreHelper.getMenuItemsData(
-          restaurantId: restaurantId,
-          menuCategory: category,
-        );
+    await Future.wait(categories.map((category) async {
+      var menuItems =
+          await FirebaseService.instance.fireStoreHelper.getMenuItemsData(
+        restaurantId: restaurantId,
+        menuCategory: category,
+      );
 
-        await Future.forEach(menuItems, (menu) async {
-          if (menu.image != null) {
-            var imageFilePath = await _cacheImage(menu.image!);
-            menu.image = imageFilePath;
-          }
-        });
-        menuItemsMap[category] = menuItems;
-      },
-    );
+      await Future.wait(menuItems.map((menu) async {
+        if (menu.image != null) {
+          var imageFilePath = await _cacheImage(menu.image!);
+          menu.image = imageFilePath;
+        }
+      }));
+      menuItemsMap[category] = menuItems;
+    }));
   }
 
   Future<String?> _cacheImage(String image) async {
@@ -230,7 +222,14 @@ class RestaurantController extends GetxController
         .fetchRestaurantImageDownloadUrl(resId: restaurantId, image: image);
 
     if (imageUrl != null) {
-      var cacheFile = await DefaultCacheManager().getSingleFile(imageUrl);
+      Uri uri = Uri.parse(imageUrl);
+      Map<String, String> queryParameters = Map.from(uri.queryParameters);
+      queryParameters.remove('token');
+
+      Uri newUri = uri.replace(queryParameters: queryParameters);
+      String newUrl = newUri.toString();
+
+      var cacheFile = await DefaultCacheManager().getSingleFile(newUrl);
       return cacheFile.path;
     }
     return null;

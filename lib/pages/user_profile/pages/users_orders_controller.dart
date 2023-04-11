@@ -19,34 +19,40 @@ class UsersOrdersController extends GetxController {
 
   Future<void> _fetchData() async {
     final ordersIds = await _fireStore.userOrdersData;
-    if (ordersIds == null || ordersIds.isEmpty) {
-      hasOrdersDataLoaded.value = true;
-      return;
-    }
-    final orders = await _fireStore.getOrders(
-      ordersIds.map((id) => id as String).toList(),
-    );
+    final orders = ordersIds == null || ordersIds.isEmpty
+        ? <ZentroOrder>[]
+        : await _fireStore.getOrders(
+            // using List.from() to create a fixed-length list from the ordersIds iterable.
+            // Using a fixed-length list with growable: false can save memory.
+            List.from(ordersIds, growable: false).cast<String>(),
+          );
 
-    await Future.forEach(orders, (order) async {
-      // Rest details
-      final rest = await _fireStore.getRestaurantData(order.restId);
-      //  Ratings info
-      RestaurantRatings? rating;
-      if (order.ratingId.isNotEmpty) {
-        rating = await _fireStore.getRating(ratingId: order.ratingId);
-      }
+    // Process orders
+    for (final order in orders) {
+      // Rest & Ratings parallel future fetch
+      final restFuture = _fireStore.getRestaurantData(order.restId);
+      final ratingFuture = order.ratingId.isNotEmpty
+          ? _fireStore.getRating(ratingId: order.ratingId) as Future<dynamic>
+          : null;
+      final results = await Future.wait(<Future<dynamic>>[
+        restFuture,
+        if (ratingFuture != null) ratingFuture
+      ]);
+      final rest = results[0] as Restaurant?;
+      final rating =
+          results.length > 1 ? results[1] as RestaurantRatings? : null;
+
       // Menu Items details
       Map<MenuItem, int> orderItems = {};
-      await Future.forEach(order.items.entries, (orderItem) async {
+      for (final orderItem in order.items.entries) {
         final menuItem = await _fireStore.getMenuItemData(
           menuItemId: orderItem.key,
           restaurantId: order.restId,
         );
-
         if (menuItem != null) {
           orderItems[menuItem] = orderItem.value;
         }
-      });
+      }
 
       final usersOrder = user_model.UsersOrderItem(
         orderId: order.orderId,
@@ -60,20 +66,19 @@ class UsersOrdersController extends GetxController {
         restOutlet: order.outlet,
         rating: rating,
       );
+
       if (order.orderStatus == OrderStatus.completed ||
           order.orderStatus == OrderStatus.canceled) {
         pastOrders.add(usersOrder);
       } else {
         currentOrder = usersOrder;
       }
-    });
-
-    pastOrders.sort((a, b) => b.orderDate.compareTo(a.orderDate));
+    }
 
     hasOrdersDataLoaded.value = true;
   }
 
-  void viewOrderDetail(UsersOrderItem orderDetail) {
+  void viewOrderDetail(user_model.UsersOrderItem orderDetail) {
     Get.toNamed(
       AppRoutes.USER_PROFILE +
           AppRoutes.USERS_ORDERS +
@@ -82,7 +87,7 @@ class UsersOrdersController extends GetxController {
     );
   }
 
-  void showCurrentOrder(UsersOrderItem orderDetail) {
+  void showCurrentOrder(user_model.UsersOrderItem orderDetail) {
     Get.offNamedUntil(
       AppRoutes.ORDER_STATUS,
       ModalRoute.withName(AppRoutes.HOME),

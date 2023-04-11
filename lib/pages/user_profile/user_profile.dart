@@ -10,6 +10,7 @@ import 'package:zentro/data/model/restaurant.dart';
 import 'package:zentro/data/model/restaurant_ratings.dart';
 import 'package:zentro/data/model/user_models.dart' as user_model;
 import 'package:zentro/data/model/user_models.dart';
+import 'package:zentro/data/model/zentro_order.dart';
 import 'package:zentro/pages/user_profile/user_profile_controller.dart';
 import 'package:zentro/routes/app_pages.dart';
 import 'package:zentro/services/firebase_service.dart';
