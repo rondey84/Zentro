@@ -21,11 +21,17 @@ A setup for first time users...
 ![Screenshot_2023-04-09-15-48-16-20_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274836-fdd4c985-4209-484e-a34d-33be2e18b501.jpg)
 
 ### Login/Signup (Authentication)
-A authentication module for the user to access the database
+The module is designed to provide authentication functionality for users to access a database. It offers a validation mechanism along with the ability to select a country code. 
+
+The backend of this module utilizes the Firebase Authentication package to authenticate and validate the phone number and OTP. Additionally, the module includes an in-app validation mechanism to ensure that the input size of the phone number and OTP is correct, which enhances the speed of validation.
 
 ![Screenshot_2023-04-09-16-00-24-96_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275074-a913da38-d558-4b29-b97c-1e4abad4524a.jpg)
 ![Screenshot_2023-04-09-16-00-32-35_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275069-32e0fe02-8519-443b-a458-b726fd938ccd.jpg)
 ![Screenshot_2023-04-09-16-00-40-67_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275071-f27d83ae-c142-45e5-9e58-b173d1906193.jpg)
+
+![Screenshot_2023-04-09-16-00-32-35_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232276179-e78bcb95-cd2b-48ba-9196-75a7ac32ec31.jpg)
+![Screenshot_2023-04-09-16-00-40-67_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232276188-dff881f5-7eef-4480-a4bd-b97f56648d3c.jpg)
+![Screenshot_2023-04-09-16-00-24-96_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232276191-7c240949-be51-44a4-896f-7c1665bdc677.jpg)
 
 
 
