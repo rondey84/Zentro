@@ -1,6 +1,33 @@
 # Zentro
 
-Project Description
+Zentro is a mobile application that simplifies the food ordering process in Somaiya Campus and its vicinity. Zentro was developed to address the challenges of traditional food ordering methods, such as long queues and waiting times, which can be frustrating and time-consuming for the busy students and faculty members of Somaiya Campus. 
+
+With Zentro, customers can browse through the menus of food vendors and place their orders for takeaway food with just a few taps on their mobile devices. The application provides real-time updates on the status of the orders, allowing customers to plan their schedules accordingly. Zentro is a solution that meets the needs and expectations of the modern user, offering a convenient and efficient way to order food and save valuable time and effort.
+
+## ScreenShots
+
+### Splash Module
+In this Module all my services required for the app is loaded, such as local storage serice (objectbox), firebase service, location service, etc...
+
+![Screenshot_2023-04-09-15-47-29-46_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274728-176966a3-77d8-4b88-9d7c-2723ab57ec36.jpg)
+
+### Onboarding
+A setup for first time users...
+
+![Screenshot_2023-04-09-15-48-00-82_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274806-eb3dab52-b5b0-48a6-b067-12847a559449.jpg)
+![Screenshot_2023-04-09-15-48-04-74_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274821-2f3d7059-49b8-42d0-af2e-a411311e1e38.jpg)
+![Screenshot_2023-04-09-15-48-08-57_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274826-2020fe43-f21a-47a9-a5d9-a341f893edb8.jpg)
+![Screenshot_2023-04-09-15-48-11-36_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274831-e15cd9c6-b672-4f54-b32d-cf701c15dfe1.jpg)
+![Screenshot_2023-04-09-15-48-16-20_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232274836-fdd4c985-4209-484e-a34d-33be2e18b501.jpg)
+
+### Login/Signup (Authentication)
+A authentication module for the user to access the database
+
+![Screenshot_2023-04-09-16-00-24-96_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275074-a913da38-d558-4b29-b97c-1e4abad4524a.jpg)
+![Screenshot_2023-04-09-16-00-32-35_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275069-32e0fe02-8519-443b-a458-b726fd938ccd.jpg)
+![Screenshot_2023-04-09-16-00-40-67_084fdf4f13c5371393d67d4c3d22a1bd](https://user-images.githubusercontent.com/22190833/232275071-f27d83ae-c142-45e5-9e58-b173d1906193.jpg)
+
+
 
 ## Getting Started
 
@@ -39,11 +66,9 @@ fvm flutter pub run build_runner build
 
 3. **ENV Key**
    1. You will Need to create and setup a Stripe Account first.
-   2. Create a `.env` file in `assets/` folder
+   2. Create an `.env` file in `assets/` folder
    3. Insert your private and secret keys in the .env file using the keys `STRIPE_TEST_KEY` & `STRIPE_TEST_SECRET_KEY` respectively.
       ```
       STRIPE_TEST_KEY=<YOUR_PRIVATE_KEY>
       STRIPE_TEST_SECRET_KEY=<YOUR_SECRET_KEY>
       ```
-
-## ScreenShots
