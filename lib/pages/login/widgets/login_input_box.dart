@@ -62,6 +62,7 @@ class _LoginInputBox extends GetView<LoginController> {
             inputFormatters: [
               FilteringTextInputFormatter.digitsOnly,
             ],
+            autofocus: true,
             validator: controller.inputValidator,
             enableSuggestions: false,
             autocorrect: false,
@@ -173,7 +174,7 @@ class _LoginInputBox extends GetView<LoginController> {
       showCursor: true,
       cursor: cursor,
       preFilledWidget: preFilledWidget,
-      androidSmsAutofillMethod: AndroidSmsAutofillMethod.smsUserConsentApi,
+      androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
     );
   }
 }

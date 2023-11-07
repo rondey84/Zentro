@@ -184,8 +184,6 @@ class OrderStatusController extends GetxController {
   // ======== DEBUG MODE =========
   final debugSelectedOrderStatus = OrderStatus.initialized.obs;
   Future<void> updateOrderStatus() async {
-    if (!DEBUG_MODE) return;
-
     _firestoreHelper
         .orderDocRef(_orderId)
         .update({OrderFields.orderStatus: debugSelectedOrderStatus.value.name});

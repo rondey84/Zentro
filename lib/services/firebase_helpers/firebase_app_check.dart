@@ -9,7 +9,7 @@ class FirebaseAppCheckHelper {
 
   Future<void> activate() async {
     await _appCheck.activate(
-      webRecaptchaSiteKey: 'reacptcha-v3-site-key',
+      webProvider: ReCaptchaV3Provider('recaptcha-v3-site-key'),
       androidProvider: AndroidProvider.playIntegrity,
     );
   }

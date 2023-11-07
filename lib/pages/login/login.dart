@@ -21,68 +21,65 @@ class LoginScreen extends GetView<LoginController> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
-        child: SizedBox(
-          height: 1.sh - Get.statusBarHeight,
-          child: Form(
-            key: controller.formKey,
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Obx(
-                  () => AnimatedContainer(
-                    duration: controller.animDuration,
-                    width: 1.sw,
-                    height: controller.isKeyboardOpen.value ? 0.2.sh : 0.35.sh,
-                    alignment: Alignment.center,
-                    child: SvgHelper.mobileLogin(
-                      primaryColor: Get.theme.primaryColor,
-                    ),
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              16.verticalSpace,
+              Obx(() {
+                return AnimatedContainer(
+                  duration: controller.animDuration,
+                  width: 1.sw,
+                  height: controller.isKeyboardOpen.value ? 0.2.sh : 0.35.sh,
+                  alignment: Alignment.center,
+                  child: SvgHelper.mobileLogin(
+                    primaryColor: Get.theme.primaryColor,
                   ),
-                ),
-                Obx(() {
-                  return AnimatedContainer(
-                    duration: controller.animDuration,
-                    height: controller.isKeyboardOpen.value ? 20 : 40,
+                );
+              }),
+              Obx(() {
+                return AnimatedContainer(
+                  duration: controller.animDuration,
+                  height: (controller.isKeyboardOpen.value ? 20 : 40).r,
+                );
+              }),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16).r,
+                child: Obx(() {
+                  return Text(
+                    controller.heading,
+                    style: controller.fontStyle!.display,
                   );
                 }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Obx(() {
-                    return Text(
-                      controller.heading,
-                      style: controller.fontStyle!.display,
-                    );
-                  }),
-                ),
-                const _LoginInputBox(),
-                const SizedBox(height: 16),
-                const _LoginOTPButton(),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Obx(() {
-                    return Text(
-                      controller.descriptionText,
-                      style: controller.fontStyle!.caption,
-                    );
-                  }),
-                ),
-                if (DEBUG_MODE)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () => CustomDialogs.animatedDialog(
-                          barrierLabel: 'Debug Dialog',
-                          barrierDismissible: true,
-                          child: const DebugContent(),
-                        ),
-                        child: const Text('Debug Button'),
+              ),
+              const _LoginInputBox(),
+              14.verticalSpace,
+              const _LoginOTPButton(),
+              Padding(
+                padding: const EdgeInsets.all(12.0).r,
+                child: Obx(() {
+                  return Text(
+                    controller.descriptionText,
+                    style: controller.fontStyle!.caption,
+                  );
+                }),
+              ),
+              if (DEBUG_MODE)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () => CustomDialogs.animatedDialog(
+                        barrierLabel: 'Debug Dialog',
+                        barrierDismissible: true,
+                        child: const DebugContent(),
                       ),
-                      const SizedBox(width: 24),
-                    ],
-                  )
-              ],
-            ),
+                      child: const Text('Debug Button'),
+                    ),
+                    24.verticalSpace,
+                  ],
+                )
+            ],
           ),
         ),
       ),

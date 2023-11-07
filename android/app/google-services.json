@@ -14,14 +14,6 @@
       },
       "oauth_client": [
         {
-          "client_id": "488549098926-tfk6ntjfp63al2josik7ri6qes3ovh7f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.nexus.org.zentro",
-            "certificate_hash": "82bb82ad37407fd0b8c7eeb8adbc77b64eea91e2"
-          }
-        },
-        {
           "client_id": "488549098926-q64fef6j15t9isblu29s7vlsoungvhpn.apps.googleusercontent.com",
           "client_type": 3
         }

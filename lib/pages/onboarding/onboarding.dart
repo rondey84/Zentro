@@ -17,6 +17,7 @@ class OnBoardingScreen extends GetView<OnBoardingController> {
           child: Column(
             children: [
               Expanded(
+                flex: 14,
                 child: PageView.builder(
                   controller: controller.pageController,
                   onPageChanged: controller.selectedPage,
@@ -26,8 +27,9 @@ class OnBoardingScreen extends GetView<OnBoardingController> {
                   },
                 ),
               ),
+              const Spacer(),
               const OnBoardingNextButton(),
-              SizedBox(height: 0.12.sh),
+              const Spacer(),
             ],
           ),
         ),

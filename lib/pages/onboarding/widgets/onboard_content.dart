@@ -35,7 +35,7 @@ class OnBoardContent extends GetView<OnBoardingController> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: Text(
             content.description,
-            style: controller.fontStyle!.body2,
+            style: controller.fontStyle!.caption,
             textAlign: TextAlign.justify,
           ),
         ),

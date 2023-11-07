@@ -15,6 +15,7 @@ class LoginController extends SuperController {
   RxBool otpMode = false.obs;
   void setMode() {
     otpMode.value = true;
+    isLoading.value = false;
   }
 
   // ======= Screen Texts ========
@@ -74,12 +75,18 @@ class LoginController extends SuperController {
     }
 
     if (otpMode.value) {
-      var isVerified = await FirebaseService.instance.firebaseAuthHelper
-          .verifyOTP(otp: controllerOTP.text);
-      if (isVerified) {
-        FirebaseService.instance.firebaseAuthHelper.navigateOnVerification();
+      try {
+        var isVerified = await FirebaseService.instance.firebaseAuthHelper
+            .verifyOTP(otp: controllerOTP.text);
+        if (isVerified) {
+          FirebaseService.instance.firebaseAuthHelper.navigateOnVerification();
+        }
+        return;
+      } catch (e) {
+        isLoading.value = false;
+        setError();
+        return;
       }
-      return;
     }
 
     phoneNumber = '+${phoneCode.value} ${controllerPhoneNumber.text}';
@@ -88,7 +95,7 @@ class LoginController extends SuperController {
       updateState: setMode,
       errorHandler: setError,
     );
-    isLoading.value = false;
+    // isLoading.value = false;
     // KeyboardHelper.closeKeyboard();
   }
 
@@ -115,6 +122,7 @@ class LoginController extends SuperController {
   Future<void> setError() async {
     if (_hasError.value) return;
     _hasError.value = true;
+    isLoading.value = false;
     await Future.delayed(const Duration(seconds: 5), resetError);
   }
 

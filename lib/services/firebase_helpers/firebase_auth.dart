@@ -6,7 +6,7 @@ class FirebaseAuthHelper {
 
   FirebaseAuthHelper() {
     _firebaseAuth = FirebaseAuth.instance;
-    _firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
+    // _firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
   }
 
   Rx<User?> get currentUser => Rx<User?>(_firebaseAuth.currentUser);
@@ -59,14 +59,30 @@ class FirebaseAuthHelper {
   }
 
   Future<bool> verifyOTP({required String otp}) async {
-    userCredential = await _firebaseAuth.signInWithCredential(
-      PhoneAuthProvider.credential(
-        verificationId: verificationId.value,
-        smsCode: otp,
-      ),
-    );
+    try {
+      userCredential = await _firebaseAuth.signInWithCredential(
+        PhoneAuthProvider.credential(
+          verificationId: verificationId.value,
+          smsCode: otp,
+        ),
+      );
 
-    return userCredential!.user != null ? true : false;
+      return userCredential!.user != null ? true : false;
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'invalid-verification-code') {
+        CustomSnackbars.error(
+          title: 'Invalid OTP',
+          message: 'Check the OTP sent to your mobile number',
+        );
+      }
+      return false;
+    } catch (e) {
+      CustomSnackbars.error(
+        title: 'Unknown Error',
+        message: 'Something went wrong. Try again or contact support.',
+      );
+      return false;
+    }
   }
 
   Future<void> signOut() async {

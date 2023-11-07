@@ -70,8 +70,8 @@ class OrderStatusScreen extends GetView<OrderStatusController> {
                 color: Get.theme.customColor()?.text03,
               ),
             ),
-            if (DEBUG_MODE) const Spacer(),
-            if (DEBUG_MODE)
+            if (DEBUG_SHOW_UPDATE_ORDER) ...[
+              const Spacer(),
               Align(
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
@@ -206,10 +206,14 @@ class OrderStatusScreen extends GetView<OrderStatusController> {
                     margin: const EdgeInsets.all(16),
                     padding:
                         const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text('DEBUG', style: controller.fontStyles?.button),
+                    child: Text(
+                      'DEBUG - Update Order',
+                      style: controller.fontStyles?.body2,
+                    ),
                   ),
                 ),
-              ),
+              )
+            ],
           ],
         ),
       ),
